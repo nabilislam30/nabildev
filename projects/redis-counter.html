@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A Docker Compose stack combining NGINX, multiple web containers and Redis-backed shared state.">
+<title>Building a multi-container counter application — Nabil Islam</title>
+<link rel="canonical" href="https://nabildev.com/projects/redis-counter.html">
+<link rel="stylesheet" href="../assets/styles.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#052426">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Building a multi-container counter application — Nabil Islam">
+<meta property="og:description" content="A Docker Compose stack combining NGINX, multiple web containers and Redis-backed shared state.">
+<meta property="og:url" content="https://nabildev.com/projects/redis-counter.html">
+<meta property="og:image" content="https://nabildev.com/assets/social-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Building a multi-container counter application — Nabil Islam">
+<meta name="twitter:description" content="A Docker Compose stack combining NGINX, multiple web containers and Redis-backed shared state.">
+<meta name="twitter:image" content="https://nabildev.com/assets/social-preview.png">
+</head>
+<body data-page="projects">
+<div class="scroll-progress" aria-hidden="true"><span></span></div>
+<div class="cursor-glow" aria-hidden="true"></div>
+<header class="nav-wrap" data-nav>
+  <div class="container">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="../index.html" aria-label="Nabil Islam home"><span class="brand-terminal" aria-hidden="true">&gt;_</span><span>Nabil Islam</span></a>
+      <div class="nav-actions">
+        <button class="theme-toggle" type="button" aria-label="Switch to light mode" title="Switch theme"><span class="theme-icon" aria-hidden="true">☾</span></button>
+        <button class="command-trigger" type="button" aria-label="Open quick navigation" title="Quick navigation"><span data-command-mod>Ctrl</span><span class="command-key">K</span></button>
+        <button class="menu" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      </div>
+      <div class="nav-links"><a href="../index.html">Home</a><a href="../projects.html" class="active">Projects</a><a href="../lab.html">Lab</a><a href="../experience.html">Experience</a><a href="../articles.html">Articles</a><a href="../about.html">About</a><a class="nav-cta" href="../contact.html">Contact</a></div>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="case-hero"><div class="container">
+<a class="back-link" href="../projects.html">← Projects</a><span class="kicker">Docker · NGINX · Redis</span><h1>Building a multi-container counter application</h1><p>A Docker Compose stack combining NGINX, multiple web containers and Redis-backed shared state.</p>
+<div class="case-meta"><span>Completed learning project</span><span>Docker</span><span>Compose</span><span>NGINX</span><span>Redis</span><span>Flask</span></div>
+<div class="actions"><a class="btn btn-primary" href="https://github.com/nabilislam30/redis-counter-app" target="_blank" rel="noopener noreferrer">View repository <span>↗</span></a><a class="btn btn-secondary" href="../contact.html">Contact</a></div>
+</div></section>
+<section class="case-section"><div class="container case-two-col">
+<div><span class="kicker">01 — Challenge</span><h2>The problem.</h2><p>The project needed multiple application containers to serve traffic while keeping a shared visitor count consistent across instances.</p></div>
+<div class="card case-architecture reveal"><span class="kicker">Architecture</span><div class="case-flow-row" data-case-flow><span class="case-node">Client</span><i class="case-flow"><b></b></i><span class="case-node">NGINX</span><i class="case-flow"><b></b></i><span class="case-node">Web ×3</span><i class="case-flow"><b></b></i><span class="case-node">Redis</span></div></div>
+</div></section>
+<section class="case-section alt"><div class="container"><span class="kicker">02 — Implementation</span><h2>How it was built.</h2><ol class="case-steps"><li><b>01</b><span>Containerised the web application and Redis service.</span></li><li><b>02</b><span>Added NGINX as the entry point and reverse proxy for the web service.</span></li><li><b>03</b><span>Scaled the web service to three containers to demonstrate horizontal distribution.</span></li><li><b>04</b><span>Used Redis as shared state so the counter was not tied to one application container.</span></li><li><b>05</b><span>Exposed the application through port 5050 and tested the counter endpoint.</span></li></ol><div class="project-terminal reveal" data-terminal-once data-terminal-lines='[&quot;$ docker compose up -d&quot;, &quot;$ docker compose up --scale web=3&quot;, &quot;$ curl localhost:5050/count&quot;, &quot;✓ services healthy&quot;]'>
+<div class="terminal-bar"><i></i><i></i><i></i><span>docker · nginx · redis</span></div>
+<pre><code data-terminal-output></code><span class="terminal-cursor">▋</span></pre></div></div></section>
+<section class="case-section"><div class="container case-two-col">
+<div><span class="kicker">03 — Troubleshooting</span><h2>What required judgement.</h2><ul class="case-list"><li>Ensuring service names and ports were correct inside the Compose network.</li><li>Understanding why application state cannot live inside one scaled web container.</li><li>Routing traffic through NGINX while keeping the application containers interchangeable.</li></ul></div>
+<div><span class="kicker">04 — Result</span><h2>What worked.</h2><p>Requests could be distributed through NGINX while all web containers used the same Redis-backed counter state.</p></div>
+</div></section>
+<section class="case-section alt"><div class="container"><span class="kicker">05 — Production considerations</span><h2>What I would change next.</h2><p class="intro">These are improvements I would make for a production-grade implementation; they are not presented as already completed.</p><ul class="production-grid"><li>Add explicit health checks and restart policies.</li><li>Secure Redis and avoid exposing it outside the application network.</li><li>Add TLS at the edge.</li><li>Add metrics/log collection and service dashboards.</li><li>Move to an orchestrator when availability and scaling requirements justify it.</li></ul></div></section>
+</main>
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="../index.html"><span class="brand-terminal" aria-hidden="true">&gt;_</span><span>Nabil Islam</span></a>
+      <p>Cloud infrastructure, automation and dependable delivery.</p>
+      <span class="availability"><i></i> Open to relevant DevOps conversations</span>
+    </div>
+    <div class="footer-links">
+      <div><strong>Navigate</strong><a href="../projects.html">Projects</a><a href="../lab.html">Lab</a><a href="../experience.html">Experience</a><a href="../articles.html">Articles</a></div>
+      <div><strong>Connect</strong><a href="https://uk.linkedin.com/in/nabilbislam" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://github.com/nabilislam30" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="../contact.html">Contact</a></div>
+    </div>
+  </div>
+  <div class="container footer-bottom"><span>© <span data-year></span> Nabil Islam</span><span>Built with HTML, CSS and JavaScript.</span></div>
+</footer>
+<div class="command-backdrop" data-command-backdrop hidden>
+  <div class="command-palette" role="dialog" aria-modal="true" aria-label="Quick navigation">
+    <div class="command-search"><span>&gt;_</span><input type="search" placeholder="Type a page or action…" autocomplete="off" data-command-input><kbd>Esc</kbd></div>
+    <div class="command-results"><a href="../index.html" data-command-item><span>⌂</span><div><strong>Home</strong><small>Return to the homepage</small></div></a><a href="../projects.html" data-command-item><span>◇</span><div><strong>Projects</strong><small>Engineering case studies</small></div></a><a href="../lab.html" data-command-item><span>●</span><div><strong>Lab</strong><small>Current experiments and learning</small></div></a><a href="../experience.html" data-command-item><span>↗</span><div><strong>Experience</strong><small>Professional and technical journey</small></div></a><a href="../articles.html" data-command-item><span>≡</span><div><strong>Articles</strong><small>Technical notes and explainers</small></div></a><a href="../about.html" data-command-item><span>○</span><div><strong>About</strong><small>Background and approach</small></div></a><a href="../contact.html" data-command-item><span>✉</span><div><strong>Contact</strong><small>Start a conversation</small></div></a><a href="https://github.com/nabilislam30" target="_blank" rel="noopener noreferrer" data-command-item><span>⌘</span><div><strong>GitHub</strong><small>Open public repositories</small></div></a><a href="https://uk.linkedin.com/in/nabilbislam" target="_blank" rel="noopener noreferrer" data-command-item><span>in</span><div><strong>LinkedIn</strong><small>Open professional profile</small></div></a></div>
+  </div>
+</div>
+<script src="../assets/script.js"></script>
+</body>
+</html>
