@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://nabildev.com/sitemap.xml
