@@ -5,6 +5,14 @@
    brand/description on the left, Explore around the middle, About beside it.
    Mobile keeps Explore + About above the social links. */
 
+/* Footer bottom: keep copyright only; remove the redundant domain label. */
+.footer .footer-bottom{
+  justify-content:flex-start;
+}
+.footer .footer-bottom>span:last-child{
+  display:none;
+}
+
 @media(min-width:1041px){
   .footer .footer-grid{
     display:grid;
