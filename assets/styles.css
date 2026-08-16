@@ -1,36 +1,154 @@
 @import url("styles-base.css");
 
-/* Footer layout hotfix — isolated from the rest of the site. */
-@media(min-width:721px){
+/* Footer layout — isolated production override.
+   Desktop intentionally follows a tighter CloudCaive-style column rhythm:
+   brand/description on the left, Explore around the middle, About beside it.
+   Mobile keeps Explore + About above the social links. */
+
+@media(min-width:1041px){
   .footer .footer-grid{
     display:grid;
-    grid-template-columns:minmax(0,1.35fr) minmax(150px,.42fr) minmax(140px,.38fr);
-    grid-template-areas:"brand explore about" "social explore about";
-    column-gap:54px;
+    grid-template-columns:minmax(0,430px) 220px 180px;
+    grid-template-areas:
+      "brand explore about"
+      "social explore about";
+    column-gap:70px;
+    row-gap:18px;
+    justify-content:start;
+    align-items:start;
+  }
+
+  .footer .footer-brand{
+    grid-area:brand;
+    max-width:430px;
+  }
+
+  .footer .footer-links{
+    display:contents;
+  }
+
+  .footer .footer-links>div:first-child{
+    grid-area:explore;
+  }
+
+  .footer .footer-links>div:last-child{
+    grid-area:about;
+  }
+
+  .footer .footer-links>div{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+    min-width:0;
+    padding-top:3px;
+  }
+
+  .footer .footer-links strong{
+    margin-bottom:7px;
+  }
+
+  .footer .footer-social{
+    grid-area:social;
+    justify-self:start;
+    align-self:start;
+    margin-top:0;
+  }
+}
+
+@media(min-width:721px) and (max-width:1040px){
+  .footer .footer-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 180px 150px;
+    grid-template-areas:
+      "brand explore about"
+      "social explore about";
+    column-gap:32px;
     row-gap:18px;
     align-items:start;
   }
-  .footer .footer-brand{grid-area:brand;max-width:560px;}
-  .footer .footer-links{display:contents;}
-  .footer .footer-links>div:first-child{grid-area:explore;}
-  .footer .footer-links>div:last-child{grid-area:about;}
-  .footer .footer-links>div{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0;padding-top:3px;}
-  .footer .footer-links strong{margin-bottom:7px;}
-  .footer .footer-social{grid-area:social;justify-self:start;align-self:start;margin-top:0;}
+
+  .footer .footer-brand{
+    grid-area:brand;
+    max-width:430px;
+  }
+
+  .footer .footer-links{
+    display:contents;
+  }
+
+  .footer .footer-links>div:first-child{
+    grid-area:explore;
+  }
+
+  .footer .footer-links>div:last-child{
+    grid-area:about;
+  }
+
+  .footer .footer-links>div{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+    min-width:0;
+    padding-top:3px;
+  }
+
+  .footer .footer-links strong{
+    margin-bottom:7px;
+  }
+
+  .footer .footer-social{
+    grid-area:social;
+    justify-self:start;
+    align-self:start;
+    margin-top:0;
+  }
 }
-@media(max-width:900px) and (min-width:721px){
-  .footer .footer-grid{grid-template-columns:minmax(0,1.15fr) minmax(135px,.45fr) minmax(120px,.4fr);column-gap:32px;}
-}
+
 @media(max-width:720px){
   .footer .footer-grid{
     display:grid;
     grid-template-columns:1fr;
-    grid-template-areas:"brand" "links" "social";
+    grid-template-areas:
+      "brand"
+      "links"
+      "social";
     gap:30px;
   }
-  .footer .footer-brand{grid-area:brand;max-width:none;}
-  .footer .footer-links{grid-area:links;display:grid;grid-template-columns:1fr 1fr;gap:28px;width:100%;}
-  .footer .footer-links>div{display:flex;flex-direction:column;align-items:flex-start;gap:9px;}
-  .footer .footer-social{grid-area:social;width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:0;}
-  .footer .footer-social .footer-social-link{width:100%;min-width:0;justify-content:center;}
+
+  .footer .footer-brand{
+    grid-area:brand;
+    max-width:none;
+  }
+
+  .footer .footer-links{
+    grid-area:links;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+    width:100%;
+  }
+
+  .footer .footer-links>div{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:9px;
+  }
+
+  .footer .footer-social{
+    grid-area:social;
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    margin-top:0;
+  }
+
+  .footer .footer-social .footer-social-link{
+    width:100%;
+    min-width:0;
+    justify-content:center;
+  }
 }
