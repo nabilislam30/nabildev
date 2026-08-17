@@ -214,3 +214,100 @@
     justify-content:center;
   }
 }
+
+/* =========================================================
+   Applied stack integration — no standalone skills table.
+   Technologies are shown in context inside the work cards.
+   ========================================================= */
+
+.applied-stack-section{
+  display:none !important;
+}
+
+.integrated-stack-pills{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  margin-top:18px;
+}
+
+.integrated-stack-pills>span{
+  min-height:38px;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 11px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:color-mix(in srgb,var(--panel) 32%,transparent);
+  transition:transform .18s ease,border-color .18s ease,background-color .18s ease;
+}
+
+.integrated-stack-pills>span:hover{
+  transform:translateY(-2px);
+  border-color:color-mix(in srgb,var(--orange) 48%,var(--line));
+  background:color-mix(in srgb,var(--panel) 52%,transparent);
+}
+
+.integrated-stack-pills b{
+  color:var(--text);
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:-.01em;
+}
+
+.integrated-stack-pills small{
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:750;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+
+.integrated-stack-pills i{
+  color:var(--orange);
+  font-size:11px;
+  font-style:normal;
+}
+
+.delivery-inline{
+  display:block;
+  margin-top:7px;
+  color:var(--muted-2);
+  font-size:13px;
+}
+
+html[data-theme="light"] .integrated-stack-pills>span{
+  background:rgba(255,255,255,.55);
+}
+
+html[data-theme="light"] .integrated-stack-pills>span:hover{
+  background:#fff;
+  box-shadow:none;
+}
+
+@media(max-width:720px){
+  .integrated-stack-pills{
+    gap:7px;
+  }
+
+  .integrated-stack-pills>span{
+    min-height:36px;
+    padding:7px 10px;
+  }
+
+  .integrated-stack-pills b{
+    font-size:10.5px;
+  }
+
+  .integrated-stack-pills small{
+    font-size:8px;
+  }
+}
+
+@media(max-width:430px){
+  .integrated-stack-pills i{
+    display:none;
+  }
+}
