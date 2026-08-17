@@ -269,3 +269,30 @@ document.querySelectorAll('img[data-fallback]').forEach(img=>{
     if (tags[2]) tags[2].textContent = 'Grafana · Prometheus · Metrics';
   }
 })();
+
+// Homepage — clarify how each project moves from problem to implementation.
+(() => {
+  if (document.body?.dataset.page !== 'home') return;
+  const principle = document.querySelector('.evidence-principle');
+  if (!principle) return;
+
+  const kicker = principle.querySelector('.kicker');
+  const heading = principle.querySelector('h2');
+  const intro = principle.querySelector('.intro');
+  const labels = principle.querySelectorAll('.principle-item span');
+  const link = principle.querySelector('.card-link');
+
+  if (kicker) kicker.textContent = 'Engineering approach';
+  if (heading) heading.textContent = 'From problem to implementation.';
+  if (intro) intro.textContent = 'Each project documents the decisions behind the build, with the implementation available on GitHub.';
+
+  ['Challenge','Architecture','Implementation','Troubleshooting','Result','Production considerations'].forEach((label,index)=>{
+    if (labels[index]) labels[index].textContent = label;
+  });
+
+  if (link) {
+    const arrow = link.querySelector('span');
+    link.textContent = 'View GitHub ';
+    if (arrow) link.appendChild(arrow);
+  }
+})();
