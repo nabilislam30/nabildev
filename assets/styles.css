@@ -1,9 +1,9 @@
 @import url("styles-base.css");
 
 /* Footer layout — isolated production override.
-   Desktop intentionally follows a tighter CloudCaive-style column rhythm:
-   brand/description on the left, Explore around the middle, About beside it.
-   Mobile keeps Explore + About above the social links. */
+   Desktop keeps the profile block on the left while positioning Explore and About
+   more evenly across the remaining footer width. Mobile keeps Explore + About above
+   the social links. */
 
 /* Footer bottom: keep copyright only; remove the redundant domain label. */
 .footer .footer-bottom{
@@ -13,14 +13,16 @@
   display:none;
 }
 
-@media(min-width:1041px){
+/* Wide desktop: use the extra width deliberately so Explore/About do not sit
+   too close to the profile block or leave an oversized empty area on the right. */
+@media(min-width:1500px){
   .footer .footer-grid{
     display:grid;
-    grid-template-columns:minmax(0,430px) 220px 180px;
+    grid-template-columns:620px 220px 180px;
     grid-template-areas:
       "brand explore about"
       "social explore about";
-    column-gap:70px;
+    column-gap:12vw;
     row-gap:18px;
     justify-content:start;
     align-items:start;
@@ -28,7 +30,59 @@
 
   .footer .footer-brand{
     grid-area:brand;
-    max-width:430px;
+    max-width:560px;
+  }
+
+  .footer .footer-links{
+    display:contents;
+  }
+
+  .footer .footer-links>div:first-child{
+    grid-area:explore;
+  }
+
+  .footer .footer-links>div:last-child{
+    grid-area:about;
+  }
+
+  .footer .footer-links>div{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+    min-width:0;
+    padding-top:3px;
+  }
+
+  .footer .footer-links strong{
+    margin-bottom:7px;
+  }
+
+  .footer .footer-social{
+    grid-area:social;
+    justify-self:start;
+    align-self:start;
+    margin-top:0;
+  }
+}
+
+/* Standard desktop/laptop. */
+@media(min-width:1041px) and (max-width:1499px){
+  .footer .footer-grid{
+    display:grid;
+    grid-template-columns:520px 210px 170px;
+    grid-template-areas:
+      "brand explore about"
+      "social explore about";
+    column-gap:7vw;
+    row-gap:18px;
+    justify-content:start;
+    align-items:start;
+  }
+
+  .footer .footer-brand{
+    grid-area:brand;
+    max-width:500px;
   }
 
   .footer .footer-links{
