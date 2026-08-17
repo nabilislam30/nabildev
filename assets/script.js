@@ -98,8 +98,6 @@
       jTick=false;
       if(!anchors.length)return;
 
-      // A higher reading line makes the response feel immediate:
-      // roughly one third of the viewport from the top.
       const readingY=scrollY+anchorOffset;
 
       let idx=0;
@@ -125,14 +123,10 @@
     const measure=()=>{
       const sy=scrollY;
       anchorOffset=innerHeight*.34;
-
-      // Cache one activation point per panel. These values are only
-      // recalculated on initial layout / resize, never every scroll frame.
       anchors=panels.map(p=>{
         const r=p.getBoundingClientRect();
         return sy+r.top+Math.min(r.height*.26,72);
       });
-
       updateJourney();
     };
 
@@ -161,9 +155,7 @@
   if(terminals.length&&'IntersectionObserver' in window){const tio=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){typeTerminal(e.target);tio.unobserve(e.target)}}),{threshold:.45});terminals.forEach(t=>tio.observe(t))}else terminals.forEach(typeTerminal);
 })();
 
-
-// V23 — lightweight dark-mode pointer light.
-// requestAnimationFrame only; no getBoundingClientRect and no card-by-card pointer work.
+// Lightweight dark-mode pointer light.
 (() => {
   const light = document.querySelector('.pointer-light');
   if (!light || window.matchMedia('(pointer:coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -203,8 +195,7 @@
   });
 })();
 
-
-// V29 — graceful fallback for externally sourced brand SVGs.
+// Graceful fallback for externally sourced brand SVGs.
 document.querySelectorAll('img[data-fallback]').forEach(img=>{
   img.addEventListener('error',()=>{
     const fallback=img.dataset.fallback;
@@ -213,3 +204,68 @@ document.querySelectorAll('img[data-fallback]').forEach(img=>{
     img.src=fallback;
   },{once:false});
 });
+
+// Homepage — integrate the applied engineering stack directly into evidence cards.
+(() => {
+  if (document.body?.dataset.page !== 'home') return;
+
+  const cards = [...document.querySelectorAll('.evidence-card-stable')];
+  const configurations = [
+    {
+      kicker: 'Cloud infrastructure',
+      label: 'Technologies applied in the Terraform/AWS project',
+      pills: [
+        ['Terraform','IaC'],
+        ['AWS','Cloud'],
+        ['Linux','Bootstrap'],
+        ['Bash','Automation']
+      ]
+    },
+    {
+      kicker: 'Container application',
+      label: 'Technologies applied in the container project',
+      pills: [
+        ['Docker','Containers'],
+        ['Compose','Scale'],
+        ['NGINX','Proxy'],
+        ['Redis','State']
+      ]
+    }
+  ];
+
+  configurations.forEach((config,index) => {
+    const card = cards[index];
+    if (!card) return;
+
+    const kicker = card.querySelector('.evidence-header .kicker');
+    if (kicker) kicker.textContent = config.kicker;
+
+    const flow = card.querySelector('.evidence-flow');
+    if (!flow) return;
+
+    flow.className = 'integrated-stack-pills';
+    flow.setAttribute('aria-label', config.label);
+    flow.innerHTML = config.pills.map((pill,i) => {
+      const arrow = i < config.pills.length - 1 ? '<i aria-hidden="true">→</i>' : '';
+      return `<span><b>${pill[0]}</b><small>${pill[1]}</small></span>${arrow}`;
+    }).join('');
+  });
+
+  document.querySelector('.applied-stack-section')?.remove();
+
+  const lab = document.querySelector('.lab-section');
+  if (lab) {
+    const intro = lab.querySelector('.section-head .intro');
+    if (intro && !intro.querySelector('.delivery-inline')) {
+      const delivery = document.createElement('span');
+      delivery.className = 'delivery-inline';
+      delivery.textContent = 'Delivery workflows: GitHub Actions · Azure DevOps.';
+      intro.appendChild(delivery);
+    }
+
+    const tags = lab.querySelectorAll('.lab-card > span:last-child');
+    if (tags[0]) tags[0].textContent = 'Kubernetes · EKS';
+    if (tags[1]) tags[1].textContent = 'Terraform · Modules';
+    if (tags[2]) tags[2].textContent = 'Grafana · Prometheus · Metrics';
+  }
+})();
