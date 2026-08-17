@@ -1,12 +1,9 @@
 @import url("styles-base.css");
 
 /* Footer layout — isolated production override.
-   Desktop keeps the profile block on the left while Explore and About remain
-   balanced inside the same container. Mobile keeps Explore + About above the
-   social links. */
+   Desktop keeps the profile block on the left while Explore and About stay
+   close enough to read as one footer group. Tablet/mobile behaviour is kept. */
 
-/* Footer bottom: keep copyright only; remove the redundant domain label.
-   The divider now uses the same full container width as the footer grid. */
 .footer .footer-bottom{
   justify-content:flex-start;
   width:100%;
@@ -15,26 +12,36 @@
   display:none;
 }
 
-/* Desktop: keep the profile block, Explore and About as one compact group.
-   Fixed content columns prevent the brand column from stretching and creating
-   the large dead space previously visible through the middle of the footer. */
+/* Desktop: compact three-column footer. The previous flexible/far-apart layout
+   created a large empty band between the profile and navigation columns. */
 @media(min-width:1041px){
+  .footer{
+    padding-top:44px;
+    padding-bottom:18px;
+  }
+
   .footer .footer-grid{
     display:grid;
-    grid-template-columns:minmax(0,520px) 150px 140px;
+    grid-template-columns:430px 130px 120px;
     grid-template-areas:
       "brand explore about"
       "social explore about";
-    column-gap:clamp(52px,4vw,64px);
-    row-gap:18px;
+    column-gap:44px;
+    row-gap:16px;
     width:100%;
     justify-content:start;
     align-items:start;
+    padding-bottom:26px;
   }
 
   .footer .footer-brand{
     grid-area:brand;
-    max-width:520px;
+    max-width:430px;
+  }
+
+  .footer .footer-brand p{
+    max-width:430px;
+    margin-bottom:12px;
   }
 
   .footer .footer-links{
@@ -53,13 +60,13 @@
     display:flex;
     flex-direction:column;
     align-items:flex-start;
-    gap:10px;
+    gap:8px;
     min-width:0;
-    padding-top:3px;
+    padding-top:2px;
   }
 
   .footer .footer-links strong{
-    margin-bottom:7px;
+    margin-bottom:5px;
   }
 
   .footer .footer-social{
@@ -67,6 +74,10 @@
     justify-self:start;
     align-self:start;
     margin-top:0;
+  }
+
+  .footer .footer-bottom{
+    padding-top:16px;
   }
 }
 
