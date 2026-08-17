@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://nabildev.com/sitemap.xml
+# deployment trigger 2026-08-17
