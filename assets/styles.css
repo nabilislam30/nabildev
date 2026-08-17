@@ -15,19 +15,20 @@
   display:none;
 }
 
-/* Desktop: all three columns stay inside the footer container so the divider
-   naturally aligns with the About column instead of ending early. */
+/* Desktop: keep the profile block, Explore and About as one compact group.
+   Fixed content columns prevent the brand column from stretching and creating
+   the large dead space previously visible through the middle of the footer. */
 @media(min-width:1041px){
   .footer .footer-grid{
     display:grid;
-    grid-template-columns:minmax(0,1.45fr) minmax(170px,.48fr) minmax(150px,.42fr);
+    grid-template-columns:minmax(0,520px) 150px 140px;
     grid-template-areas:
       "brand explore about"
       "social explore about";
-    column-gap:clamp(46px,5vw,84px);
+    column-gap:clamp(52px,4vw,64px);
     row-gap:18px;
     width:100%;
-    justify-content:stretch;
+    justify-content:start;
     align-items:start;
   }
 
