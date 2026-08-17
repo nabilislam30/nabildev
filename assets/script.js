@@ -284,7 +284,7 @@ document.querySelectorAll('img[data-fallback]').forEach(img=>{
 
   if (kicker) kicker.textContent = 'Engineering approach';
   if (heading) heading.textContent = 'From problem to implementation.';
-  if (intro) intro.textContent = 'Each project documents the decisions behind the build, with the implementation available on GitHub.';
+  if (intro) intro.textContent = 'Each project explains what I was trying to solve, how I built it, what I had to troubleshoot and what I learned. The implementation is available on GitHub.';
 
   ['Challenge','Architecture','Implementation','Troubleshooting','Result','Production considerations'].forEach((label,index)=>{
     if (labels[index]) labels[index].textContent = label;
