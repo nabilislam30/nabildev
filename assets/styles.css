@@ -2,8 +2,8 @@
 
 /* Footer layout — production override.
    Keep the footer inside the same site container as the rest of the page.
-   Compact navigation columns are used from 821px upward so high-DPI / zoomed
-   desktop viewports do not fall back to the old stretched tablet layout. */
+   On desktop, the navigation columns are anchored to the right edge of that
+   container so they align with the content card above. */
 
 .footer .footer-bottom{
   justify-content:flex-start;
@@ -20,13 +20,7 @@
 
   .footer .footer-grid{
     display:grid;
-    grid-template-columns:430px 140px 120px;
-    grid-template-areas:
-      "brand explore about"
-      "social explore about";
-    column-gap:clamp(32px,4vw,44px);
     row-gap:16px;
-    justify-content:start;
     align-items:start;
     padding-bottom:26px;
   }
@@ -75,6 +69,32 @@
 
   .footer .footer-bottom{
     padding-top:16px;
+  }
+}
+
+/* Full desktop: keep the profile block on the left, use the centre as flexible
+   breathing room, and pin Explore/About to the right edge of the 1180px
+   container. The About column therefore ends on the same alignment line as the
+   card above the footer. */
+@media(min-width:1041px){
+  .footer .footer-grid{
+    grid-template-columns:430px minmax(0,1fr) 150px 150px;
+    grid-template-areas:
+      "brand . explore about"
+      "social . explore about";
+    column-gap:40px;
+  }
+}
+
+/* Smaller desktop / high-DPI viewport: retain right anchoring without forcing
+   the fixed desktop widths into a narrower CSS viewport. */
+@media(min-width:821px) and (max-width:1040px){
+  .footer .footer-grid{
+    grid-template-columns:minmax(0,1fr) 130px 110px;
+    grid-template-areas:
+      "brand explore about"
+      "social explore about";
+    column-gap:24px;
   }
 }
 
