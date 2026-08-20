@@ -296,3 +296,52 @@ document.querySelectorAll('img[data-fallback]').forEach(img=>{
     if (arrow) link.appendChild(arrow);
   }
 })();
+
+// Back/forward cache + mobile touch QA.
+(() => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // A page restored by the browser's back/forward cache can retain the outgoing
+  // transition class and open mobile UI. Reset transient state on every restore.
+  window.addEventListener('pageshow', () => {
+    document.body?.classList.remove('page-leaving');
+    const navLinks = document.querySelector('.nav-links');
+    const menu = document.querySelector('.menu');
+    navLinks?.classList.remove('open');
+    menu?.setAttribute('aria-expanded','false');
+    const commandBackdrop = document.querySelector('[data-command-backdrop]');
+    if (commandBackdrop) commandBackdrop.hidden = true;
+  });
+
+  // Touch devices need the same architecture explanation that hover/focus gives
+  // desktop users.
+  document.querySelectorAll('[data-arch-info]').forEach(node => {
+    node.addEventListener('click', () => {
+      const tooltip = node.closest('.architecture-lab')?.querySelector('[data-arch-tooltip]');
+      if (tooltip) tooltip.textContent = node.dataset.archInfo || '';
+    });
+  });
+
+  // On mobile, keep the active journey stage centred in the horizontal rail so
+  // the user can see that the journey continues in both directions.
+  const journeyRail = document.querySelector('.journey-rail');
+  if (journeyRail) {
+    const items = [...journeyRail.querySelectorAll('.journey-nav')];
+    let centreFrame = 0;
+    const centreActive = () => {
+      if (!window.matchMedia('(max-width:820px)').matches) return;
+      const active = journeyRail.querySelector('.journey-nav.active');
+      if (!active) return;
+      cancelAnimationFrame(centreFrame);
+      centreFrame = requestAnimationFrame(() => {
+        const left = active.offsetLeft - (journeyRail.clientWidth - active.offsetWidth) / 2;
+        journeyRail.scrollTo({left:Math.max(0,left),behavior:reduceMotion?'auto':'smooth'});
+      });
+    };
+    const observer = new MutationObserver(centreActive);
+    items.forEach(item => observer.observe(item,{attributes:true,attributeFilter:['class']}));
+    window.addEventListener('pageshow',centreActive);
+    window.addEventListener('resize',centreActive,{passive:true});
+    centreActive();
+  }
+})();
