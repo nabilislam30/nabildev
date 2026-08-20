@@ -1,0 +1,13 @@
+{
+  "name": "nabildev",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs && pagefind --site dist --root-selector main --exclude-selectors \".command-backdrop,.pointer-light,.error-page\""
+  },
+  "devDependencies": {
+    "pagefind": "1.5.2",
+    "sharp": "0.35.3"
+  }
+}
