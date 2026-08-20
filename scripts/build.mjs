@@ -23,39 +23,6 @@ const copyEntries = [
   'sitemap.xml'
 ];
 
-const ogPages = {
-  'projects/terraform-wordpress.html': {
-    file: 'terraform-wordpress.png',
-    type: 'PROJECT',
-    lines: ['Automating a WordPress', 'infrastructure deployment'],
-    tech: 'Terraform · AWS · VPC · EC2'
-  },
-  'projects/redis-counter.html': {
-    file: 'redis-counter.png',
-    type: 'PROJECT',
-    lines: ['Building a multi-container', 'counter application'],
-    tech: 'Docker · NGINX · Redis · Flask'
-  },
-  'projects/kubernetes-eks.html': {
-    file: 'kubernetes-eks.png',
-    type: 'PROJECT',
-    lines: ['From local Kubernetes', 'to Amazon EKS'],
-    tech: 'Kubernetes · Amazon EKS · kubectl · IAM'
-  },
-  'projects/ci-cd-pipeline.html': {
-    file: 'ci-cd-pipeline.png',
-    type: 'PROJECT',
-    lines: ['Hardening a Terraform', 'delivery pipeline'],
-    tech: 'Terraform · Azure DevOps · S3 · DynamoDB'
-  },
-  'articles.html': {
-    file: 'articles.png',
-    type: 'ARTICLES',
-    lines: ['What I’m learning,', 'written down.'],
-    tech: 'Terraform · Containers · CI/CD · Observability'
-  }
-};
-
 await fs.rm(dist, { recursive: true, force: true });
 await fs.mkdir(dist, { recursive: true });
 
@@ -71,8 +38,37 @@ for (const entry of copyEntries) {
   }
 }
 
+// Future individual article pages can live under /articles without any build
+// change. If the directory exists, include it automatically.
+try {
+  await fs.cp(path.join(root, 'articles'), path.join(dist, 'articles'), { recursive: true });
+} catch (error) {
+  if (error?.code !== 'ENOENT') throw error;
+}
+
+const htmlFiles = [];
+const walk = async (dir) => {
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) await walk(full);
+    else if (entry.isFile() && entry.name.endsWith('.html')) htmlFiles.push(full);
+  }
+};
+await walk(dist);
+
 const ogDir = path.join(dist, 'assets', 'og');
 await fs.mkdir(ogDir, { recursive: true });
+
+const decodeText = (value = '') => value
+  .replace(/<[^>]*>/g, ' ')
+  .replaceAll('&amp;', '&')
+  .replaceAll('&quot;', '"')
+  .replaceAll('&#39;', "'")
+  .replaceAll('&gt;', '>')
+  .replaceAll('&lt;', '<')
+  .replace(/\s+/g, ' ')
+  .trim();
 
 const escapeXml = (value) => value
   .replaceAll('&', '&amp;')
@@ -80,9 +76,60 @@ const escapeXml = (value) => value
   .replaceAll('>', '&gt;')
   .replaceAll('"', '&quot;');
 
+const wrapTitle = (title, target = 31) => {
+  const words = title.split(/\s+/).filter(Boolean);
+  if (words.length < 2) return [title];
+
+  let best = [title];
+  let bestScore = Number.POSITIVE_INFINITY;
+  for (let split = 1; split < words.length; split += 1) {
+    const first = words.slice(0, split).join(' ');
+    const second = words.slice(split).join(' ');
+    const overflow = Math.max(0, first.length - 38) + Math.max(0, second.length - 38);
+    const balance = Math.abs(first.length - second.length);
+    const targetPenalty = Math.abs(first.length - target) * 0.2;
+    const score = overflow * 20 + balance + targetPenalty;
+    if (score < bestScore) {
+      bestScore = score;
+      best = [first, second];
+    }
+  }
+  return best;
+};
+
+const extractOgConfig = (rel, html) => {
+  const isProject = /^projects\/[^/]+\.html$/.test(rel);
+  const isArticle = /^articles\/[^/]+\.html$/.test(rel);
+  const isArticlesIndex = rel === 'articles.html';
+  if (!isProject && !isArticle && !isArticlesIndex) return null;
+
+  const h1 = decodeText(html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)?.[1] || '');
+  const titleTag = decodeText(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || '').replace(/\s+[—-]\s+Nabil Islam.*$/i, '');
+  const title = h1 || titleTag || 'Nabil Islam';
+
+  let tech = decodeText(html.match(/<span class="kicker">([\s\S]*?)<\/span>/i)?.[1] || '');
+  if (isArticlesIndex) tech = 'Terraform · Containers · CI/CD · Observability';
+  if (!tech) tech = isProject ? 'Cloud · Infrastructure · Automation' : 'Engineering notes · DevOps learning';
+
+  const slug = rel
+    .replace(/\.html$/i, '')
+    .replaceAll('/', '-')
+    .replace(/[^a-zA-Z0-9-]+/g, '-')
+    .replace(/-+/g, '-')
+    .toLowerCase();
+
+  return {
+    file: `${slug}.png`,
+    type: isProject ? 'PROJECT' : isArticlesIndex ? 'ARTICLES' : 'ARTICLE',
+    lines: wrapTitle(title),
+    tech
+  };
+};
+
 const makeOgSvg = ({ type, lines, tech }) => {
-  const title = lines.map((line, index) =>
-    `<text x="104" y="${286 + index * 74}" fill="#FBF6ED" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700">${escapeXml(line)}</text>`
+  const fontSize = lines.some((line) => line.length > 38) ? 50 : 58;
+  const title = lines.slice(0, 2).map((line, index) =>
+    `<text x="104" y="${286 + index * 74}" fill="#FBF6ED" font-family="Arial, Helvetica, sans-serif" font-size="${fontSize}" font-weight="700">${escapeXml(line)}</text>`
   ).join('\n');
 
   return `
@@ -106,25 +153,9 @@ const makeOgSvg = ({ type, lines, tech }) => {
   </svg>`;
 };
 
-for (const config of Object.values(ogPages)) {
-  await sharp(Buffer.from(makeOgSvg(config)))
-    .png({ compressionLevel: 9 })
-    .toFile(path.join(ogDir, config.file));
-}
-
-const htmlFiles = [];
-const walk = async (dir) => {
-  const entries = await fs.readdir(dir, { withFileTypes: true });
-  for (const entry of entries) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) await walk(full);
-    else if (entry.isFile() && entry.name.endsWith('.html')) htmlFiles.push(full);
-  }
-};
-await walk(dist);
-
 const featureCss = '<link rel="stylesheet" href="/assets/features.css?v=20260820-01">';
 const featureJs = '<script src="/assets/features.js?v=20260820-01" defer></script>';
+let ogCount = 0;
 
 for (const file of htmlFiles) {
   const rel = path.relative(dist, file).split(path.sep).join('/');
@@ -137,14 +168,19 @@ for (const file of htmlFiles) {
     html = html.replace('</body>', `${featureJs}\n</body>`);
   }
 
-  const og = ogPages[rel];
+  const og = extractOgConfig(rel, html);
   if (og) {
+    await sharp(Buffer.from(makeOgSvg(og)))
+      .png({ compressionLevel: 9 })
+      .toFile(path.join(ogDir, og.file));
+
     const imageUrl = `https://nabildev.com/assets/og/${og.file}`;
     html = html.replace(/<meta property="og:image" content="[^"]*">/, `<meta property="og:image" content="${imageUrl}">`);
     html = html.replace(/<meta name="twitter:image" content="[^"]*">/, `<meta name="twitter:image" content="${imageUrl}">`);
+    ogCount += 1;
   }
 
   await fs.writeFile(file, html);
 }
 
-console.log(`Prepared ${htmlFiles.length} HTML pages in dist/ and generated ${Object.keys(ogPages).length} Open Graph images.`);
+console.log(`Prepared ${htmlFiles.length} HTML pages in dist/ and generated ${ogCount} Open Graph images.`);
