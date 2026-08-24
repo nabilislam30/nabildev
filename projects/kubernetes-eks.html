@@ -45,7 +45,7 @@
 <div class="actions"><a class="btn btn-secondary" href="../contact.html">Contact</a></div>
 </div></section>
 <section class="case-section"><div class="container case-two-col">
-<div><span class="kicker">01 — Challenge</span><h2>The problem.</h2><p>The objective was to understand the differences between running a local cluster and working with a managed Kubernetes control plane in AWS.</p></div>
+<div><span class="kicker">01 — Challenge</span><h2>What I was trying to achieve.</h2><p>The objective was to understand the differences between running a local cluster and working with a managed Kubernetes control plane in AWS.</p></div>
 <div class="card case-architecture reveal"><span class="kicker">Architecture</span><div class="case-flow-row" data-case-flow><span class="case-node">kubectl</span><i class="case-flow"><b></b></i><span class="case-node">EKS control plane</span><i class="case-flow"><b></b></i><span class="case-node">Managed node group</span><i class="case-flow"><b></b></i><span class="case-node">Pods</span></div></div>
 </div></section>
 <section class="case-section alt"><div class="container"><span class="kicker">02 — Implementation</span><h2>How it was built.</h2><ol class="case-steps"><li><b>01</b><span>Built a local kind cluster with one control-plane node and two workers.</span></li><li><b>02</b><span>Created an Amazon EKS cluster and a managed node group for worker capacity.</span></li><li><b>03</b><span>Configured access with an administrative IAM identity and updated the local kubeconfig.</span></li><li><b>04</b><span>Used kubectl to inspect cluster resources and work through deployment and troubleshooting tasks.</span></li></ol><div class="project-terminal reveal" data-terminal-once data-terminal-lines='[&quot;$ kubectl get nodes&quot;, &quot;$ kubectl get pods -A&quot;, &quot;$ kubectl describe pod&quot;, &quot;✓ cluster reachable&quot;]'>
@@ -53,7 +53,7 @@
 <pre><code data-terminal-output></code><span class="terminal-cursor">▋</span></pre></div></div></section>
 <section class="case-section"><div class="container case-two-col">
 <div><span class="kicker">03 — Troubleshooting</span><h2>What required judgement.</h2><ul class="case-list"><li>Understanding the relationship between AWS IAM access and Kubernetes cluster access.</li><li>Working through kubeconfig and endpoint connectivity.</li><li>Separating control-plane management from worker-node capacity and workload scheduling.</li></ul></div>
-<div><span class="kicker">04 — Result</span><h2>What worked.</h2><p>The lab established a working bridge between local Kubernetes concepts and the AWS-managed EKS model.</p></div>
+<div><span class="kicker">04 — Outcome</span><h2>What worked.</h2><p>The lab established a working bridge between local Kubernetes concepts and the AWS-managed EKS model.</p></div>
 </div></section>
 <section class="case-section alt"><div class="container"><span class="kicker">05 — Production considerations</span><h2>What I would change next.</h2><p class="intro">These are improvements I would make for a production-grade implementation; they are not presented as already completed.</p><ul class="production-grid"><li>Use least-privilege cluster access and role-based access control.</li><li>Use private networking where appropriate and restrict the API endpoint.</li><li>Add workload identity rather than static credentials.</li><li>Add observability, autoscaling and policy controls.</li><li>Define cluster infrastructure as code for repeatable environments.</li></ul></div></section>
 </main>
