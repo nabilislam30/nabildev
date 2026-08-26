@@ -28,7 +28,7 @@ html = html
   )
   .replace(
     '<span class="kicker">AWS container platform</span>\n          <h3>Deploying a containerised application on AWS using Terraform</h3>',
-    '<span class="kicker">ECS Threat Composer</span>\n          <h3 class="featured-project-title">Deploying Threat Composer on ECS Fargate</h3>'
+    '<span class="kicker">ECS Threat Composer</span>\n          <h3 class="featured-project-title">Deploying Threat Composer on AWS ECS Fargate</h3>'
   )
   .replace(
     '<span><b>ECS Fargate</b><small>Runtime</small></span>',
