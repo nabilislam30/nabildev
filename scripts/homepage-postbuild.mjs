@@ -12,13 +12,14 @@ let html = await fs.readFile(homepage, 'utf8');
 // featured cards must not depend on runtime JavaScript to acquire the canonical
 // WordPress card structure or their final recruiter-facing titles.
 html = html
-  .replace('assets/styles.css?v=20260818-1309', 'assets/styles.css?v=20260826-02')
-  .replaceAll('features.css?v=20260820-01', 'features.css?v=20260826-02')
-  .replaceAll('features.js?v=20260820-01', 'features.js?v=20260826-02');
+  .replace('assets/styles.css?v=20260818-1309', 'assets/styles.css?v=20260826-03')
+  .replaceAll('features.css?v=20260820-01', 'features.css?v=20260826-03')
+  .replaceAll('features.js?v=20260820-01', 'features.js?v=20260826-03');
 
-if (!html.includes('home-projects-20260826.css')) {
-  html = html.replace('</head>', '  <link rel="stylesheet" href="/assets/home-projects-20260826.css">\n</head>');
-}
+// Replace the previous homepage-only refinement stylesheet with the current
+// version. A new filename avoids reusing a cached architecture layout.
+html = html.replace(/\s*<link rel="stylesheet" href="\/assets\/home-projects-20260826(?:-v2)?\.css">\n?/g, '\n');
+html = html.replace('</head>', '  <link rel="stylesheet" href="/assets/home-projects-20260826-v2.css">\n</head>');
 
 html = html
   .replace(
@@ -28,6 +29,10 @@ html = html
   .replace(
     '<span class="kicker">AWS container platform</span>\n          <h3>Deploying a containerised application on AWS using Terraform</h3>',
     '<span class="kicker">ECS Threat Composer</span>\n          <h3 class="featured-project-title">Deploying Threat Composer on ECS Fargate</h3>'
+  )
+  .replace(
+    '<span><b>ECS Fargate</b><small>Runtime</small></span>',
+    '<span><b>ECS Fargate</b><small>Serverless</small></span>'
   )
   .replace(
     '<article class="evidence-card card reveal">\n        <div class="evidence-index">02</div>',
@@ -40,14 +45,18 @@ html = html
 
 let architectureCount = 0;
 html = html.replace(
-  /<div class="architecture-lab architecture-stable animated-architecture" data-architecture-flow>/g,
+  /<div class="architecture-lab architecture-stable(?: architecture-featured(?: architecture-(?:ecs|immutable))?)? animated-architecture" data-architecture-flow>/g,
   (match) => {
     architectureCount += 1;
-    return architectureCount <= 2
-      ? '<div class="architecture-lab architecture-stable architecture-featured animated-architecture" data-architecture-flow>'
-      : match;
+    if (architectureCount === 1) {
+      return '<div class="architecture-lab architecture-stable architecture-featured architecture-ecs animated-architecture" data-architecture-flow>';
+    }
+    if (architectureCount === 2) {
+      return '<div class="architecture-lab architecture-stable architecture-featured architecture-immutable animated-architecture" data-architecture-flow>';
+    }
+    return match;
   }
 );
 
 await fs.writeFile(homepage, html);
-console.log('Applied final homepage featured-project layout and cache-busting.');
+console.log('Applied final homepage featured-project layout, architecture spacing and cache-busting.');
