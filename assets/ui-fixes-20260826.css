@@ -1,0 +1,26 @@
+/* Final small UI alignment fixes: footer brand mark + site search trigger. */
+
+/* Keep the search glyph optically centred inside its 38px control in both themes. */
+.site-search-trigger{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:0 !important;
+  line-height:1 !important;
+}
+.site-search-trigger > span{
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+  text-align:center;
+}
+
+/* The footer brand mark was losing contrast in light mode. */
+html[data-theme="light"] .footer .brand-terminal{
+  color:#0b4f51 !important;
+  background:#ffffff !important;
+  border-color:#c7d8d6 !important;
+}
