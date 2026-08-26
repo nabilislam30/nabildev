@@ -1,0 +1,61 @@
+/* Homepage featured-project refinements v2.
+   Loaded only by index.html so the two newer cards match the established
+   WordPress card while their architecture labels receive explicit space. */
+
+@media (min-width:1121px){
+  .featured-project-title{
+    white-space:nowrap;
+    font-size:clamp(32px,2.75vw,40px) !important;
+  }
+
+  .architecture-featured{
+    padding:30px 16px 18px;
+    column-gap:0;
+  }
+
+  /* Route 53 → ALB / HTTPS → ECS Fargate ← ECR
+     The longer ALB and Fargate labels receive dedicated width instead of
+     sharing four identical columns. */
+  .architecture-ecs{
+    grid-template-columns:
+      minmax(58px,.90fr) 14px
+      minmax(78px,1.18fr) 14px
+      minmax(86px,1.28fr) 14px
+      minmax(42px,.66fr);
+  }
+
+  /* Internet → ALB → ASG / EC2 → RDS
+     ASG / EC2 gets a wider node while the shorter labels stay compact. */
+  .architecture-immutable{
+    grid-template-columns:
+      minmax(58px,.92fr) 18px
+      minmax(46px,.72fr) 18px
+      minmax(76px,1.14fr) 18px
+      minmax(42px,.66fr);
+  }
+
+  .architecture-featured .arch-node{
+    min-width:0;
+    width:100%;
+    padding:11px 4px;
+    font-size:10.5px;
+    white-space:nowrap;
+    overflow:visible;
+  }
+
+  .architecture-featured .flow-line.horizontal{
+    width:100%;
+    justify-self:stretch;
+    margin:0;
+  }
+
+  .architecture-featured .arch-tooltip{
+    margin-top:24px;
+  }
+}
+
+@media (max-width:1120px){
+  .featured-project-title{
+    white-space:normal;
+  }
+}
