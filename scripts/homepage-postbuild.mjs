@@ -45,6 +45,10 @@ html = html
   .replace(
     'End-to-end platform engineering project demonstrating how secure, versioned and immutable AWS infrastructure can be designed, deployed and operated with Terraform and GitHub Actions.',
     'Production-inspired AWS platform built with Terraform, immutable infrastructure and GitHub Actions.'
+  )
+  .replace(
+    '<span><b>Terraform</b><small>IaC</small></span><i>→</i>\n            <span><b>AWS</b><small>Cloud</small></span><i>→</i>\n            <span><b>Linux</b><small>Bootstrap</small></span><i>→</i>\n            <span><b>Bash</b><small>Automation</small></span>',
+    '<span><b>Terraform</b><small>IaC</small></span><i>→</i>\n            <span><b>AWS</b><small>Cloud</small></span><i>→</i>\n            <span><b>VPC</b><small>Network</small></span><i>→</i>\n            <span><b>Security Groups</b><small>Firewall</small></span><i>→</i>\n            <span><b>EC2</b><small>Compute</small></span>'
   );
 
 let architectureCount = 0;
