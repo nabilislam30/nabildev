@@ -1,0 +1,44 @@
+/* Expanded About page — isolated from the rest of the portfolio. */
+.about-story-section{padding:72px 0 26px}
+.about-story-card{padding:38px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:44px;align-items:start}
+.about-story-copy h2{margin:8px 0 18px;font-size:clamp(32px,4vw,48px);line-height:1.04}
+.about-story-copy p{margin:0 0 15px;color:var(--muted);font-size:15px;line-height:1.75;max-width:760px}
+.about-facts{display:grid;gap:10px}
+.about-fact{padding:15px 16px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--panel) 30%,transparent)}
+.about-fact small{display:block;margin-bottom:5px;color:var(--orange);font-size:9px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+.about-fact strong{display:block;color:var(--text);font-size:14px;line-height:1.4}
+
+.about-path-section{padding:38px 0 24px}
+.about-section-head{margin-bottom:24px}
+.about-section-head h2{margin:7px 0 8px;font-size:clamp(32px,4vw,46px);line-height:1.05}
+.about-section-head p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;max-width:720px}
+.about-path-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.about-path-card{position:relative;min-height:245px;padding:30px;overflow:hidden}
+.about-path-no{position:absolute;right:24px;top:20px;color:color-mix(in srgb,var(--text) 12%,transparent);font:800 32px/1 ui-monospace,SFMono-Regular,Menlo,monospace}
+.about-path-card h3{margin:9px 0 12px;font-size:25px;line-height:1.12}
+.about-path-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.7;max-width:95%}
+.about-path-card .tags{margin-top:20px}
+
+.about-principles-section{padding:30px 0 76px}
+.about-principles-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.about-principle-card{padding:30px;min-height:260px}
+.about-principle-card h3{margin:9px 0 13px;font-size:27px;line-height:1.1}
+.about-principle-card p{margin:0 0 13px;color:var(--muted);font-size:14px;line-height:1.7}
+.about-current-card{grid-column:1/-1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:30px;align-items:center}
+.about-current-card .tags{margin-top:18px}
+.about-current-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+
+html[data-theme="light"] .about-fact{background:rgba(255,255,255,.48)}
+
+@media(max-width:900px){
+  .about-story-card{grid-template-columns:1fr;gap:25px}
+  .about-path-grid,.about-principles-grid{grid-template-columns:1fr}
+  .about-current-card{grid-column:auto;grid-template-columns:1fr}
+  .about-current-actions{justify-content:flex-start}
+}
+@media(max-width:620px){
+  .about-story-section{padding-top:46px}
+  .about-story-card,.about-path-card,.about-principle-card{padding:23px}
+  .about-path-card{min-height:0}
+  .about-path-no{right:18px;top:18px;font-size:27px}
+}
