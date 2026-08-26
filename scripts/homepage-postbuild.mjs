@@ -41,6 +41,10 @@ html = html
   .replace(
     '<span class="kicker">Platform engineering</span>\n          <h3>Building immutable AWS infrastructure with Terraform</h3>',
     '<span class="kicker">Immutable AWS Infrastructure</span>\n          <h3 class="featured-project-title">Immutable AWS infrastructure with Terraform</h3>'
+  )
+  .replace(
+    'End-to-end platform engineering project demonstrating how secure, versioned and immutable AWS infrastructure can be designed, deployed and operated with Terraform and GitHub Actions.',
+    'Production-inspired AWS platform built with Terraform, immutable infrastructure and GitHub Actions.'
   );
 
 let architectureCount = 0;
