@@ -17,6 +17,26 @@
   }
 
   // ------------------------------
+  // Homepage featured-project parity
+  // ------------------------------
+  // The WordPress card is the canonical featured-project layout. Apply the
+  // same structural class to the two newer cards and use the actual project
+  // names for their orange kickers rather than generic category labels.
+  if (document.body?.dataset.page === 'home') {
+    const featuredCards = [...document.querySelectorAll('.evidence-grid > .evidence-card')];
+    const featuredKickers = ['ECS Threat Composer', 'Immutable AWS Infrastructure'];
+
+    featuredCards.slice(0, 3).forEach((card) => {
+      card.classList.add('evidence-card-stable');
+    });
+
+    featuredKickers.forEach((label, index) => {
+      const kicker = featuredCards[index]?.querySelector('.evidence-header > .kicker');
+      if (kicker) kicker.textContent = label;
+    });
+  }
+
+  // ------------------------------
   // Pagefind site search
   // ------------------------------
   const navActions = document.querySelector('.nav-actions');
