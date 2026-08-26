@@ -1,0 +1,41 @@
+/* Homepage featured-project refinements.
+   Loaded only by index.html so the two newer cards can match the established
+   WordPress card without changing global project/case-study layouts. */
+
+@media (min-width:1121px){
+  .featured-project-title{
+    white-space:nowrap;
+    font-size:clamp(32px,2.75vw,40px) !important;
+  }
+
+  .architecture-featured{
+    padding:30px 18px 18px;
+    grid-template-columns:
+      minmax(68px,1fr) 20px
+      minmax(68px,1fr) 20px
+      minmax(68px,1fr) 20px
+      minmax(68px,1fr);
+    column-gap:6px;
+  }
+
+  .architecture-featured .arch-node{
+    min-width:0;
+    padding:11px 5px;
+    font-size:11px;
+  }
+
+  .architecture-featured .flow-line.horizontal{
+    width:100%;
+    justify-self:stretch;
+  }
+
+  .architecture-featured .arch-tooltip{
+    margin-top:24px;
+  }
+}
+
+@media (max-width:1120px){
+  .featured-project-title{
+    white-space:normal;
+  }
+}
