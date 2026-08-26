@@ -153,6 +153,29 @@
   // Project-specific reproducible snippets
   // ------------------------------
   const projectSnippets = {
+    '/projects/ecs-threat-composer.html': {
+      kicker: 'Reproduce locally',
+      title: 'Clone and validate the container locally.',
+      note: 'Requires Docker. These commands reproduce the local container build and health check before the AWS deployment stages.',
+      commands: [
+        'git clone https://github.com/nabilislam30/ecs-threat-composer.git',
+        'cd ecs-threat-composer/app',
+        'docker build -t threatmod .',
+        'docker run --rm -p 8080:80 --name threatmod-test threatmod',
+        'curl http://localhost:8080/health'
+      ]
+    },
+    '/projects/immutable-aws-infrastructure.html': {
+      kicker: 'Review and validate',
+      title: 'Clone the portfolio snapshot and run static checks.',
+      note: 'This combined repository is a showcase snapshot of the module and live-configuration layers. The original infra-modules and infra-live repositories remain the authoritative engineering sources, so this block intentionally does not run terraform apply from the showcase root.',
+      commands: [
+        'git clone https://github.com/nabilislam30/immutable-aws-infrastructure-terraform.git',
+        'cd immutable-aws-infrastructure-terraform',
+        'terraform fmt -check -recursive',
+        'trivy config .'
+      ]
+    },
     '/projects/terraform-wordpress.html': {
       kicker: 'Reproduce this project',
       title: 'Clone and deploy the learning environment.',
