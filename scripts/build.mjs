@@ -154,6 +154,7 @@ const makeOgSvg = ({ type, lines, tech }) => {
 };
 
 const featureCss = '<link rel="stylesheet" href="/assets/features.css?v=20260820-01">';
+const uiFixCss = '<link rel="stylesheet" href="/assets/ui-fixes-20260826.css">';
 const featureJs = '<script src="/assets/features.js?v=20260820-01" defer></script>';
 let ogCount = 0;
 
@@ -163,6 +164,9 @@ for (const file of htmlFiles) {
 
   if (!html.includes('/assets/features.css')) {
     html = html.replace('</head>', `${featureCss}\n</head>`);
+  }
+  if (!html.includes('/assets/ui-fixes-20260826.css')) {
+    html = html.replace('</head>', `${uiFixCss}\n</head>`);
   }
   if (!html.includes('/assets/features.js')) {
     html = html.replace('</body>', `${featureJs}\n</body>`);
