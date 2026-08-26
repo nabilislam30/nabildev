@@ -1,0 +1,64 @@
+/* Projects-page architecture refinements v2.
+   Keeps support paths distinct and aligns the featured architecture panels. */
+
+.project-card .project-arch-support{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.project-card .project-arch-support-label{
+  width:100%;
+  margin-bottom:2px;
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  text-align:center;
+}
+
+.project-card .project-arch-support .arch-box{
+  min-width:auto;
+  padding:7px 10px;
+  font-size:10px;
+}
+
+.project-card .project-arch-support-arrow{
+  color:var(--orange);
+  font-size:13px;
+  line-height:1;
+}
+
+/* Cards 01 and 02 sit beside each other. Reserve identical vertical space
+   for their heading, summary and technology row so both architecture panels
+   start on the same horizontal line. */
+@media (min-width:821px){
+  .project-grid > .project-card:nth-child(-n+2) > h3{
+    min-height:3.15em;
+  }
+
+  .project-grid > .project-card:nth-child(-n+2) > h3 + p{
+    min-height:4.65em;
+  }
+
+  .project-grid > .project-card:nth-child(-n+2) > .tags{
+    min-height:40px;
+    align-content:center;
+  }
+}
+
+@media(max-width:520px){
+  .project-card .project-arch-support{
+    gap:6px;
+  }
+  .project-card .project-arch-support .arch-box{
+    padding:7px 8px;
+    font-size:9.5px;
+  }
+}
