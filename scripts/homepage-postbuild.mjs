@@ -18,8 +18,8 @@ html = html
 
 // Replace homepage-only refinement stylesheets with the current versions.
 html = html.replace(/\s*<link rel="stylesheet" href="\/assets\/home-projects-20260826(?:-v2)?\.css">\n?/g, '\n');
-html = html.replace(/\s*<link rel="stylesheet" href="\/assets\/home-content-20260827\.css">\n?/g, '\n');
-html = html.replace('</head>', '  <link rel="stylesheet" href="/assets/home-projects-20260826-v2.css">\n  <link rel="stylesheet" href="/assets/home-content-20260827.css">\n</head>');
+html = html.replace(/\s*<link rel="stylesheet" href="\/assets\/home-content-20260827(?:-v2)?\.css">\n?/g, '\n');
+html = html.replace('</head>', '  <link rel="stylesheet" href="/assets/home-projects-20260826-v2.css">\n  <link rel="stylesheet" href="/assets/home-content-20260827-v2.css">\n</head>');
 
 html = html
   .replace(
@@ -109,14 +109,14 @@ html = html.replace(
 </section>`
 );
 
-// Replace the ambiguous Engineering Approach card with a direct description of
-// how each project case study is structured.
+// Make the project explanation explicit and recruiter-readable. Match any article
+// carrying the evidence-principle class so older generated variants cannot win.
 html = html.replace(
-  /<article class="evidence-principle card reveal">[\s\S]*?<\/article>/,
+  /<article[^>]*class="[^"]*evidence-principle[^"]*"[^>]*>[\s\S]*?<\/article>/i,
   `<article class="evidence-principle card reveal">
     <span class="kicker">Project process</span>
-    <h2>How I work through a project.</h2>
-    <p class="intro compact-intro">Each case study covers the goal, the design, how I built it and the problems I solved along the way.</p>
+    <h2>How each project is structured.</h2>
+    <p class="intro compact-intro">Each project provides an Overview, architectural design, how it was implemented and how challenges were resolved.</p>
     <div class="principle-grid">
       <div class="principle-item micro-reveal"><strong>01</strong><span>Objectives</span></div>
       <div class="principle-item micro-reveal"><strong>02</strong><span>System design</span></div>
@@ -132,4 +132,4 @@ html = html.replace(
 html = html.replace(/<section class="home-cta">[\s\S]*?<\/section>\s*/g, '');
 
 await fs.writeFile(homepage, html);
-console.log('Applied final homepage project, Kubernetes Lab and project-process refinements.');
+console.log('Applied authoritative homepage project, Kubernetes Lab and project-process refinements.');
