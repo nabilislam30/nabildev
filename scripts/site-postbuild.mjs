@@ -117,7 +117,43 @@ const labPage = path.join(dist, 'lab.html');
 let lab = await fs.readFile(labPage, 'utf8');
 lab = lab
   .replaceAll('assets/lab-page-20260827.css', 'assets/lab-page-20260827-v2.css')
-  .replaceAll('/assets/lab-page-20260827.css', '/assets/lab-page-20260827-v2.css');
+  .replaceAll('/assets/lab-page-20260827.css', '/assets/lab-page-20260827-v2.css')
+  .replaceAll('<title>Kubernetes Hands-on Lab — Nabil Islam</title>', '<title>Hands-on Lab — Nabil Islam</title>')
+  .replaceAll('content="Kubernetes Hands-on Lab — Nabil Islam"', 'content="Hands-on Lab — Nabil Islam"')
+  .replaceAll('<h1>Kubernetes hands-on Lab</h1>', '<h1>Hands-on lab</h1>')
+  .replaceAll('<span class="kicker">Kubernetes curriculum</span>', '<span class="kicker">Kubernetes</span>')
+  .replaceAll('<h2>What I’m working through.</h2>', '<h2>What the lab covers.</h2>')
+  .replaceAll(
+    'The lab combines Kubernetes concepts with practical exercises across application workloads, cluster networking, security, troubleshooting and day-to-day operations.',
+    'The modules progress from core workloads to cluster operations, with configuration and troubleshooting built into each area.'
+  )
+  .replace(/\s*<div class="lab-note reveal">[\s\S]*?<\/div>\s*/g, '\n');
+
+const forbiddenLabCopy = [
+  'Kubernetes hands-on Lab',
+  'Kubernetes curriculum',
+  'What I’m working through.',
+  'Lab format',
+  'Concepts followed by hands-on exercises.'
+];
+for (const phrase of forbiddenLabCopy) {
+  if (lab.includes(phrase)) {
+    throw new Error(`Lab refinement failed: old copy still present: ${phrase}`);
+  }
+}
+
+const requiredLabCopy = [
+  '<h1>Hands-on lab</h1>',
+  '<span class="kicker">Kubernetes</span>',
+  '<h2>What the lab covers.</h2>',
+  'The modules progress from core workloads to cluster operations, with configuration and troubleshooting built into each area.'
+];
+for (const phrase of requiredLabCopy) {
+  if (!lab.includes(phrase)) {
+    throw new Error(`Lab refinement failed: required copy missing: ${phrase}`);
+  }
+}
+
 await fs.writeFile(labPage, lab);
 
-console.log('Applied final homepage wording, seamless centred tools rail, cache-busted runtime, and Lab output.');
+console.log('Applied final homepage wording, seamless centred tools rail, cache-busted runtime, and simplified Lab content.');
