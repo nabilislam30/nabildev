@@ -8,7 +8,7 @@
 <script>(function(){try{var t=localStorage.getItem('nabil-theme');var light=t==='light'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches);if(light)document.documentElement.dataset.theme='light';}catch(e){}})();</script>
 <link rel="canonical" href="https://nabildev.com/lab.html">
 <link rel="stylesheet" href="assets/styles.css">
-<link rel="stylesheet" href="assets/lab-page-20260827-v2.css?v=20260827-1905">
+<link rel="stylesheet" href="assets/lab-page-20260827-v2.css?v=20260827-1945">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#052426">
 <meta property="og:type" content="website">
@@ -58,15 +58,15 @@
     </div>
 
     <div class="filter-bar reveal" role="group" aria-label="Filter Kubernetes lab modules">
-      <button class="filter active" data-filter="all">All</button>
-      <button class="filter" data-filter="workloads">Workloads &amp; Configuration</button>
-      <button class="filter" data-filter="networking">Networking</button>
-      <button class="filter" data-filter="security">Security</button>
-      <button class="filter" data-filter="operations">Operations</button>
+      <button class="filter active" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter" data-filter="workloads" aria-pressed="false">Workloads &amp; Configuration</button>
+      <button class="filter" data-filter="networking" aria-pressed="false">Networking</button>
+      <button class="filter" data-filter="security" aria-pressed="false">Security</button>
+      <button class="filter" data-filter="operations" aria-pressed="false">Operations</button>
     </div>
 
-    <div class="lab-curriculum-grid project-grid">
-      <article class="card lab-topic-card project-card reveal" data-category="workloads">
+    <div class="lab-curriculum-grid">
+      <article class="card lab-topic-card reveal" data-category="workloads">
         <span class="lab-topic-no">01</span>
         <span class="kicker">Workloads</span>
         <h3>Pods, Deployments &amp; Controllers</h3>
@@ -74,7 +74,7 @@
         <div class="tags"><span class="tag">Pods</span><span class="tag">Deployments</span><span class="tag">ReplicaSets</span></div>
       </article>
 
-      <article class="card lab-topic-card project-card reveal" data-category="networking">
+      <article class="card lab-topic-card reveal" data-category="networking">
         <span class="lab-topic-no">02</span>
         <span class="kicker">Services</span>
         <h3>Services &amp; Load Balancing</h3>
@@ -82,7 +82,7 @@
         <div class="tags"><span class="tag">Services</span><span class="tag">ClusterIP</span><span class="tag">LoadBalancer</span></div>
       </article>
 
-      <article class="card lab-topic-card project-card reveal" data-category="workloads">
+      <article class="card lab-topic-card reveal" data-category="workloads">
         <span class="lab-topic-no">03</span>
         <span class="kicker">Configuration</span>
         <h3>ConfigMaps &amp; Secrets</h3>
@@ -90,7 +90,7 @@
         <div class="tags"><span class="tag">ConfigMaps</span><span class="tag">Secrets</span><span class="tag">Environment Variables</span></div>
       </article>
 
-      <article class="card lab-topic-card project-card reveal" data-category="workloads">
+      <article class="card lab-topic-card reveal" data-category="workloads">
         <span class="lab-topic-no">04</span>
         <span class="kicker">Storage</span>
         <h3>Persistent Kubernetes Storage</h3>
@@ -98,7 +98,7 @@
         <div class="tags"><span class="tag">PV</span><span class="tag">PVC</span><span class="tag">StorageClasses</span></div>
       </article>
 
-      <article class="card lab-topic-card project-card reveal" data-category="networking">
+      <article class="card lab-topic-card reveal" data-category="networking">
         <span class="lab-topic-no">05</span>
         <span class="kicker">Networking</span>
         <h3>Networking, DNS &amp; NetworkPolicies</h3>
@@ -106,7 +106,7 @@
         <div class="tags"><span class="tag">DNS</span><span class="tag">CNI</span><span class="tag">NetworkPolicies</span></div>
       </article>
 
-      <article class="card lab-topic-card project-card reveal" data-category="networking">
+      <article class="card lab-topic-card reveal" data-category="networking">
         <span class="lab-topic-no">06</span>
         <span class="kicker">External Access</span>
         <h3>Ingress &amp; External Access</h3>
@@ -114,7 +114,7 @@
         <div class="tags"><span class="tag">Ingress</span><span class="tag">TLS</span><span class="tag">Routing</span></div>
       </article>
 
-      <article class="card lab-topic-card project-card reveal" data-category="security">
+      <article class="card lab-topic-card reveal" data-category="security">
         <span class="lab-topic-no">07</span>
         <span class="kicker">Security</span>
         <h3>RBAC, ServiceAccounts &amp; Pod Security</h3>
@@ -122,7 +122,7 @@
         <div class="tags"><span class="tag">RBAC</span><span class="tag">ServiceAccounts</span><span class="tag">Pod Security</span></div>
       </article>
 
-      <article class="card lab-topic-card project-card reveal" data-category="security">
+      <article class="card lab-topic-card reveal" data-category="security">
         <span class="lab-topic-no">08</span>
         <span class="kicker">Policy</span>
         <h3>Kyverno &amp; Policy Enforcement</h3>
@@ -130,7 +130,7 @@
         <div class="tags"><span class="tag">Kyverno</span><span class="tag">OPA Gatekeeper</span><span class="tag">Policies</span></div>
       </article>
 
-      <article class="card lab-topic-card project-card reveal" data-category="operations">
+      <article class="card lab-topic-card reveal" data-category="operations">
         <span class="lab-topic-no">09</span>
         <span class="kicker">Scheduling</span>
         <h3>Scheduling &amp; Node Operations</h3>
@@ -138,7 +138,7 @@
         <div class="tags"><span class="tag">Scheduling</span><span class="tag">Taints</span><span class="tag">Nodes</span></div>
       </article>
 
-      <article class="card lab-topic-card project-card reveal" data-category="operations">
+      <article class="card lab-topic-card reveal" data-category="operations">
         <span class="lab-topic-no">10</span>
         <span class="kicker">Observability</span>
         <h3>Logs, Events &amp; Debugging</h3>
@@ -146,7 +146,7 @@
         <div class="tags"><span class="tag">Metrics</span><span class="tag">Logs</span><span class="tag">Events</span></div>
       </article>
 
-      <article class="card lab-topic-card project-card reveal" data-category="networking">
+      <article class="card lab-topic-card reveal" data-category="networking">
         <span class="lab-topic-no">11</span>
         <span class="kicker">Service Mesh</span>
         <h3>Service Mesh with Istio</h3>
@@ -154,7 +154,7 @@
         <div class="tags"><span class="tag">Istio</span><span class="tag">Kiali</span><span class="tag">mTLS</span></div>
       </article>
 
-      <article class="card lab-topic-card project-card reveal" data-category="operations">
+      <article class="card lab-topic-card reveal" data-category="operations">
         <span class="lab-topic-no">12</span>
         <span class="kicker">Administration</span>
         <h3>Kubernetes Dashboard &amp; Cluster Administration</h3>
@@ -218,5 +218,6 @@
   </div>
 </div>
 <script src="assets/script.js"></script>
+<script src="assets/lab-filter-20260827.js?v=20260827-1945"></script>
 </body>
 </html>
