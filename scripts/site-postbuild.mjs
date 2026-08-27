@@ -13,14 +13,16 @@ let home = await fs.readFile(homepage, 'utf8');
 // main runtime script. The custom domain must not be able to reuse an older
 // script that rewrites the generated homepage after load.
 home = home
-  .replaceAll('/assets/home-content-20260827.css', '/assets/home-content-20260827-v5.css')
-  .replaceAll('assets/home-content-20260827.css', 'assets/home-content-20260827-v5.css')
-  .replaceAll('/assets/home-content-20260827-v2.css', '/assets/home-content-20260827-v5.css')
-  .replaceAll('assets/home-content-20260827-v2.css', 'assets/home-content-20260827-v5.css')
-  .replaceAll('/assets/home-content-20260827-v3.css', '/assets/home-content-20260827-v5.css')
-  .replaceAll('assets/home-content-20260827-v3.css', 'assets/home-content-20260827-v5.css')
-  .replaceAll('/assets/home-content-20260827-v4.css', '/assets/home-content-20260827-v5.css')
-  .replaceAll('assets/home-content-20260827-v4.css', 'assets/home-content-20260827-v5.css')
+  .replaceAll('/assets/home-content-20260827.css', '/assets/home-content-20260827-v6.css')
+  .replaceAll('assets/home-content-20260827.css', 'assets/home-content-20260827-v6.css')
+  .replaceAll('/assets/home-content-20260827-v2.css', '/assets/home-content-20260827-v6.css')
+  .replaceAll('assets/home-content-20260827-v2.css', 'assets/home-content-20260827-v6.css')
+  .replaceAll('/assets/home-content-20260827-v3.css', '/assets/home-content-20260827-v6.css')
+  .replaceAll('assets/home-content-20260827-v3.css', 'assets/home-content-20260827-v6.css')
+  .replaceAll('/assets/home-content-20260827-v4.css', '/assets/home-content-20260827-v6.css')
+  .replaceAll('assets/home-content-20260827-v4.css', 'assets/home-content-20260827-v6.css')
+  .replaceAll('/assets/home-content-20260827-v5.css', '/assets/home-content-20260827-v6.css')
+  .replaceAll('assets/home-content-20260827-v5.css', 'assets/home-content-20260827-v6.css')
   .replace(/assets\/script\.js(?:\?v=[^"']+)?/g, 'assets/script.js?v=20260827-04')
   .replace(/<span class="kicker">Engineering articles<\/span>/gi, '<span class="kicker">Articles</span>');
 
@@ -80,7 +82,7 @@ const requiredHomepageCopy = [
   '<span>Implementation</span>',
   '<span>Challenges &amp; solutions</span>',
   'assets/script.js?v=20260827-04',
-  'home-content-20260827-v5.css'
+  'home-content-20260827-v6.css'
 ];
 for (const phrase of requiredHomepageCopy) {
   if (!home.includes(phrase)) {
@@ -118,4 +120,4 @@ lab = lab
   .replaceAll('/assets/lab-page-20260827.css', '/assets/lab-page-20260827-v2.css');
 await fs.writeFile(labPage, lab);
 
-console.log('Applied final homepage wording, centred fading tools rail, cache-busted runtime, and Lab output.');
+console.log('Applied final homepage wording, seamless centred tools rail, cache-busted runtime, and Lab output.');
