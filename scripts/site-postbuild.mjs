@@ -9,12 +9,17 @@ const dist = path.join(root, 'dist');
 const homepage = path.join(dist, 'index.html');
 let home = await fs.readFile(homepage, 'utf8');
 
-// Always load the newest homepage refinement stylesheet.
+// Always load the newest homepage refinement stylesheet and a fresh copy of the
+// main runtime script. The custom domain must not be able to reuse an older
+// script that rewrites the generated homepage after load.
 home = home
-  .replaceAll('/assets/home-content-20260827.css', '/assets/home-content-20260827-v3.css')
-  .replaceAll('assets/home-content-20260827.css', 'assets/home-content-20260827-v3.css')
-  .replaceAll('/assets/home-content-20260827-v2.css', '/assets/home-content-20260827-v3.css')
-  .replaceAll('assets/home-content-20260827-v2.css', 'assets/home-content-20260827-v3.css')
+  .replaceAll('/assets/home-content-20260827.css', '/assets/home-content-20260827-v4.css')
+  .replaceAll('assets/home-content-20260827.css', 'assets/home-content-20260827-v4.css')
+  .replaceAll('/assets/home-content-20260827-v2.css', '/assets/home-content-20260827-v4.css')
+  .replaceAll('assets/home-content-20260827-v2.css', 'assets/home-content-20260827-v4.css')
+  .replaceAll('/assets/home-content-20260827-v3.css', '/assets/home-content-20260827-v4.css')
+  .replaceAll('assets/home-content-20260827-v3.css', 'assets/home-content-20260827-v4.css')
+  .replace(/assets\/script\.js(?:\?v=[^"']+)?/g, 'assets/script.js?v=20260827-04')
   .replace(/<span class="kicker">Engineering articles<\/span>/gi, '<span class="kicker">Articles</span>');
 
 // Replace the old project-process wording field-by-field. These exact fallbacks
@@ -58,7 +63,9 @@ for (const phrase of forbiddenHomepageCopy) {
 const requiredHomepageCopy = [
   'Project process',
   'How each project is structured.',
-  'Each project provides an Overview, architectural design, how it was implemented and how challenges were resolved.'
+  'Each project provides an Overview, architectural design, how it was implemented and how challenges were resolved.',
+  'assets/script.js?v=20260827-04',
+  'home-content-20260827-v4.css'
 ];
 for (const phrase of requiredHomepageCopy) {
   if (!home.includes(phrase)) {
@@ -96,4 +103,4 @@ lab = lab
   .replaceAll('/assets/lab-page-20260827.css', '/assets/lab-page-20260827-v2.css');
 await fs.writeFile(labPage, lab);
 
-console.log('Applied deterministic homepage wording, removed legacy runtime overrides, and refined rail/Lab output.');
+console.log('Applied deterministic homepage wording, cache-busted runtime, and refined rail/Lab output.');
