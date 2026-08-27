@@ -1,0 +1,112 @@
+/* Homepage refinements — 27 Aug 2026 v4.
+   Scope: CloudCaive-style tools rail, Kubernetes Lab animation and project process. */
+
+/* Full-width DevOps tools rail. No boxed strip: transparent background, no hard
+   borders, and a long viewport-edge fade so the logos appear to enter/leave the
+   page naturally like the CloudCaive reference. */
+body[data-page="home"] .tool-marquee{
+  width:100vw !important;
+  margin:0 calc(50% - 50vw) !important;
+  overflow:hidden;
+  background:transparent !important;
+  border:0 !important;
+  padding-block:4px;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 14%,#000 86%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,#000 14%,#000 86%,transparent 100%);
+}
+body[data-page="home"] .tool-fade{display:none !important}
+body[data-page="home"] .tool-track{
+  min-width:100%;
+  animation-duration:46s;
+}
+body[data-page="home"] .tool{
+  width:132px;
+  min-height:76px;
+  gap:6px;
+}
+body[data-page="home"] .tool img{
+  width:32px;
+  height:32px;
+}
+body[data-page="home"] .tool span{
+  font-size:11px;
+}
+
+/* Keep the next section close enough that the rail reads as part of the hero,
+   not as a separate oversized band. */
+body[data-page="home"] .evidence-section{
+  padding-top:46px !important;
+}
+
+/* Four representative Kubernetes lab areas. */
+body[data-page="home"] #lab .lab-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+}
+body[data-page="home"] #lab .lab-card{
+  min-height:230px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+body[data-page="home"] #lab .lab-card>.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
+}
+body[data-page="home"] #lab .lab-card>.kicker::after{
+  content:"";
+  width:34px;
+  height:1px;
+  background:linear-gradient(90deg,var(--orange),transparent);
+  transform-origin:left center;
+  animation:labKickerSignal 2.2s ease-in-out infinite;
+}
+body[data-page="home"] #lab .lab-card:nth-child(2)>.kicker::after{animation-delay:.25s}
+body[data-page="home"] #lab .lab-card:nth-child(3)>.kicker::after{animation-delay:.5s}
+body[data-page="home"] #lab .lab-card:nth-child(4)>.kicker::after{animation-delay:.75s}
+@keyframes labKickerSignal{
+  0%,100%{opacity:.28;transform:scaleX(.35)}
+  50%{opacity:1;transform:scaleX(1)}
+}
+body[data-page="home"] #lab .lab-card p{flex:1}
+body[data-page="home"] #lab .lab-card .tags{margin-top:16px}
+body[data-page="home"] #lab .lab-card .tag{font-size:10px}
+body[data-page="home"] .lab-section-cta{
+  margin-top:22px;
+  display:flex;
+  justify-content:flex-start;
+}
+
+/* Four clear stages in the project-process card. */
+body[data-page="home"] .evidence-principle .principle-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+body[data-page="home"] .evidence-principle .principle-item{min-height:58px}
+
+@media(max-width:820px){
+  body[data-page="home"] .tool-marquee{
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 8%,#000 92%,transparent 100%);
+    mask-image:linear-gradient(90deg,transparent 0%,#000 8%,#000 92%,transparent 100%);
+  }
+  body[data-page="home"] .tool{
+    width:112px;
+    min-height:72px;
+  }
+  body[data-page="home"] .evidence-section{padding-top:40px !important}
+  body[data-page="home"] #lab .lab-grid{grid-template-columns:1fr}
+  body[data-page="home"] #lab .lab-card{min-height:0}
+}
+
+@media(max-width:430px){
+  body[data-page="home"] .evidence-principle .principle-grid{grid-template-columns:1fr}
+}
+
+@media(prefers-reduced-motion:reduce){
+  body[data-page="home"] #lab .lab-card>.kicker::after{
+    animation:none;
+    opacity:.65;
+    transform:none;
+  }
+}
