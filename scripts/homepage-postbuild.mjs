@@ -16,10 +16,10 @@ html = html
   .replaceAll('features.css?v=20260820-01', 'features.css?v=20260826-03')
   .replaceAll('features.js?v=20260820-01', 'features.js?v=20260826-03');
 
-// Replace the previous homepage-only refinement stylesheet with the current
-// version. A new filename avoids reusing a cached architecture layout.
+// Replace homepage-only refinement stylesheets with the current versions.
 html = html.replace(/\s*<link rel="stylesheet" href="\/assets\/home-projects-20260826(?:-v2)?\.css">\n?/g, '\n');
-html = html.replace('</head>', '  <link rel="stylesheet" href="/assets/home-projects-20260826-v2.css">\n</head>');
+html = html.replace(/\s*<link rel="stylesheet" href="\/assets\/home-content-20260827\.css">\n?/g, '\n');
+html = html.replace('</head>', '  <link rel="stylesheet" href="/assets/home-projects-20260826-v2.css">\n  <link rel="stylesheet" href="/assets/home-content-20260827.css">\n</head>');
 
 html = html
   .replace(
@@ -66,5 +66,70 @@ html = html.replace(
   }
 );
 
+// Homepage Kubernetes Lab: show four representative areas and link to the full lab curriculum.
+html = html.replace(
+  /<section id="lab" class="lab-section">[\s\S]*?<\/section>/,
+  `<section id="lab" class="lab-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="kicker">DevOps Lab</span>
+        <h2>Kubernetes hands-on Lab</h2>
+        <p class="intro">Practical K8s labs covering workloads, networking, storage, security, observability and cluster operations.</p>
+      </div>
+    </div>
+    <div class="lab-grid">
+      <article class="lab-card card reveal">
+        <span class="kicker">Workloads</span>
+        <h3>Pods, Deployments & Controllers</h3>
+        <p>Pods, Deployments, ReplicaSets, controllers, rolling updates and workload management.</p>
+        <div class="tags"><span class="tag">Pods</span><span class="tag">Deployments</span><span class="tag">ReplicaSets</span></div>
+      </article>
+      <article class="lab-card card reveal">
+        <span class="kicker">Networking</span>
+        <h3>Services, Ingress & Networking</h3>
+        <p>Service discovery, load balancing, DNS, Ingress, network policies and external access.</p>
+        <div class="tags"><span class="tag">Services</span><span class="tag">Ingress</span><span class="tag">DNS</span></div>
+      </article>
+      <article class="lab-card card reveal">
+        <span class="kicker">Security</span>
+        <h3>Security & Policy Management</h3>
+        <p>RBAC, ServiceAccounts, pod security, NetworkPolicies and policy enforcement with Kyverno.</p>
+        <div class="tags"><span class="tag">RBAC</span><span class="tag">Kyverno</span><span class="tag">NetworkPolicies</span></div>
+      </article>
+      <article class="lab-card card reveal">
+        <span class="kicker">Operations</span>
+        <h3>Observability & Cluster Operations</h3>
+        <p>Logs, metrics, events, debugging, scheduling, node maintenance and workload monitoring.</p>
+        <div class="tags"><span class="tag">Observability</span><span class="tag">Nodes</span><span class="tag">Troubleshooting</span></div>
+      </article>
+    </div>
+    <div class="lab-section-cta reveal"><a class="card-link" href="lab.html">Explore Kubernetes Lab <span>↗</span></a></div>
+  </div>
+</section>`
+);
+
+// Replace the ambiguous Engineering Approach card with a direct description of
+// how each project case study is structured.
+html = html.replace(
+  /<article class="evidence-principle card reveal">[\s\S]*?<\/article>/,
+  `<article class="evidence-principle card reveal">
+    <span class="kicker">Project process</span>
+    <h2>How I work through a project.</h2>
+    <p class="intro compact-intro">Each case study covers the goal, the design, how I built it and the problems I solved along the way.</p>
+    <div class="principle-grid">
+      <div class="principle-item micro-reveal"><strong>01</strong><span>Objectives</span></div>
+      <div class="principle-item micro-reveal"><strong>02</strong><span>System design</span></div>
+      <div class="principle-item micro-reveal"><strong>03</strong><span>Execution</span></div>
+      <div class="principle-item micro-reveal"><strong>04</strong><span>Challenges &amp; solutions</span></div>
+    </div>
+    <a class="card-link" href="projects.html">View projects <span>↗</span></a>
+  </article>`
+);
+
+// The portfolio already demonstrates this through projects, labs and articles;
+// remove the redundant marketing-style CTA.
+html = html.replace(/<section class="home-cta">[\s\S]*?<\/section>\s*/g, '');
+
 await fs.writeFile(homepage, html);
-console.log('Applied final homepage featured-project layout, architecture spacing and cache-busting.');
+console.log('Applied final homepage project, Kubernetes Lab and project-process refinements.');
