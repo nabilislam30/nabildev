@@ -55,11 +55,34 @@ body[data-page="lab"] .lab-topic-card p{
 body[data-page="lab"] .lab-topic-card .tags{
   margin-top:auto;
   padding-top:22px;
+  display:flex;
+  flex-wrap:wrap;
   gap:7px;
 }
 body[data-page="lab"] .lab-topic-card .tag{
+  display:inline-flex;
+  align-items:center;
+  min-height:32px;
+  padding:7px 11px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:color-mix(in srgb,var(--panel) 35%,transparent);
+  color:var(--muted);
   font-size:10px;
   line-height:1.2;
+  cursor:pointer;
+  transition:transform 180ms ease,border-color 180ms ease,background-color 180ms ease,box-shadow 180ms ease,color 180ms ease;
+}
+
+/* Clear hover highlight: subtle lift + visible teal/green state. */
+body[data-page="lab"] .lab-topic-card .tag:hover,
+body[data-page="lab"] .lab-topic-card .tag:focus-visible{
+  transform:translateY(-1px);
+  color:var(--text);
+  border-color:var(--green);
+  background:color-mix(in srgb,var(--green) 18%,var(--panel));
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 24%,transparent),0 0 18px color-mix(in srgb,var(--green) 34%,transparent);
+  outline:none;
 }
 body[data-page="lab"] .lab-note{
   margin-top:32px;
@@ -97,4 +120,7 @@ body[data-page="lab"] .lab-note p{
     top:22px;
     right:20px;
   }
+}
+@media(prefers-reduced-motion:reduce){
+  body[data-page="lab"] .lab-topic-card .tag{transition:none}
 }
