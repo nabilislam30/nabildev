@@ -1,79 +1,123 @@
 @import url("lab-page-20260827-v2.css");
 
-/* Four large Kubernetes group cards in the same two-column rhythm as Projects. */
+/* Group the Kubernetes topics without turning each group into one oversized card. */
 body[data-page="lab"] .lab-groups-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:20px;
-  align-items:stretch;
-}
-body[data-page="lab"] .lab-group-card{
-  position:relative;
-  padding:32px 34px 28px;
   display:flex;
   flex-direction:column;
-  min-width:0;
+  gap:38px;
 }
-body[data-page="lab"] .lab-group-no{
-  position:absolute;
-  top:28px;
-  right:30px;
-  color:color-mix(in srgb,var(--text) 12%,transparent);
-  font:900 34px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+
+body[data-page="lab"] .lab-group-card{
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  overflow:visible !important;
 }
-body[data-page="lab"] .lab-group-card>.kicker{
-  display:block;
-  margin:0 64px 10px 0;
-}
-body[data-page="lab"] .lab-group-card>h3{
-  margin:0 64px 10px 0;
-  font-size:clamp(27px,2.4vw,34px);
-  line-height:1.05;
-}
+
+body[data-page="lab"] .lab-group-card>.kicker,
+body[data-page="lab"] .lab-group-no,
 body[data-page="lab"] .lab-group-summary{
-  max-width:560px;
-  margin:0;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.6;
+  display:none !important;
 }
-body[data-page="lab"] .lab-group-items{
-  margin-top:24px;
-  border-top:1px solid var(--line);
-}
-body[data-page="lab"] .lab-group-item{
-  padding:20px 0 19px;
-  border-bottom:1px solid var(--line);
-}
-body[data-page="lab"] .lab-group-item:last-child{
-  padding-bottom:4px;
-  border-bottom:0;
-}
-body[data-page="lab"] .lab-item-title{
-  display:grid;
-  grid-template-columns:34px minmax(0,1fr);
-  gap:10px;
-  align-items:start;
-}
-body[data-page="lab"] .lab-module-no{
-  padding-top:3px;
-  color:var(--orange);
-  font:900 11px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace;
-}
-body[data-page="lab"] .lab-item-title h4{
-  margin:0;
-  font-size:18px;
+
+body[data-page="lab"] .lab-group-card>h3{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:0 0 16px !important;
+  font-size:20px;
   line-height:1.2;
   letter-spacing:-.025em;
 }
+body[data-page="lab"] .lab-group-card>h3::after{
+  content:"";
+  width:54px;
+  height:1px;
+  background:linear-gradient(90deg,var(--orange),transparent);
+  opacity:.62;
+}
+
+body[data-page="lab"] .lab-group-items{
+  display:grid;
+  gap:20px;
+  margin:0 !important;
+  border:0 !important;
+}
+
+body[data-page="lab"] .lab-group-card:nth-child(1) .lab-group-items,
+body[data-page="lab"] .lab-group-card:nth-child(4) .lab-group-items{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+body[data-page="lab"] .lab-group-card:nth-child(2) .lab-group-items,
+body[data-page="lab"] .lab-group-card:nth-child(3) .lab-group-items{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+body[data-page="lab"] .lab-group-item{
+  position:relative;
+  min-height:275px;
+  padding:28px 30px 26px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  border:1px solid var(--line) !important;
+  border-radius:18px;
+  background:var(--panel);
+  box-shadow:var(--shadow);
+}
+
+body[data-page="lab"] .lab-group-item::before{
+  display:block;
+  margin:0 44px 12px 0;
+  color:var(--orange);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+body[data-page="lab"] .lab-group-card:nth-child(1) .lab-group-item:nth-child(1)::before{content:"Workloads"}
+body[data-page="lab"] .lab-group-card:nth-child(1) .lab-group-item:nth-child(2)::before{content:"Configuration"}
+body[data-page="lab"] .lab-group-card:nth-child(1) .lab-group-item:nth-child(3)::before{content:"Storage"}
+body[data-page="lab"] .lab-group-card:nth-child(2) .lab-group-item:nth-child(1)::before{content:"Services"}
+body[data-page="lab"] .lab-group-card:nth-child(2) .lab-group-item:nth-child(2)::before{content:"Networking"}
+body[data-page="lab"] .lab-group-card:nth-child(2) .lab-group-item:nth-child(3)::before{content:"External access"}
+body[data-page="lab"] .lab-group-card:nth-child(2) .lab-group-item:nth-child(4)::before{content:"Service mesh"}
+body[data-page="lab"] .lab-group-card:nth-child(3) .lab-group-item:nth-child(1)::before{content:"Security"}
+body[data-page="lab"] .lab-group-card:nth-child(3) .lab-group-item:nth-child(2)::before{content:"Policy"}
+body[data-page="lab"] .lab-group-card:nth-child(4) .lab-group-item:nth-child(1)::before{content:"Scheduling"}
+body[data-page="lab"] .lab-group-card:nth-child(4) .lab-group-item:nth-child(2)::before{content:"Observability"}
+body[data-page="lab"] .lab-group-card:nth-child(4) .lab-group-item:nth-child(3)::before{content:"Administration"}
+
+body[data-page="lab"] .lab-item-title{
+  display:block !important;
+  width:100%;
+}
+body[data-page="lab"] .lab-module-no{
+  position:absolute;
+  top:25px;
+  right:26px;
+  padding:0;
+  color:color-mix(in srgb,var(--text) 13%,transparent);
+  font:900 30px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+body[data-page="lab"] .lab-item-title h4{
+  margin:0 44px 12px 0;
+  font-size:22px;
+  line-height:1.16;
+  letter-spacing:-.025em;
+}
 body[data-page="lab"] .lab-group-item p{
-  margin:8px 0 0 44px;
+  margin:0 !important;
   color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
+  font-size:14px;
+  line-height:1.65;
+  flex:1;
 }
 body[data-page="lab"] .lab-group-item .tags{
-  margin:13px 0 0 44px;
+  margin:0 !important;
+  padding-top:22px;
   gap:7px;
 }
 body[data-page="lab"] .lab-group-item .tag{
@@ -82,47 +126,40 @@ body[data-page="lab"] .lab-group-item .tag{
   cursor:default;
   transition:transform 180ms ease,border-color 180ms ease,background 180ms ease,box-shadow 180ms ease,color 180ms ease;
 }
+
 @media (hover:hover) and (pointer:fine){
   body[data-page="lab"] .lab-group-item .tag:hover{
     transform:translateY(-1px);
     color:var(--text);
-    border-color:color-mix(in srgb,var(--green) 58%,var(--line));
-    background:color-mix(in srgb,var(--green) 10%,var(--panel));
-    box-shadow:0 0 14px color-mix(in srgb,var(--green) 22%,transparent);
-  }
-  html[data-theme="light"] body[data-page="lab"] .lab-group-item .tag:hover{
-    border-color:color-mix(in srgb,var(--green) 44%,var(--line));
-    background:color-mix(in srgb,var(--green) 7%,#fff);
-    box-shadow:0 0 12px color-mix(in srgb,var(--green) 14%,transparent);
+    border-color:color-mix(in srgb,var(--green) 52%,var(--line));
+    background:color-mix(in srgb,var(--green) 9%,transparent);
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 10%,transparent),0 0 14px color-mix(in srgb,var(--green) 18%,transparent);
   }
 }
-@media(max-width:900px){
-  body[data-page="lab"] .lab-groups-grid{
-    grid-template-columns:1fr;
+
+@media(max-width:1000px){
+  body[data-page="lab"] .lab-group-card:nth-child(n) .lab-group-items{
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
+
 @media(max-width:650px){
-  body[data-page="lab"] .lab-group-card{
-    padding:26px 22px 22px;
+  body[data-page="lab"] .lab-groups-grid{gap:30px}
+  body[data-page="lab"] .lab-group-card>h3{margin-bottom:13px !important}
+  body[data-page="lab"] .lab-group-card:nth-child(n) .lab-group-items{
+    grid-template-columns:1fr;
+    gap:14px;
   }
-  body[data-page="lab"] .lab-group-no{
-    top:24px;
+  body[data-page="lab"] .lab-group-item{
+    min-height:0;
+    padding:24px 22px;
+  }
+  body[data-page="lab"] .lab-module-no{
+    top:22px;
     right:20px;
-    font-size:28px;
-  }
-  body[data-page="lab"] .lab-group-card>.kicker,
-  body[data-page="lab"] .lab-group-card>h3{
-    margin-right:52px;
-  }
-  body[data-page="lab"] .lab-group-item p,
-  body[data-page="lab"] .lab-group-item .tags{
-    margin-left:0;
-  }
-  body[data-page="lab"] .lab-item-title{
-    grid-template-columns:30px minmax(0,1fr);
-    gap:8px;
   }
 }
+
 @media(prefers-reduced-motion:reduce){
   body[data-page="lab"] .lab-group-item .tag{transition:none}
 }
