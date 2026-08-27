@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.mjs && node scripts/homepage-postbuild.mjs && node scripts/site-postbuild.mjs && pagefind --site dist --root-selector main --exclude-selectors \".command-backdrop,.pointer-light,.error-page\""
+    "build": "node scripts/build.mjs && node scripts/homepage-postbuild.mjs && node scripts/site-postbuild.mjs && node scripts/lab-group-postbuild.mjs && pagefind --site dist --root-selector main --exclude-selectors \".command-backdrop,.pointer-light,.error-page\""
   },
   "devDependencies": {
     "pagefind": "1.5.2",
