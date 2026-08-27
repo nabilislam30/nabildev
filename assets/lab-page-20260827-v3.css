@@ -1,0 +1,79 @@
+@import url("lab-page-20260827-v2.css");
+
+/* Kubernetes Lab grouping — 27 Aug 2026 v3 */
+body[data-page="lab"] .lab-groups{
+  display:flex;
+  flex-direction:column;
+  gap:46px;
+}
+
+body[data-page="lab"] .lab-topic-group{
+  min-width:0;
+}
+
+body[data-page="lab"] .lab-group-heading{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:0 0 16px;
+}
+
+body[data-page="lab"] .lab-group-heading h3{
+  margin:0;
+  font-size:20px;
+  line-height:1.2;
+  letter-spacing:-.025em;
+}
+
+body[data-page="lab"] .lab-group-heading::after{
+  content:"";
+  width:54px;
+  height:1px;
+  background:linear-gradient(90deg,var(--orange),transparent);
+  opacity:.55;
+}
+
+body[data-page="lab"] .lab-topic-group[data-group="networking"] .lab-curriculum-grid,
+body[data-page="lab"] .lab-topic-group[data-group="security"] .lab-curriculum-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+/* Pills stay quiet until the user interacts with them. */
+body[data-page="lab"] .lab-topic-card .tag{
+  transition:transform 180ms ease,
+             border-color 180ms ease,
+             background 180ms ease,
+             box-shadow 180ms ease,
+             color 180ms ease;
+}
+
+@media (hover:hover) and (pointer:fine){
+  body[data-page="lab"] .lab-topic-card .tag:hover{
+    transform:translateY(-1px);
+    color:var(--text);
+    border-color:color-mix(in srgb,var(--green) 48%,var(--line));
+    background:color-mix(in srgb,var(--green) 9%,transparent);
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 12%,transparent),
+               0 0 16px color-mix(in srgb,var(--green) 20%,transparent);
+  }
+}
+
+@media(max-width:1000px){
+  body[data-page="lab"] .lab-topic-group[data-group="networking"] .lab-curriculum-grid,
+  body[data-page="lab"] .lab-topic-group[data-group="security"] .lab-curriculum-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:650px){
+  body[data-page="lab"] .lab-groups{gap:34px}
+  body[data-page="lab"] .lab-group-heading{margin-bottom:13px}
+  body[data-page="lab"] .lab-topic-group[data-group="networking"] .lab-curriculum-grid,
+  body[data-page="lab"] .lab-topic-group[data-group="security"] .lab-curriculum-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  body[data-page="lab"] .lab-topic-card .tag{transition:none}
+}
