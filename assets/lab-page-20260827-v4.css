@@ -1,13 +1,36 @@
-@import url("lab-page-20260827-v2.css");
+/* Kubernetes Lab — self-contained layout override, 27 Aug 2026 v4 */
 
-/* Group the Kubernetes topics without turning each group into one oversized card. */
-body[data-page="lab"] .lab-groups-grid{
-  display:flex;
-  flex-direction:column;
-  gap:38px;
+body[data-page="lab"] .lab-page{
+  padding:72px 0 96px;
 }
 
-body[data-page="lab"] .lab-group-card{
+body[data-page="lab"] .lab-overview{
+  margin-bottom:36px;
+}
+
+body[data-page="lab"] .lab-overview h2{
+  margin:8px 0 12px;
+  font-size:clamp(34px,4vw,52px);
+  line-height:1.04;
+}
+
+body[data-page="lab"] .lab-overview p{
+  max-width:780px;
+  margin:0;
+  color:var(--muted);
+}
+
+/* Keep the topic groups, but do not render each group as one oversized card. */
+body[data-page="lab"] .lab-groups-grid{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:38px !important;
+}
+
+body[data-page="lab"] .lab-group-card,
+body[data-page="lab"] article.card.lab-group-card{
+  display:block !important;
+  min-height:0 !important;
   padding:0 !important;
   border:0 !important;
   border-radius:0 !important;
@@ -16,22 +39,23 @@ body[data-page="lab"] .lab-group-card{
   overflow:visible !important;
 }
 
-body[data-page="lab"] .lab-group-card>.kicker,
-body[data-page="lab"] .lab-group-no,
-body[data-page="lab"] .lab-group-summary{
+body[data-page="lab"] .lab-group-card > .kicker,
+body[data-page="lab"] .lab-group-card > .lab-group-no,
+body[data-page="lab"] .lab-group-card > .lab-group-summary{
   display:none !important;
 }
 
-body[data-page="lab"] .lab-group-card>h3{
-  display:flex;
-  align-items:center;
-  gap:14px;
+body[data-page="lab"] .lab-group-card > h3{
+  display:flex !important;
+  align-items:center !important;
+  gap:14px !important;
   margin:0 0 16px !important;
-  font-size:20px;
-  line-height:1.2;
-  letter-spacing:-.025em;
+  font-size:20px !important;
+  line-height:1.2 !important;
+  letter-spacing:-.025em !important;
 }
-body[data-page="lab"] .lab-group-card>h3::after{
+
+body[data-page="lab"] .lab-group-card > h3::after{
   content:"";
   width:54px;
   height:1px;
@@ -39,34 +63,37 @@ body[data-page="lab"] .lab-group-card>h3::after{
   opacity:.62;
 }
 
+/* Individual modules use the previous Lab-card visual treatment. */
 body[data-page="lab"] .lab-group-items{
-  display:grid;
-  gap:20px;
+  display:grid !important;
+  gap:20px !important;
   margin:0 !important;
+  padding:0 !important;
   border:0 !important;
 }
 
-/* 3 / 4 / 2 / 3 topics, arranged to stay balanced and easy to scan. */
 body[data-page="lab"] .lab-group-card:nth-child(1) .lab-group-items,
 body[data-page="lab"] .lab-group-card:nth-child(4) .lab-group-items{
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
 }
+
 body[data-page="lab"] .lab-group-card:nth-child(2) .lab-group-items,
 body[data-page="lab"] .lab-group-card:nth-child(3) .lab-group-items{
-  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
 }
 
 body[data-page="lab"] .lab-group-item{
-  position:relative;
-  min-height:275px;
-  padding:28px 30px 26px;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
+  position:relative !important;
+  min-width:0 !important;
+  min-height:275px !important;
+  padding:28px 30px 26px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
   border:1px solid var(--line) !important;
-  border-radius:18px;
-  background:var(--panel);
-  box-shadow:var(--shadow);
+  border-radius:18px !important;
+  background:var(--panel) !important;
+  box-shadow:var(--shadow) !important;
 }
 
 body[data-page="lab"] .lab-group-item::before{
@@ -78,6 +105,7 @@ body[data-page="lab"] .lab-group-item::before{
   letter-spacing:.13em;
   text-transform:uppercase;
 }
+
 body[data-page="lab"] .lab-group-card:nth-child(1) .lab-group-item:nth-child(1)::before{content:"Workloads"}
 body[data-page="lab"] .lab-group-card:nth-child(1) .lab-group-item:nth-child(2)::before{content:"Configuration"}
 body[data-page="lab"] .lab-group-card:nth-child(1) .lab-group-item:nth-child(3)::before{content:"Storage"}
@@ -93,37 +121,42 @@ body[data-page="lab"] .lab-group-card:nth-child(4) .lab-group-item:nth-child(3):
 
 body[data-page="lab"] .lab-item-title{
   display:block !important;
-  width:100%;
+  width:100% !important;
 }
+
 body[data-page="lab"] .lab-module-no{
-  position:absolute;
-  top:25px;
-  right:26px;
-  padding:0;
-  color:color-mix(in srgb,var(--text) 13%,transparent);
-  font:900 30px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  position:absolute !important;
+  top:25px !important;
+  right:26px !important;
+  padding:0 !important;
+  color:color-mix(in srgb,var(--text) 13%,transparent) !important;
+  font:900 30px/1 ui-monospace,SFMono-Regular,Menlo,monospace !important;
 }
+
 body[data-page="lab"] .lab-item-title h4{
-  margin:0 44px 12px 0;
-  font-size:22px;
-  line-height:1.16;
-  letter-spacing:-.025em;
+  margin:0 44px 12px 0 !important;
+  font-size:22px !important;
+  line-height:1.16 !important;
+  letter-spacing:-.025em !important;
 }
+
 body[data-page="lab"] .lab-group-item p{
   margin:0 !important;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.65;
-  flex:1;
+  color:var(--muted) !important;
+  font-size:14px !important;
+  line-height:1.65 !important;
+  flex:1 !important;
 }
+
 body[data-page="lab"] .lab-group-item .tags{
   margin:0 !important;
-  padding-top:22px;
-  gap:7px;
+  padding-top:22px !important;
+  gap:7px !important;
 }
+
 body[data-page="lab"] .lab-group-item .tag{
-  font-size:10px;
-  line-height:1.2;
+  font-size:10px !important;
+  line-height:1.2 !important;
   cursor:default;
   transition:transform 180ms ease,border-color 180ms ease,background 180ms ease,box-shadow 180ms ease,color 180ms ease;
 }
@@ -140,24 +173,25 @@ body[data-page="lab"] .lab-group-item .tag{
 
 @media(max-width:1000px){
   body[data-page="lab"] .lab-group-card:nth-child(n) .lab-group-items{
-    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
   }
 }
 
 @media(max-width:650px){
-  body[data-page="lab"] .lab-groups-grid{gap:30px}
-  body[data-page="lab"] .lab-group-card>h3{margin-bottom:13px !important}
+  body[data-page="lab"] .lab-page{padding:54px 0 72px}
+  body[data-page="lab"] .lab-groups-grid{gap:30px !important}
+  body[data-page="lab"] .lab-group-card > h3{margin-bottom:13px !important}
   body[data-page="lab"] .lab-group-card:nth-child(n) .lab-group-items{
-    grid-template-columns:1fr;
-    gap:14px;
+    grid-template-columns:1fr !important;
+    gap:14px !important;
   }
   body[data-page="lab"] .lab-group-item{
-    min-height:0;
-    padding:24px 22px;
+    min-height:0 !important;
+    padding:24px 22px !important;
   }
   body[data-page="lab"] .lab-module-no{
-    top:22px;
-    right:20px;
+    top:22px !important;
+    right:20px !important;
   }
 }
 
