@@ -29,6 +29,13 @@ body[data-page="lab"] .lab-topic-card{
   flex-direction:column;
   align-items:flex-start;
 }
+
+/* Dedicated Lab filtering state. */
+body[data-page="lab"] .lab-topic-card.filtered-out,
+body[data-page="lab"] .lab-topic-card[hidden]{
+  display:none !important;
+}
+
 body[data-page="lab"] .lab-topic-no{
   position:absolute;
   top:25px;
