@@ -68,6 +68,27 @@ for (const phrase of requiredHomepageCopy) {
 
 await fs.writeFile(homepage, home);
 
+// Remove obsolete homepage JavaScript that used to rewrite generated content in
+// the browser after load. The build output is now the single source of truth.
+const runtimeScriptPath = path.join(dist, 'assets', 'script.js');
+let runtimeScript = await fs.readFile(runtimeScriptPath, 'utf8');
+runtimeScript = runtimeScript.replace(
+  /\/\/ Homepage — integrate the applied engineering stack directly into evidence cards\.[\s\S]*?\/\/ Back\/forward cache \+ mobile touch QA\./,
+  '// Back/forward cache + mobile touch QA.'
+);
+
+const forbiddenRuntimeCopy = [
+  "kicker.textContent = 'Engineering approach'",
+  "heading.textContent = 'From idea to implementation.'",
+  "link.textContent = 'View GitHub '"
+];
+for (const phrase of forbiddenRuntimeCopy) {
+  if (runtimeScript.includes(phrase)) {
+    throw new Error(`Runtime cleanup failed: legacy homepage override still present: ${phrase}`);
+  }
+}
+await fs.writeFile(runtimeScriptPath, runtimeScript);
+
 const labPage = path.join(dist, 'lab.html');
 let lab = await fs.readFile(labPage, 'utf8');
 lab = lab
@@ -75,4 +96,4 @@ lab = lab
   .replaceAll('/assets/lab-page-20260827.css', '/assets/lab-page-20260827-v2.css');
 await fs.writeFile(labPage, lab);
 
-console.log('Applied deterministic homepage wording, faded tools rail and Lab spacing refinements.');
+console.log('Applied deterministic homepage wording, removed legacy runtime overrides, and refined rail/Lab output.');
