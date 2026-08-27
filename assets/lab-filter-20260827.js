@@ -17,16 +17,17 @@
     cards.forEach((card) => {
       const categories = (card.dataset.category || '').split(/\s+/).filter(Boolean);
       const match = filter === 'all' || categories.includes(filter);
-      card.hidden = !match;
-      card.classList.toggle('filtered-out', !match);
 
-      if (match) {
-        card.classList.add('visible');
-      }
+      card.hidden = !match;
+      card.style.display = match ? '' : 'none';
+      card.classList.toggle('filtered-out', !match);
+      card.setAttribute('aria-hidden', String(!match));
+
+      if (match) card.classList.add('visible');
     });
   };
 
-  // Capture the Lab filter click before the generic Projects filter handler.
+  // Capture Lab clicks before the generic Projects filter handler.
   bar.addEventListener('click', (event) => {
     const button = event.target.closest('.filter[data-filter]');
     if (!button || !bar.contains(button)) return;
