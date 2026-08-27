@@ -16,13 +16,14 @@ home = home
   .replaceAll('assets/home-content-20260827.css', 'assets/home-content-20260827-v2.css')
   .replace(/<span class="kicker">Engineering articles<\/span>/gi, '<span class="kicker">Articles</span>');
 
-// Keep the project explanation direct and recruiter-readable.
+// Final authoritative replacement. Match the section by its semantic class,
+// regardless of the exact class order or which earlier build variant produced it.
 home = home.replace(
-  /<article class="evidence-principle card reveal">[\s\S]*?<\/article>/,
+  /<article[^>]*class="[^"]*evidence-principle[^"]*"[^>]*>[\s\S]*?<\/article>/i,
   `<article class="evidence-principle card reveal">
     <span class="kicker">Project process</span>
     <h2>How each project is structured.</h2>
-    <p class="intro compact-intro">Each project gives an overview, the architectural design, how it was implemented and how challenges were resolved.</p>
+    <p class="intro compact-intro">Each project provides an Overview, architectural design, how it was implemented and how challenges were resolved.</p>
     <div class="principle-grid">
       <div class="principle-item micro-reveal"><strong>01</strong><span>Objectives</span></div>
       <div class="principle-item micro-reveal"><strong>02</strong><span>System design</span></div>
@@ -44,4 +45,4 @@ lab = lab
   .replaceAll('/assets/lab-page-20260827.css', '/assets/lab-page-20260827-v2.css');
 await fs.writeFile(labPage, lab);
 
-console.log('Applied final homepage rail, Lab spacing and project/article wording refinements.');
+console.log('Applied final homepage rail, Lab spacing and authoritative project/article wording refinements.');
