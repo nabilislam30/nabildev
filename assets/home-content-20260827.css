@@ -1,10 +1,12 @@
 /* Homepage content refinements — 27 Aug 2026.
-   Scope: centred tools rail, Kubernetes Lab cards and simplified project process. */
+   Scope: Kubernetes Lab cards and simplified project process. */
 
-/* Keep the DevOps tools rail aligned to the same site container as the homepage. */
+/* Keep the original full-width DevOps tools rail. The marquee itself spans the
+   viewport so its left/right fades blend naturally into the page instead of
+   creating a boxed strip. */
 body[data-page="home"] .tool-marquee{
-  width:min(1180px,calc(100% - 42px));
-  margin-inline:auto;
+  width:100%;
+  margin-inline:0;
 }
 
 /* Four representative Kubernetes lab areas. */
@@ -42,9 +44,6 @@ body[data-page="home"] .evidence-principle .principle-item{
 }
 
 @media(max-width:820px){
-  body[data-page="home"] .tool-marquee{
-    width:min(100% - 24px,1180px);
-  }
   body[data-page="home"] #lab .lab-grid{
     grid-template-columns:1fr;
   }
