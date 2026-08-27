@@ -163,3 +163,5 @@ body[data-page="lab"] .lab-group-item .tag{
 @media(prefers-reduced-motion:reduce){
   body[data-page="lab"] .lab-group-item .tag{transition:none}
 }
+
+/* Force a fresh Pages build after the final Lab layout correction. */
