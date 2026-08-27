@@ -1,79 +1,128 @@
 @import url("lab-page-20260827-v2.css");
 
-/* Kubernetes Lab grouping — 27 Aug 2026 v3 */
-body[data-page="lab"] .lab-groups{
+/* Four large Kubernetes group cards in the same two-column rhythm as Projects. */
+body[data-page="lab"] .lab-groups-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:20px;
+  align-items:stretch;
+}
+body[data-page="lab"] .lab-group-card{
+  position:relative;
+  padding:32px 34px 28px;
   display:flex;
   flex-direction:column;
-  gap:46px;
-}
-
-body[data-page="lab"] .lab-topic-group{
   min-width:0;
 }
-
-body[data-page="lab"] .lab-group-heading{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  margin:0 0 16px;
+body[data-page="lab"] .lab-group-no{
+  position:absolute;
+  top:28px;
+  right:30px;
+  color:color-mix(in srgb,var(--text) 12%,transparent);
+  font:900 34px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
 }
-
-body[data-page="lab"] .lab-group-heading h3{
+body[data-page="lab"] .lab-group-card>.kicker{
+  display:block;
+  margin:0 64px 10px 0;
+}
+body[data-page="lab"] .lab-group-card>h3{
+  margin:0 64px 10px 0;
+  font-size:clamp(27px,2.4vw,34px);
+  line-height:1.05;
+}
+body[data-page="lab"] .lab-group-summary{
+  max-width:560px;
   margin:0;
-  font-size:20px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+}
+body[data-page="lab"] .lab-group-items{
+  margin-top:24px;
+  border-top:1px solid var(--line);
+}
+body[data-page="lab"] .lab-group-item{
+  padding:20px 0 19px;
+  border-bottom:1px solid var(--line);
+}
+body[data-page="lab"] .lab-group-item:last-child{
+  padding-bottom:4px;
+  border-bottom:0;
+}
+body[data-page="lab"] .lab-item-title{
+  display:grid;
+  grid-template-columns:34px minmax(0,1fr);
+  gap:10px;
+  align-items:start;
+}
+body[data-page="lab"] .lab-module-no{
+  padding-top:3px;
+  color:var(--orange);
+  font:900 11px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+body[data-page="lab"] .lab-item-title h4{
+  margin:0;
+  font-size:18px;
   line-height:1.2;
   letter-spacing:-.025em;
 }
-
-body[data-page="lab"] .lab-group-heading::after{
-  content:"";
-  width:54px;
-  height:1px;
-  background:linear-gradient(90deg,var(--orange),transparent);
-  opacity:.55;
+body[data-page="lab"] .lab-group-item p{
+  margin:8px 0 0 44px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
 }
-
-body[data-page="lab"] .lab-topic-group[data-group="networking"] .lab-curriculum-grid,
-body[data-page="lab"] .lab-topic-group[data-group="security"] .lab-curriculum-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
+body[data-page="lab"] .lab-group-item .tags{
+  margin:13px 0 0 44px;
+  gap:7px;
 }
-
-/* Pills stay quiet until the user interacts with them. */
-body[data-page="lab"] .lab-topic-card .tag{
-  transition:transform 180ms ease,
-             border-color 180ms ease,
-             background 180ms ease,
-             box-shadow 180ms ease,
-             color 180ms ease;
+body[data-page="lab"] .lab-group-item .tag{
+  font-size:10px;
+  line-height:1.2;
+  cursor:default;
+  transition:transform 180ms ease,border-color 180ms ease,background 180ms ease,box-shadow 180ms ease,color 180ms ease;
 }
-
 @media (hover:hover) and (pointer:fine){
-  body[data-page="lab"] .lab-topic-card .tag:hover{
+  body[data-page="lab"] .lab-group-item .tag:hover{
     transform:translateY(-1px);
     color:var(--text);
-    border-color:color-mix(in srgb,var(--green) 48%,var(--line));
-    background:color-mix(in srgb,var(--green) 9%,transparent);
-    box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 12%,transparent),
-               0 0 16px color-mix(in srgb,var(--green) 20%,transparent);
+    border-color:color-mix(in srgb,var(--green) 58%,var(--line));
+    background:color-mix(in srgb,var(--green) 10%,var(--panel));
+    box-shadow:0 0 14px color-mix(in srgb,var(--green) 22%,transparent);
+  }
+  html[data-theme="light"] body[data-page="lab"] .lab-group-item .tag:hover{
+    border-color:color-mix(in srgb,var(--green) 44%,var(--line));
+    background:color-mix(in srgb,var(--green) 7%,#fff);
+    box-shadow:0 0 12px color-mix(in srgb,var(--green) 14%,transparent);
   }
 }
-
-@media(max-width:1000px){
-  body[data-page="lab"] .lab-topic-group[data-group="networking"] .lab-curriculum-grid,
-  body[data-page="lab"] .lab-topic-group[data-group="security"] .lab-curriculum-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-}
-
-@media(max-width:650px){
-  body[data-page="lab"] .lab-groups{gap:34px}
-  body[data-page="lab"] .lab-group-heading{margin-bottom:13px}
-  body[data-page="lab"] .lab-topic-group[data-group="networking"] .lab-curriculum-grid,
-  body[data-page="lab"] .lab-topic-group[data-group="security"] .lab-curriculum-grid{
+@media(max-width:900px){
+  body[data-page="lab"] .lab-groups-grid{
     grid-template-columns:1fr;
   }
 }
-
+@media(max-width:650px){
+  body[data-page="lab"] .lab-group-card{
+    padding:26px 22px 22px;
+  }
+  body[data-page="lab"] .lab-group-no{
+    top:24px;
+    right:20px;
+    font-size:28px;
+  }
+  body[data-page="lab"] .lab-group-card>.kicker,
+  body[data-page="lab"] .lab-group-card>h3{
+    margin-right:52px;
+  }
+  body[data-page="lab"] .lab-group-item p,
+  body[data-page="lab"] .lab-group-item .tags{
+    margin-left:0;
+  }
+  body[data-page="lab"] .lab-item-title{
+    grid-template-columns:30px minmax(0,1fr);
+    gap:8px;
+  }
+}
 @media(prefers-reduced-motion:reduce){
-  body[data-page="lab"] .lab-topic-card .tag{transition:none}
+  body[data-page="lab"] .lab-group-item .tag{transition:none}
 }
