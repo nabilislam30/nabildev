@@ -22,18 +22,25 @@ home = home
   .replace(/assets\/script\.js(?:\?v=[^"']+)?/g, 'assets/script.js?v=20260827-04')
   .replace(/<span class="kicker">Engineering articles<\/span>/gi, '<span class="kicker">Articles</span>');
 
-// Replace the old project-process wording field-by-field. These exact fallbacks
-// deliberately do not depend on the entire article markup matching one regex.
+// Keep this homepage card direct and recruiter-readable regardless of which
+// earlier build layer produced the section markup.
 home = home
-  .replaceAll('<span class="kicker">Engineering approach</span>', '<span class="kicker">Project process</span>')
-  .replaceAll('<h2>From idea to implementation.</h2>', '<h2>How each project is structured.</h2>')
+  .replaceAll('<span class="kicker">Engineering approach</span>', '<span class="kicker">Projects</span>')
+  .replaceAll('<span class="kicker">Project process</span>', '<span class="kicker">Projects</span>')
+  .replaceAll('<h2>From idea to implementation.</h2>', '<h2>Inside each project.</h2>')
+  .replaceAll('<h2>How each project is structured.</h2>', '<h2>Inside each project.</h2>')
   .replaceAll(
     'Each project explains what I was trying to achieve, how I built it, what I had to troubleshoot and what I learned. The implementation is available on GitHub.',
-    'Each project provides an Overview, architectural design, how it was implemented and how challenges were resolved.'
+    'Each project provides an overview, architectural design, how it was implemented and how challenges were resolved.'
   )
-  .replaceAll('<span>Challenge</span>', '<span>Objectives</span>')
-  .replaceAll('<span>Architecture</span>', '<span>System design</span>')
-  .replaceAll('<span>Implementation</span>', '<span>Execution</span>')
+  .replaceAll(
+    'Each project provides an Overview, architectural design, how it was implemented and how challenges were resolved.',
+    'Each project provides an overview, architectural design, how it was implemented and how challenges were resolved.'
+  )
+  .replaceAll('<span>Challenge</span>', '<span>Overview</span>')
+  .replaceAll('<span>Objectives</span>', '<span>Overview</span>')
+  .replaceAll('<span>System design</span>', '<span>Architecture</span>')
+  .replaceAll('<span>Execution</span>', '<span>Implementation</span>')
   .replaceAll('<span>Troubleshooting</span>', '<span>Challenges &amp; solutions</span>')
   .replace(/<div class="principle-item micro-reveal"><strong>05<\/strong><span>Outcome<\/span><\/div>/g, '')
   .replace(/<div class="principle-item micro-reveal"><strong>06<\/strong><span>Production considerations<\/span><\/div>/g, '')
@@ -48,10 +55,12 @@ home = home
   .replace(/<section class="home-cta">[\s\S]*?<\/section>\s*/g, '')
   .replace('</div>\n</div>\n\n<section class="evidence-section">', '</div>\n\n<section class="evidence-section">');
 
-// Do not publish another build with the old project-process copy still present.
+// Do not publish another build with any superseded copy still present.
 const forbiddenHomepageCopy = [
   'Engineering approach',
+  'Project process',
   'From idea to implementation.',
+  'How each project is structured.',
   'Each project explains what I was trying to achieve, how I built it, what I had to troubleshoot and what I learned. The implementation is available on GitHub.'
 ];
 for (const phrase of forbiddenHomepageCopy) {
@@ -61,9 +70,13 @@ for (const phrase of forbiddenHomepageCopy) {
 }
 
 const requiredHomepageCopy = [
-  'Project process',
-  'How each project is structured.',
-  'Each project provides an Overview, architectural design, how it was implemented and how challenges were resolved.',
+  '<span class="kicker">Projects</span>',
+  'Inside each project.',
+  'Each project provides an overview, architectural design, how it was implemented and how challenges were resolved.',
+  '<span>Overview</span>',
+  '<span>Architecture</span>',
+  '<span>Implementation</span>',
+  '<span>Challenges &amp; solutions</span>',
   'assets/script.js?v=20260827-04',
   'home-content-20260827-v4.css'
 ];
@@ -103,4 +116,4 @@ lab = lab
   .replaceAll('/assets/lab-page-20260827.css', '/assets/lab-page-20260827-v2.css');
 await fs.writeFile(labPage, lab);
 
-console.log('Applied deterministic homepage wording, cache-busted runtime, and refined rail/Lab output.');
+console.log('Applied final homepage wording, cache-busted runtime, and refined rail/Lab output.');
