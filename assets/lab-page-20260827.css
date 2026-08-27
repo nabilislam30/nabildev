@@ -1,0 +1,80 @@
+/* Dedicated Kubernetes Lab page — 27 Aug 2026 */
+body[data-page="lab"] .lab-page{
+  padding-top:54px;
+}
+body[data-page="lab"] .lab-overview{
+  margin-bottom:34px;
+}
+body[data-page="lab"] .lab-overview h2{
+  margin:8px 0 10px;
+  font-size:clamp(34px,4vw,52px);
+  line-height:1.04;
+}
+body[data-page="lab"] .lab-overview p{
+  max-width:760px;
+  color:var(--muted);
+}
+body[data-page="lab"] .lab-curriculum-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+body[data-page="lab"] .lab-topic-card{
+  position:relative;
+  min-height:255px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+body[data-page="lab"] .lab-topic-no{
+  position:absolute;
+  top:22px;
+  right:22px;
+  color:color-mix(in srgb,var(--text) 13%,transparent);
+  font:900 30px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+body[data-page="lab"] .lab-topic-card h3{
+  margin:8px 42px 10px 0;
+  font-size:22px;
+  line-height:1.12;
+}
+body[data-page="lab"] .lab-topic-card p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.6;
+  flex:1;
+}
+body[data-page="lab"] .lab-topic-card .tags{
+  margin-top:18px;
+}
+body[data-page="lab"] .lab-topic-card .tag{
+  font-size:10px;
+}
+body[data-page="lab"] .lab-note{
+  margin-top:30px;
+  padding:24px 26px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:color-mix(in srgb,var(--panel) 34%,transparent);
+}
+body[data-page="lab"] .lab-note h3{
+  margin:6px 0 8px;
+}
+body[data-page="lab"] .lab-note p{
+  margin:0;
+  color:var(--muted);
+  max-width:820px;
+}
+@media(max-width:1000px){
+  body[data-page="lab"] .lab-curriculum-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:650px){
+  body[data-page="lab"] .lab-curriculum-grid{
+    grid-template-columns:1fr;
+  }
+  body[data-page="lab"] .lab-topic-card{
+    min-height:0;
+  }
+}
