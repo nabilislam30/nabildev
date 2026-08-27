@@ -4,22 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="A hands-on Kubernetes lab covering workloads, networking, storage, security, observability and cluster operations.">
-<title>Kubernetes Hands-on Lab — Nabil Islam</title>
+<title>Hands-on Lab — Nabil Islam</title>
 <script>(function(){try{var t=localStorage.getItem('nabil-theme');var light=t==='light'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches);if(light)document.documentElement.dataset.theme='light';}catch(e){}})();</script>
 <link rel="canonical" href="https://nabildev.com/lab.html">
 <link rel="stylesheet" href="assets/styles.css">
-<link rel="stylesheet" href="assets/lab-page-20260827.css">
+<link rel="stylesheet" href="assets/lab-page-20260827-v3.css">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#052426">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Kubernetes Hands-on Lab — Nabil Islam">
+<meta property="og:title" content="Hands-on Lab — Nabil Islam">
 <meta property="og:description" content="A hands-on Kubernetes lab covering workloads, networking, storage, security, observability and cluster operations.">
 <meta property="og:url" content="https://nabildev.com/lab.html">
 <meta property="og:image" content="https://nabildev.com/assets/social-preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Kubernetes Hands-on Lab — Nabil Islam">
+<meta name="twitter:title" content="Hands-on Lab — Nabil Islam">
 <meta name="twitter:description" content="A hands-on Kubernetes lab covering workloads, networking, storage, security, observability and cluster operations.">
 <meta name="twitter:image" content="https://nabildev.com/assets/social-preview.png">
 </head>
@@ -43,7 +43,7 @@
 <section class="page-hero page-hero-enhanced" page-hero-stable>
   <div class="container">
     <span class="kicker">DevOps Lab</span>
-    <h1>Kubernetes hands-on Lab</h1>
+    <h1>Hands-on lab</h1>
     <p>Practical K8s labs covering workloads, networking, storage, security, observability and cluster operations.</p>
     <div class="page-command" aria-hidden="true"><span>&gt;_</span> kubectl get labs</div>
   </div>
@@ -52,101 +52,107 @@
 <section class="lab-page">
   <div class="container">
     <div class="lab-overview reveal">
-      <span class="kicker">Kubernetes curriculum</span>
-      <h2>What I’m working through.</h2>
-      <p>The lab combines Kubernetes concepts with practical exercises across application workloads, cluster networking, security, troubleshooting and day-to-day operations.</p>
+      <span class="kicker">Kubernetes</span>
+      <h2>What the lab covers.</h2>
+      <p>The modules progress from core workloads to cluster operations, with configuration and troubleshooting built into each area.</p>
     </div>
 
-    <div class="lab-curriculum-grid">
-      <article class="card lab-topic-card reveal">
-        <span class="lab-topic-no">01</span><span class="kicker">Workloads</span>
-        <h3>Pods, Deployments & Controllers</h3>
-        <p>Pods, Deployments, ReplicaSets and the controllers used to run and manage Kubernetes workloads.</p>
-        <div class="tags"><span class="tag">Pods</span><span class="tag">Deployments</span><span class="tag">ReplicaSets</span></div>
+    <div class="lab-groups-grid">
+      <article class="card lab-group-card reveal">
+        <span class="lab-group-no">01</span>
+        <span class="kicker">Kubernetes</span>
+        <h3>Workloads &amp; Configuration</h3>
+        <p class="lab-group-summary">Core workloads, application configuration and persistent storage.</p>
+        <div class="lab-group-items">
+          <div class="lab-group-item">
+            <div class="lab-item-title"><span class="lab-module-no">01</span><h4>Pods, Deployments &amp; Controllers</h4></div>
+            <p>Pods, Deployments, ReplicaSets and the controllers used to run and manage Kubernetes workloads.</p>
+            <div class="tags"><span class="tag">Pods</span><span class="tag">Deployments</span><span class="tag">ReplicaSets</span></div>
+          </div>
+          <div class="lab-group-item">
+            <div class="lab-item-title"><span class="lab-module-no">03</span><h4>ConfigMaps &amp; Secrets</h4></div>
+            <p>Managing application configuration and sensitive values outside container images.</p>
+            <div class="tags"><span class="tag">ConfigMaps</span><span class="tag">Secrets</span><span class="tag">Environment Variables</span></div>
+          </div>
+          <div class="lab-group-item">
+            <div class="lab-item-title"><span class="lab-module-no">04</span><h4>Persistent Kubernetes Storage</h4></div>
+            <p>Volumes, PersistentVolumes, PersistentVolumeClaims and StorageClasses for stateful workloads.</p>
+            <div class="tags"><span class="tag">PV</span><span class="tag">PVC</span><span class="tag">StorageClasses</span></div>
+          </div>
+        </div>
       </article>
 
-      <article class="card lab-topic-card reveal">
-        <span class="lab-topic-no">02</span><span class="kicker">Services</span>
-        <h3>Services & Load Balancing</h3>
-        <p>Service discovery and stable access to workloads using ClusterIP, NodePort and LoadBalancer services.</p>
-        <div class="tags"><span class="tag">Services</span><span class="tag">ClusterIP</span><span class="tag">LoadBalancer</span></div>
+      <article class="card lab-group-card reveal">
+        <span class="lab-group-no">02</span>
+        <span class="kicker">Kubernetes</span>
+        <h3>Networking &amp; Access</h3>
+        <p class="lab-group-summary">Service discovery, networking, external access and service-to-service traffic.</p>
+        <div class="lab-group-items">
+          <div class="lab-group-item">
+            <div class="lab-item-title"><span class="lab-module-no">02</span><h4>Services &amp; Load Balancing</h4></div>
+            <p>Service discovery and stable access to workloads using ClusterIP, NodePort and LoadBalancer services.</p>
+            <div class="tags"><span class="tag">Services</span><span class="tag">ClusterIP</span><span class="tag">LoadBalancer</span></div>
+          </div>
+          <div class="lab-group-item">
+            <div class="lab-item-title"><span class="lab-module-no">05</span><h4>Networking, DNS &amp; NetworkPolicies</h4></div>
+            <p>Pod communication, service discovery, DNS, CNI concepts and network policy controls.</p>
+            <div class="tags"><span class="tag">DNS</span><span class="tag">CNI</span><span class="tag">NetworkPolicies</span></div>
+          </div>
+          <div class="lab-group-item">
+            <div class="lab-item-title"><span class="lab-module-no">06</span><h4>Ingress &amp; External Access</h4></div>
+            <p>Ingress controllers, path and host-based routing, TLS termination and exposing services externally.</p>
+            <div class="tags"><span class="tag">Ingress</span><span class="tag">TLS</span><span class="tag">Routing</span></div>
+          </div>
+          <div class="lab-group-item">
+            <div class="lab-item-title"><span class="lab-module-no">11</span><h4>Service Mesh with Istio</h4></div>
+            <p>Traffic management, sidecar proxies, observability and mTLS across Kubernetes services.</p>
+            <div class="tags"><span class="tag">Istio</span><span class="tag">Kiali</span><span class="tag">mTLS</span></div>
+          </div>
+        </div>
       </article>
 
-      <article class="card lab-topic-card reveal">
-        <span class="lab-topic-no">03</span><span class="kicker">Configuration</span>
-        <h3>ConfigMaps & Secrets</h3>
-        <p>Managing application configuration and sensitive values outside container images.</p>
-        <div class="tags"><span class="tag">ConfigMaps</span><span class="tag">Secrets</span><span class="tag">Environment Variables</span></div>
+      <article class="card lab-group-card reveal">
+        <span class="lab-group-no">03</span>
+        <span class="kicker">Kubernetes</span>
+        <h3>Security &amp; Policy</h3>
+        <p class="lab-group-summary">Access control, workload security and policy enforcement across the cluster.</p>
+        <div class="lab-group-items">
+          <div class="lab-group-item">
+            <div class="lab-item-title"><span class="lab-module-no">07</span><h4>RBAC, ServiceAccounts &amp; Pod Security</h4></div>
+            <p>Controlling access and workload permissions using Kubernetes-native security controls.</p>
+            <div class="tags"><span class="tag">RBAC</span><span class="tag">ServiceAccounts</span><span class="tag">Pod Security</span></div>
+          </div>
+          <div class="lab-group-item">
+            <div class="lab-item-title"><span class="lab-module-no">08</span><h4>Kyverno &amp; Policy Enforcement</h4></div>
+            <p>Validation, mutation and generation policies for automatically enforcing cluster standards.</p>
+            <div class="tags"><span class="tag">Kyverno</span><span class="tag">OPA Gatekeeper</span><span class="tag">Policies</span></div>
+          </div>
+        </div>
       </article>
 
-      <article class="card lab-topic-card reveal">
-        <span class="lab-topic-no">04</span><span class="kicker">Storage</span>
-        <h3>Persistent Kubernetes Storage</h3>
-        <p>Volumes, PersistentVolumes, PersistentVolumeClaims and StorageClasses for stateful workloads.</p>
-        <div class="tags"><span class="tag">PV</span><span class="tag">PVC</span><span class="tag">StorageClasses</span></div>
+      <article class="card lab-group-card reveal">
+        <span class="lab-group-no">04</span>
+        <span class="kicker">Kubernetes</span>
+        <h3>Operations</h3>
+        <p class="lab-group-summary">Scheduling, observability, debugging and day-to-day cluster administration.</p>
+        <div class="lab-group-items">
+          <div class="lab-group-item">
+            <div class="lab-item-title"><span class="lab-module-no">09</span><h4>Scheduling &amp; Node Operations</h4></div>
+            <p>Node selectors, affinity, taints, tolerations, cordoning, draining and node maintenance workflows.</p>
+            <div class="tags"><span class="tag">Scheduling</span><span class="tag">Taints</span><span class="tag">Nodes</span></div>
+          </div>
+          <div class="lab-group-item">
+            <div class="lab-item-title"><span class="lab-module-no">10</span><h4>Logs, Events &amp; Debugging</h4></div>
+            <p>Metrics, logs and Kubernetes events used to diagnose CrashLoopBackOff, ImagePullBackOff and pending workloads.</p>
+            <div class="tags"><span class="tag">Metrics</span><span class="tag">Logs</span><span class="tag">Events</span></div>
+          </div>
+          <div class="lab-group-item">
+            <div class="lab-item-title"><span class="lab-module-no">12</span><h4>Kubernetes Dashboard &amp; Cluster Administration</h4></div>
+            <p>Accessing the Kubernetes Dashboard, inspecting cluster resources and working with the cluster through kubectl.</p>
+            <div class="tags"><span class="tag">Dashboard</span><span class="tag">kubectl</span><span class="tag">Cluster</span></div>
+          </div>
+        </div>
       </article>
-
-      <article class="card lab-topic-card reveal">
-        <span class="lab-topic-no">05</span><span class="kicker">Networking</span>
-        <h3>Networking, DNS & NetworkPolicies</h3>
-        <p>Pod communication, service discovery, DNS, CNI concepts and network policy controls.</p>
-        <div class="tags"><span class="tag">DNS</span><span class="tag">CNI</span><span class="tag">NetworkPolicies</span></div>
-      </article>
-
-      <article class="card lab-topic-card reveal">
-        <span class="lab-topic-no">06</span><span class="kicker">External access</span>
-        <h3>Ingress & External Access</h3>
-        <p>Ingress controllers, path and host-based routing, TLS termination and exposing services externally.</p>
-        <div class="tags"><span class="tag">Ingress</span><span class="tag">TLS</span><span class="tag">Routing</span></div>
-      </article>
-
-      <article class="card lab-topic-card reveal">
-        <span class="lab-topic-no">07</span><span class="kicker">Security</span>
-        <h3>RBAC, ServiceAccounts & Pod Security</h3>
-        <p>Controlling access and workload permissions using Kubernetes-native security controls.</p>
-        <div class="tags"><span class="tag">RBAC</span><span class="tag">ServiceAccounts</span><span class="tag">Pod Security</span></div>
-      </article>
-
-      <article class="card lab-topic-card reveal">
-        <span class="lab-topic-no">08</span><span class="kicker">Policy</span>
-        <h3>Kyverno & Policy Enforcement</h3>
-        <p>Validation, mutation and generation policies for automatically enforcing cluster standards.</p>
-        <div class="tags"><span class="tag">Kyverno</span><span class="tag">OPA Gatekeeper</span><span class="tag">Policies</span></div>
-      </article>
-
-      <article class="card lab-topic-card reveal">
-        <span class="lab-topic-no">09</span><span class="kicker">Scheduling</span>
-        <h3>Scheduling & Node Operations</h3>
-        <p>Node selectors, affinity, taints, tolerations, cordoning, draining and node maintenance workflows.</p>
-        <div class="tags"><span class="tag">Scheduling</span><span class="tag">Taints</span><span class="tag">Nodes</span></div>
-      </article>
-
-      <article class="card lab-topic-card reveal">
-        <span class="lab-topic-no">10</span><span class="kicker">Observability</span>
-        <h3>Logs, Events & Debugging</h3>
-        <p>Metrics, logs and Kubernetes events used to diagnose CrashLoopBackOff, ImagePullBackOff and pending workloads.</p>
-        <div class="tags"><span class="tag">Metrics</span><span class="tag">Logs</span><span class="tag">Events</span></div>
-      </article>
-
-      <article class="card lab-topic-card reveal">
-        <span class="lab-topic-no">11</span><span class="kicker">Service mesh</span>
-        <h3>Service Mesh with Istio</h3>
-        <p>Traffic management, sidecar proxies, observability and mTLS across Kubernetes services.</p>
-        <div class="tags"><span class="tag">Istio</span><span class="tag">Kiali</span><span class="tag">mTLS</span></div>
-      </article>
-
-      <article class="card lab-topic-card reveal">
-        <span class="lab-topic-no">12</span><span class="kicker">Administration</span>
-        <h3>Kubernetes Dashboard & Cluster Administration</h3>
-        <p>Accessing the Kubernetes Dashboard, inspecting cluster resources and working with the cluster through kubectl.</p>
-        <div class="tags"><span class="tag">Dashboard</span><span class="tag">kubectl</span><span class="tag">Cluster</span></div>
-      </article>
-    </div>
-
-    <div class="lab-note reveal">
-      <span class="kicker">Lab format</span>
-      <h3>Concepts followed by hands-on exercises.</h3>
-      <p>Each area introduces the Kubernetes concept, then moves into practical tasks where I configure resources, test behaviour, troubleshoot issues and verify the outcome.</p>
     </div>
   </div>
 </section>
