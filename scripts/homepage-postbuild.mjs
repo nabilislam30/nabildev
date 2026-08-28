@@ -19,7 +19,8 @@ html = html
 // Replace homepage-only refinement stylesheets with the current versions.
 html = html.replace(/\s*<link rel="stylesheet" href="\/assets\/home-projects-20260826(?:-v2)?\.css">\n?/g, '\n');
 html = html.replace(/\s*<link rel="stylesheet" href="\/assets\/home-content-20260827(?:-v2)?\.css">\n?/g, '\n');
-html = html.replace('</head>', '  <link rel="stylesheet" href="/assets/home-projects-20260826-v2.css">\n  <link rel="stylesheet" href="/assets/home-content-20260827-v2.css">\n</head>');
+html = html.replace(/\s*<link rel="stylesheet" href="\/assets\/home-project-number-20260828\.css(?:\?v=[^"]+)?">\n?/g, '\n');
+html = html.replace('</head>', '  <link rel="stylesheet" href="/assets/home-projects-20260826-v2.css">\n  <link rel="stylesheet" href="/assets/home-content-20260827-v2.css">\n  <link rel="stylesheet" href="/assets/home-project-number-20260828.css?v=20260828-1628">\n</head>');
 
 html = html
   .replace(
