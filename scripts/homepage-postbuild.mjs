@@ -66,17 +66,20 @@ html = html.replace(
   }
 );
 
-// Homepage Kubernetes Lab: show four representative areas and link to the full lab curriculum.
+// Homepage Kubernetes Lab: show four representative areas and link to the full
+// curriculum from the section header rather than leaving a loose text link below
+// the cards.
 html = html.replace(
   /<section id="lab" class="lab-section">[\s\S]*?<\/section>/,
   `<section id="lab" class="lab-section">
   <div class="container">
-    <div class="section-head reveal">
+    <div class="section-head lab-section-head-row reveal">
       <div>
         <span class="kicker">DevOps Lab</span>
         <h2>Kubernetes hands-on Lab</h2>
         <p class="intro">Practical K8s labs covering workloads, networking, storage, security, observability and cluster operations.</p>
       </div>
+      <a class="btn btn-secondary lab-section-header-cta magnetic" href="lab.html">Explore Kubernetes Lab <span>↗</span></a>
     </div>
     <div class="lab-grid">
       <article class="lab-card card reveal">
@@ -104,7 +107,6 @@ html = html.replace(
         <div class="tags"><span class="tag">Observability</span><span class="tag">Nodes</span><span class="tag">Troubleshooting</span></div>
       </article>
     </div>
-    <div class="lab-section-cta reveal"><a class="card-link" href="lab.html">Explore Kubernetes Lab <span>↗</span></a></div>
   </div>
 </section>`
 );
