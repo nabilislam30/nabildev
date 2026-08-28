@@ -1,0 +1,29 @@
+/* Projects numbering only — isolated from all other project-card styling. */
+body[data-page="projects"] .project-card .project-number{
+  position:absolute;
+  right:23px;
+  top:22px;
+  color:color-mix(in srgb,var(--text) 13%,transparent) !important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace !important;
+  font-size:clamp(50px,4.8vw,64px) !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+  letter-spacing:-.07em;
+  transition:color 200ms ease;
+}
+
+body[data-page="projects"] .project-card:hover .project-number{
+  color:color-mix(in srgb,var(--orange) 44%,transparent) !important;
+}
+
+@media(max-width:650px){
+  body[data-page="projects"] .project-card .project-number{
+    font-size:44px !important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  body[data-page="projects"] .project-card .project-number{
+    transition:none;
+  }
+}
