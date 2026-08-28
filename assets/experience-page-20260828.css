@@ -1,0 +1,16 @@
+/* Experience page refinements — 28 Aug 2026 */
+
+body[data-page="experience"] .experience-card time{
+  align-self:start;
+  color:color-mix(in srgb,var(--text) 20%,transparent);
+  font:900 40px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:-.04em;
+  text-transform:none;
+}
+
+@media(max-width:820px){
+  body[data-page="experience"] .experience-card time{
+    margin-bottom:2px;
+    font-size:34px;
+  }
+}
