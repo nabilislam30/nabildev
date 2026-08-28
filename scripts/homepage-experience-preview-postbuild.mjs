@@ -44,10 +44,15 @@ if (!journeyPattern.test(html)) {
 
 html = html.replace(journeyPattern, replacement);
 
-const css = '<link rel="stylesheet" href="/assets/home-experience-preview-20260828.css?v=20260828-1520">';
+const previewCss = '<link rel="stylesheet" href="/assets/home-experience-preview-20260828.css?v=20260828-1520">';
+const atmosphereCss = '<link rel="stylesheet" href="/assets/home-atmosphere-20260828.css?v=20260828-1545">';
+
 if (!html.includes('home-experience-preview-20260828.css')) {
-  html = html.replace('</head>', `${css}\n</head>`);
+  html = html.replace('</head>', `${previewCss}\n</head>`);
+}
+if (!html.includes('home-atmosphere-20260828.css')) {
+  html = html.replace('</head>', `${atmosphereCss}\n</head>`);
 }
 
 await fs.writeFile(file, html);
-console.log('Replaced homepage journey timeline with animated experience preview.');
+console.log('Replaced homepage journey timeline and applied homepage atmosphere/spacing refinements.');
