@@ -1,3 +1,5 @@
+@import url("pill-glow-20260828.css?v=20260828-1434");
+
 /* Expanded About page — isolated from the rest of the portfolio. */
 .about-story-section{padding:72px 0 26px}
 .about-story-card{padding:38px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:44px;align-items:start}
