@@ -35,6 +35,21 @@
   line-height:1;
 }
 
+/* Project numbering only: larger and deliberately faded, then shifts to a
+   muted orange when the card is hovered. No other card styling is affected. */
+body[data-page="projects"] .project-card .project-number{
+  color:color-mix(in srgb,var(--text) 12%,transparent);
+  font-size:clamp(46px,4.2vw,62px);
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-.07em;
+  transition:color 200ms ease;
+}
+
+body[data-page="projects"] .project-card:hover .project-number{
+  color:color-mix(in srgb,var(--orange) 46%,transparent);
+}
+
 /* Project technology pills: visible interaction state without persistent glow. */
 .project-card .tag{
   cursor:pointer;
@@ -77,6 +92,10 @@
 }
 
 @media(max-width:520px){
+  body[data-page="projects"] .project-card .project-number{
+    font-size:42px;
+  }
+
   .project-card .project-arch-support{
     gap:6px;
   }
@@ -87,5 +106,6 @@
 }
 
 @media(prefers-reduced-motion:reduce){
+  body[data-page="projects"] .project-card .project-number,
   .project-card .tag{transition:none}
 }
