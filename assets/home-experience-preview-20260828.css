@@ -1,0 +1,160 @@
+/* Homepage Experience Preview — replaces the duplicated DevOps journey timeline. */
+.home-experience-preview-section{
+  padding:72px 0 86px;
+}
+
+.home-experience-preview-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);
+  gap:18px;
+  align-items:stretch;
+}
+
+.home-experience-preview-card,
+.home-experience-preview-facts{
+  min-height:270px;
+  padding:34px 36px;
+  overflow:hidden;
+}
+
+.home-experience-preview-card{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+
+.home-experience-preview-card h2{
+  margin:8px 0 12px;
+  font-size:clamp(30px,3vw,40px);
+  line-height:1.05;
+  letter-spacing:-.045em;
+}
+
+.home-experience-preview-card p{
+  max-width:650px;
+  margin:0;
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.72;
+}
+
+.home-experience-preview-card .btn{
+  margin-top:26px;
+}
+
+.home-experience-preview-card .btn span{
+  display:inline-block;
+  transition:transform 180ms ease;
+}
+
+.home-experience-preview-card .btn:hover span{
+  transform:translate(3px,-3px);
+}
+
+.home-experience-preview-facts{
+  display:grid;
+  gap:10px;
+  align-content:center;
+}
+
+.home-experience-preview-fact{
+  position:relative;
+  padding:15px 16px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:color-mix(in srgb,var(--panel) 30%,transparent);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.home-experience-preview-fact small{
+  display:block;
+  margin-bottom:5px;
+  color:var(--orange);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.home-experience-preview-fact strong{
+  display:block;
+  color:var(--text);
+  font-size:14px;
+  line-height:1.4;
+}
+
+.home-experience-preview-fact:hover{
+  transform:translateY(-2px);
+  border-color:color-mix(in srgb,var(--green) 55%,var(--line));
+  background:color-mix(in srgb,var(--green) 8%,var(--panel));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb,var(--green) 10%,transparent),
+    0 0 18px color-mix(in srgb,var(--green) 17%,transparent);
+}
+
+/* Existing reveal observer drives the two main cards. */
+.home-experience-preview-card.reveal{
+  transform:translateX(-24px);
+}
+.home-experience-preview-facts.reveal{
+  transform:translateX(24px);
+}
+.home-experience-preview-card.reveal.visible,
+.home-experience-preview-facts.reveal.visible{
+  transform:none;
+}
+
+/* Stagger the three facts after the right panel enters. */
+.home-experience-preview-facts .home-experience-preview-fact{
+  opacity:0;
+  transform:translateY(10px);
+}
+.home-experience-preview-facts.visible .home-experience-preview-fact{
+  animation:homeExperienceFactIn .42s cubic-bezier(.22,1,.36,1) forwards;
+}
+.home-experience-preview-facts.visible .home-experience-preview-fact:nth-child(1){animation-delay:.08s}
+.home-experience-preview-facts.visible .home-experience-preview-fact:nth-child(2){animation-delay:.16s}
+.home-experience-preview-facts.visible .home-experience-preview-fact:nth-child(3){animation-delay:.24s}
+
+@keyframes homeExperienceFactIn{
+  to{opacity:1;transform:none}
+}
+
+html[data-theme="light"] .home-experience-preview-fact{
+  background:rgba(255,255,255,.48);
+}
+
+@media(max-width:900px){
+  .home-experience-preview-grid{
+    grid-template-columns:1fr;
+  }
+  .home-experience-preview-card,
+  .home-experience-preview-facts{
+    min-height:0;
+  }
+}
+
+@media(max-width:650px){
+  .home-experience-preview-section{
+    padding:54px 0 68px;
+  }
+  .home-experience-preview-card,
+  .home-experience-preview-facts{
+    padding:24px 22px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .home-experience-preview-card.reveal,
+  .home-experience-preview-facts.reveal,
+  .home-experience-preview-fact{
+    opacity:1 !important;
+    transform:none !important;
+    animation:none !important;
+    transition:none !important;
+  }
+}
