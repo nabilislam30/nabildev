@@ -1,16 +1,29 @@
 /* Experience page refinements — 28 Aug 2026 */
 
+/* Experience numbering only: large and faded at rest, then a muted/faded
+   orange when the corresponding experience card is hovered. */
 body[data-page="experience"] .experience-card time{
   align-self:start;
-  color:color-mix(in srgb,var(--text) 20%,transparent);
-  font:900 40px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
-  letter-spacing:-.04em;
+  color:color-mix(in srgb,var(--text) 13%,transparent);
+  font:900 clamp(50px,4.8vw,58px)/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:-.06em;
   text-transform:none;
+  transition:color 200ms ease;
+}
+
+body[data-page="experience"] .experience-card:hover time{
+  color:color-mix(in srgb,var(--orange) 46%,transparent);
 }
 
 @media(max-width:820px){
   body[data-page="experience"] .experience-card time{
     margin-bottom:2px;
-    font-size:34px;
+    font-size:46px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  body[data-page="experience"] .experience-card time{
+    transition:none;
   }
 }
