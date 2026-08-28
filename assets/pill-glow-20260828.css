@@ -1,0 +1,18 @@
+/* Shared pill hover treatment — 28 Aug 2026 */
+.tag{
+  transition:transform 180ms ease,border-color 180ms ease,background-color 180ms ease,box-shadow 180ms ease,color 180ms ease;
+}
+
+.tag:hover,
+.tag:focus-visible{
+  transform:translateY(-1px);
+  color:var(--text);
+  border-color:var(--green);
+  background:color-mix(in srgb,var(--green) 18%,var(--panel));
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 24%,transparent),0 0 18px color-mix(in srgb,var(--green) 34%,transparent);
+  outline:none;
+}
+
+@media(prefers-reduced-motion:reduce){
+  .tag{transition:none}
+}
