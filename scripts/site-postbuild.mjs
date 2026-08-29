@@ -23,8 +23,7 @@ home = home
   .replaceAll('assets/home-content-20260827-v4.css', 'assets/home-content-20260827-v6.css')
   .replaceAll('/assets/home-content-20260827-v5.css', '/assets/home-content-20260827-v6.css')
   .replaceAll('assets/home-content-20260827-v5.css', 'assets/home-content-20260827-v6.css')
-  .replaceAll('/assets/home-content-20260827-v6.css', '/assets/home-content-20260827-v6.css?v=20260829-1320')
-  .replaceAll('assets/home-content-20260827-v6.css', 'assets/home-content-20260827-v6.css?v=20260829-1320')
+  .replace(/\/?assets\/home-content-20260827-v6\.css(?:\?v=[^"']+)?/g, '/assets/home-content-20260827-v6.css?v=20260829-1320')
   .replace(/assets\/script\.js(?:\?v=[^"']+)?/g, 'assets/script.js?v=20260827-04')
   .replace(/<span class="kicker">Engineering articles<\/span>/gi, '<span class="kicker">Articles</span>');
 
