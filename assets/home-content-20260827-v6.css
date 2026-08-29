@@ -89,6 +89,7 @@ body[data-page="home"] #lab .lab-card>.kicker{
   align-items:center;
   gap:10px;
   margin-bottom:8px;
+  color:var(--orange) !important;
 }
 body[data-page="home"] #lab .lab-card>.kicker::after{
   content:"";
@@ -106,8 +107,30 @@ body[data-page="home"] #lab .lab-card:nth-child(4)>.kicker::after{animation-dela
   50%{opacity:1;transform:scaleX(1)}
 }
 body[data-page="home"] #lab .lab-card p{flex:1}
-body[data-page="home"] #lab .lab-card .tags{margin-top:16px}
-body[data-page="home"] #lab .lab-card .tag{font-size:10px}
+body[data-page="home"] #lab .lab-card .tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:16px;
+}
+body[data-page="home"] #lab .lab-card .tag{
+  padding:8px 11px;
+  font-size:11.5px;
+  line-height:1.1;
+  color:var(--text);
+  border-color:color-mix(in srgb,var(--text) 16%,transparent);
+  background:color-mix(in srgb,var(--panel) 42%,transparent);
+  transition:transform 180ms ease,border-color 180ms ease,background-color 180ms ease,box-shadow 180ms ease,color 180ms ease;
+}
+body[data-page="home"] #lab .lab-card .tag:hover,
+body[data-page="home"] #lab .lab-card .tag:focus-visible{
+  transform:translateY(-1px);
+  color:var(--text);
+  border-color:var(--green);
+  background:color-mix(in srgb,var(--green) 18%,var(--panel));
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 24%,transparent),0 0 18px color-mix(in srgb,var(--green) 34%,transparent);
+  outline:none;
+}
 body[data-page="home"] .lab-section-cta{
   margin-top:22px;
   display:flex;
@@ -149,6 +172,7 @@ body[data-page="home"] .evidence-principle .principle-item{min-height:58px}
   body[data-page="home"] .evidence-section{padding-top:36px !important}
   body[data-page="home"] #lab .lab-grid{grid-template-columns:1fr}
   body[data-page="home"] #lab .lab-card{min-height:0}
+  body[data-page="home"] #lab .lab-card .tag{font-size:11px;padding:8px 10px}
 }
 
 @media(max-width:430px){
@@ -161,4 +185,5 @@ body[data-page="home"] .evidence-principle .principle-item{min-height:58px}
     opacity:.65;
     transform:none;
   }
+  body[data-page="home"] #lab .lab-card .tag{transition:none}
 }
