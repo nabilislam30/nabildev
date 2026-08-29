@@ -1,0 +1,81 @@
+/* Homepage writing section — stacked Projects + GitHub column. */
+body[data-page="home"] .writing-split-stack{
+  align-items:stretch;
+}
+
+body[data-page="home"] .writing-side-stack{
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
+  gap:20px;
+  min-width:0;
+  height:100%;
+}
+
+body[data-page="home"] .writing-side-stack .evidence-principle{
+  align-self:start;
+  padding:32px;
+}
+
+body[data-page="home"] .github-repository-card{
+  min-height:0;
+  padding:30px 32px;
+  display:flex;
+  flex-direction:column;
+}
+
+body[data-page="home"] .github-repository-card h2{
+  margin:7px 0 0;
+  font-size:clamp(29px,2.8vw,38px);
+  line-height:1.05;
+}
+
+body[data-page="home"] .github-repository-card .compact-intro{
+  margin-bottom:16px;
+  font-size:14px;
+  line-height:1.65;
+}
+
+body[data-page="home"] .repository-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:2px 0 18px;
+}
+
+body[data-page="home"] .repository-tags .tag{
+  padding:7px 10px;
+  color:var(--text);
+  font-size:11px;
+  border-color:color-mix(in srgb,var(--text) 16%,transparent);
+  background:color-mix(in srgb,var(--panel) 42%,transparent);
+  transition:transform 180ms ease,border-color 180ms ease,background-color 180ms ease,box-shadow 180ms ease,color 180ms ease;
+}
+
+body[data-page="home"] .repository-tags .tag:hover,
+body[data-page="home"] .repository-tags .tag:focus-visible{
+  transform:translateY(-1px);
+  color:var(--text);
+  border-color:var(--green);
+  background:color-mix(in srgb,var(--green) 18%,var(--panel));
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 24%,transparent),0 0 18px color-mix(in srgb,var(--green) 34%,transparent);
+  outline:none;
+}
+
+body[data-page="home"] .github-repository-card .card-link{
+  margin-top:auto;
+  padding-top:2px;
+}
+
+@media(max-width:1120px){
+  body[data-page="home"] .writing-split-stack{grid-template-columns:1fr}
+  body[data-page="home"] .writing-side-stack{grid-template-rows:auto auto;height:auto}
+}
+
+@media(max-width:650px){
+  body[data-page="home"] .writing-side-stack .evidence-principle,
+  body[data-page="home"] .github-repository-card{padding:23px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  body[data-page="home"] .repository-tags .tag{transition:none}
+}
