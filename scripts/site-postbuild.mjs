@@ -23,6 +23,8 @@ home = home
   .replaceAll('assets/home-content-20260827-v4.css', 'assets/home-content-20260827-v6.css')
   .replaceAll('/assets/home-content-20260827-v5.css', '/assets/home-content-20260827-v6.css')
   .replaceAll('assets/home-content-20260827-v5.css', 'assets/home-content-20260827-v6.css')
+  .replaceAll('/assets/home-content-20260827-v6.css', '/assets/home-content-20260827-v6.css?v=20260829-1320')
+  .replaceAll('assets/home-content-20260827-v6.css', 'assets/home-content-20260827-v6.css?v=20260829-1320')
   .replace(/assets\/script\.js(?:\?v=[^"']+)?/g, 'assets/script.js?v=20260827-04')
   .replace(/<span class="kicker">Engineering articles<\/span>/gi, '<span class="kicker">Articles</span>');
 
@@ -82,7 +84,7 @@ const requiredHomepageCopy = [
   '<span>Implementation</span>',
   '<span>Challenges &amp; solutions</span>',
   'assets/script.js?v=20260827-04',
-  'home-content-20260827-v6.css'
+  'home-content-20260827-v6.css?v=20260829-1320'
 ];
 for (const phrase of requiredHomepageCopy) {
   if (!home.includes(phrase)) {
