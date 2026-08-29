@@ -73,6 +73,31 @@ body[data-page="home"] .evidence-section{
   padding-top:40px !important;
 }
 
+/* Featured-project technology pills: increase readability without altering the
+   project-card geometry. Desktop rows remain a single line. */
+@media(min-width:1121px){
+  body[data-page="home"] .evidence-card .integrated-stack-pills{
+    flex-wrap:nowrap;
+    gap:8px;
+    white-space:nowrap;
+  }
+  body[data-page="home"] .evidence-card .integrated-stack-pills>span{
+    min-height:40px;
+    padding:8px 12px;
+    flex:0 0 auto;
+  }
+  body[data-page="home"] .evidence-card .integrated-stack-pills b{
+    font-size:12px;
+  }
+  body[data-page="home"] .evidence-card .integrated-stack-pills small{
+    font-size:9.5px;
+  }
+  body[data-page="home"] .evidence-card .integrated-stack-pills i{
+    flex:0 0 auto;
+    font-size:11.5px;
+  }
+}
+
 /* Four representative Kubernetes lab areas. */
 body[data-page="home"] #lab .lab-grid{
   grid-template-columns:repeat(2,minmax(0,1fr));
