@@ -19,7 +19,7 @@ body[data-page="about"] .page-hero p{max-width:900px}
 .about-work-card h3{margin:9px 0 4px;font-size:26px;line-height:1.12}
 .about-work-card .about-work-name{display:block;min-height:20px;margin-bottom:16px;color:var(--text);font-size:14px;font-weight:800}
 .about-work-card p{margin:0;min-height:72px;color:var(--muted);font-size:14px;line-height:1.7}
-.about-work-card .tags{margin-top:18px;padding-top:0;min-height:0;box-sizing:border-box}
+.about-work-card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;padding-top:0;min-height:0;align-content:flex-start;box-sizing:border-box}
 
 .about-learning-section{padding:34px 0 76px}
 .about-learning-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
@@ -28,10 +28,10 @@ body[data-page="about"] .page-hero p{max-width:900px}
 .about-learning-card p{margin:0;min-height:72px;color:var(--muted);font-size:14px;line-height:1.7}
 .about-learning-card .tags{margin-top:18px;padding-top:0;min-height:0;max-width:none;box-sizing:border-box}
 
-/* Keep current-project and learning pills on one compact row on desktop. */
+/* Keep learning pills on one compact row on desktop. Project pills stay readable
+   and may wrap naturally rather than shrinking to an unreadable size. */
 @media(min-width:981px){
-  .about-work-card .tags{display:flex;flex-wrap:nowrap;gap:4px;align-items:center;justify-content:flex-start}
-  .about-work-card .tag{padding:6px 4px;font-size:8px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+  .about-work-card .tag{padding:7px 9px;font-size:10.5px;line-height:1;letter-spacing:0;white-space:nowrap}
 
   .about-learning-card .tags{display:grid;grid-template-columns:repeat(4,max-content);column-gap:6px;row-gap:0;align-items:center;justify-content:start}
   .about-learning-card .tag{padding:7px 8px;font-size:10.5px;white-space:nowrap}
