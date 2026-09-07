@@ -3,6 +3,7 @@
 
   const bar = document.querySelector('.lab-page .filter-bar');
   const cards = [...document.querySelectorAll('.lab-topic-card[data-category]')];
+  const groups = [...document.querySelectorAll('.lab-topic-group[data-group]')];
   if (!bar || !cards.length) return;
 
   const buttons = [...bar.querySelectorAll('.filter[data-filter]')];
@@ -24,6 +25,12 @@
       card.setAttribute('aria-hidden', String(!match));
 
       if (match) card.classList.add('visible');
+    });
+
+    groups.forEach((group) => {
+      const match = filter === 'all' || group.dataset.group === filter;
+      group.hidden = !match;
+      group.setAttribute('aria-hidden', String(!match));
     });
   };
 

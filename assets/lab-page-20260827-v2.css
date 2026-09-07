@@ -19,11 +19,32 @@ body[data-page="lab"] .lab-repository-link{
   display:inline-flex;
   margin-top:18px;
 }
+body[data-page="lab"] .lab-topic-groups{
+  display:grid;
+  gap:48px;
+}
+body[data-page="lab"] .lab-topic-group[hidden]{
+  display:none !important;
+}
+body[data-page="lab"] .lab-group-head{
+  margin-bottom:18px;
+}
+body[data-page="lab"] .lab-group-head h3{
+  margin:0;
+  font-size:clamp(22px,2.3vw,30px);
+  line-height:1.15;
+}
 body[data-page="lab"] .lab-curriculum-grid{
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
   gap:20px;
   align-items:stretch;
+}
+body[data-page="lab"] .lab-grid-three{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+body[data-page="lab"] .lab-grid-two,
+body[data-page="lab"] .lab-grid-four{
+  grid-template-columns:repeat(2,minmax(0,1fr));
 }
 body[data-page="lab"] .lab-topic-card{
   position:relative;
@@ -126,7 +147,7 @@ body[data-page="lab"] .lab-note p{
   max-width:820px;
 }
 @media(max-width:1000px){
-  body[data-page="lab"] .lab-curriculum-grid{
+  body[data-page="lab"] .lab-grid-three{
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
@@ -134,7 +155,13 @@ body[data-page="lab"] .lab-note p{
   body[data-page="lab"] .lab-page{
     padding:54px 0 72px;
   }
-  body[data-page="lab"] .lab-curriculum-grid{
+  body[data-page="lab"] .lab-topic-groups{
+    gap:38px;
+  }
+  body[data-page="lab"] .lab-curriculum-grid,
+  body[data-page="lab"] .lab-grid-three,
+  body[data-page="lab"] .lab-grid-two,
+  body[data-page="lab"] .lab-grid-four{
     grid-template-columns:1fr;
     gap:14px;
   }
