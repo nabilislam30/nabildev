@@ -1,0 +1,144 @@
+/* Dedicated Kubernetes Lab page — grouped curriculum + repository evidence */
+body[data-page="lab"] .lab-page{
+  padding:72px 0 96px;
+}
+body[data-page="lab"] .lab-overview{
+  margin-bottom:44px;
+}
+body[data-page="lab"] .lab-overview h2{
+  margin:8px 0 12px;
+  font-size:clamp(34px,4vw,52px);
+  line-height:1.04;
+}
+body[data-page="lab"] .lab-overview p{
+  max-width:780px;
+  margin:0;
+  color:var(--muted);
+}
+body[data-page="lab"] .lab-repository-link{
+  display:inline-flex;
+  margin-top:18px;
+}
+body[data-page="lab"] .lab-topic-groups{
+  display:grid;
+  gap:48px;
+}
+body[data-page="lab"] .lab-group-head{
+  margin-bottom:18px;
+}
+body[data-page="lab"] .lab-group-head h3{
+  margin:0 0 6px;
+  font-size:clamp(22px,2.3vw,30px);
+  line-height:1.15;
+}
+body[data-page="lab"] .lab-group-head p{
+  margin:0;
+  max-width:720px;
+  color:var(--muted);
+  font-size:14px;
+}
+body[data-page="lab"] .lab-curriculum-grid{
+  display:grid;
+  gap:20px;
+  align-items:stretch;
+}
+body[data-page="lab"] .lab-grid-three{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+body[data-page="lab"] .lab-grid-two,
+body[data-page="lab"] .lab-grid-four{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+body[data-page="lab"] .lab-topic-card{
+  position:relative;
+  min-height:275px;
+  padding:28px 30px 26px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+body[data-page="lab"] .lab-topic-no{
+  position:absolute;
+  top:25px;
+  right:26px;
+  color:color-mix(in srgb,var(--text) 13%,transparent);
+  font:900 30px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+body[data-page="lab"] .lab-topic-card>.kicker{
+  display:block;
+  margin:0 44px 12px 0;
+}
+body[data-page="lab"] .lab-topic-card h3{
+  margin:0 44px 12px 0;
+  font-size:22px;
+  line-height:1.16;
+}
+body[data-page="lab"] .lab-topic-card p{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+  flex:1;
+}
+body[data-page="lab"] .lab-topic-card .tags{
+  margin-top:auto;
+  padding-top:22px;
+  gap:7px;
+}
+body[data-page="lab"] .lab-topic-card .tag{
+  font-size:10px;
+  line-height:1.2;
+  transition:border-color 180ms ease,background 180ms ease,box-shadow 180ms ease,transform 180ms ease,color 180ms ease;
+}
+body[data-page="lab"] .lab-topic-card .tag:hover{
+  transform:translateY(-1px);
+  border-color:color-mix(in srgb,var(--teal) 58%,var(--line));
+  background:color-mix(in srgb,var(--teal) 10%,transparent);
+  box-shadow:0 0 14px color-mix(in srgb,var(--teal) 20%,transparent);
+  color:var(--text);
+}
+body[data-page="lab"] .lab-evidence-link{
+  display:inline-flex;
+  margin-top:14px;
+  font-size:12px;
+  font-weight:800;
+  text-decoration:none;
+}
+body[data-page="lab"] .lab-evidence-link:hover{
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+@media(max-width:1000px){
+  body[data-page="lab"] .lab-grid-three,
+  body[data-page="lab"] .lab-grid-four{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:650px){
+  body[data-page="lab"] .lab-page{
+    padding:54px 0 72px;
+  }
+  body[data-page="lab"] .lab-topic-groups{
+    gap:38px;
+  }
+  body[data-page="lab"] .lab-curriculum-grid,
+  body[data-page="lab"] .lab-grid-three,
+  body[data-page="lab"] .lab-grid-two,
+  body[data-page="lab"] .lab-grid-four{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  body[data-page="lab"] .lab-topic-card{
+    min-height:0;
+    padding:24px 22px;
+  }
+  body[data-page="lab"] .lab-topic-no{
+    top:22px;
+    right:20px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body[data-page="lab"] .lab-topic-card .tag{
+    transition:none;
+  }
+}
