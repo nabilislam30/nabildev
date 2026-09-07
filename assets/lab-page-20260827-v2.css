@@ -15,6 +15,10 @@ body[data-page="lab"] .lab-overview p{
   margin:0;
   color:var(--muted);
 }
+body[data-page="lab"] .lab-repository-link{
+  display:inline-flex;
+  margin-top:18px;
+}
 body[data-page="lab"] .lab-curriculum-grid{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
@@ -59,12 +63,27 @@ body[data-page="lab"] .lab-topic-card p{
   line-height:1.65;
   flex:1;
 }
+body[data-page="lab"] .lab-evidence-link{
+  display:inline-flex;
+  margin-top:14px;
+  color:var(--text);
+  font-size:12px;
+  font-weight:800;
+  text-decoration:none;
+}
+body[data-page="lab"] .lab-evidence-link:hover{
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
 body[data-page="lab"] .lab-topic-card .tags{
   margin-top:auto;
   padding-top:22px;
   display:flex;
   flex-wrap:wrap;
   gap:7px;
+}
+body[data-page="lab"] .lab-evidence-link + .tags{
+  padding-top:12px;
 }
 body[data-page="lab"] .lab-topic-card .tag{
   display:inline-flex;
@@ -77,11 +96,11 @@ body[data-page="lab"] .lab-topic-card .tag{
   color:var(--muted);
   font-size:10px;
   line-height:1.2;
-  cursor:pointer;
+  cursor:default;
   transition:transform 180ms ease,border-color 180ms ease,background-color 180ms ease,box-shadow 180ms ease,color 180ms ease;
 }
 
-/* Clear hover highlight: subtle lift + visible teal/green state. */
+/* Subtle hover highlight without making non-clickable tags look like buttons. */
 body[data-page="lab"] .lab-topic-card .tag:hover,
 body[data-page="lab"] .lab-topic-card .tag:focus-visible{
   transform:translateY(-1px);
