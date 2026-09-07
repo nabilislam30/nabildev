@@ -4,11 +4,15 @@
   const bar = document.querySelector('.lab-page .filter-bar');
   const cards = [...document.querySelectorAll('.lab-topic-card[data-category]')];
   const groups = [...document.querySelectorAll('.lab-topic-group[data-group]')];
+  const groupContainer = document.querySelector('.lab-topic-groups');
   if (!bar || !cards.length) return;
 
   const buttons = [...bar.querySelectorAll('.filter[data-filter]')];
 
   const applyFilter = (filter) => {
+    const showAll = filter === 'all';
+    groupContainer?.classList.toggle('is-all', showAll);
+
     buttons.forEach((button) => {
       const active = button.dataset.filter === filter;
       button.classList.toggle('active', active);
@@ -17,18 +21,25 @@
 
     cards.forEach((card) => {
       const categories = (card.dataset.category || '').split(/\s+/).filter(Boolean);
-      const match = filter === 'all' || categories.includes(filter);
+      const match = showAll || categories.includes(filter);
 
       card.hidden = !match;
       card.style.display = match ? '' : 'none';
       card.classList.toggle('filtered-out', !match);
       card.setAttribute('aria-hidden', String(!match));
 
+      if (showAll) {
+        const number = Number.parseInt(card.querySelector('.lab-topic-no')?.textContent || '', 10);
+        card.style.order = Number.isNaN(number) ? '' : String(number);
+      } else {
+        card.style.removeProperty('order');
+      }
+
       if (match) card.classList.add('visible');
     });
 
     groups.forEach((group) => {
-      const match = filter === 'all' || group.dataset.group === filter;
+      const match = showAll || group.dataset.group === filter;
       group.hidden = !match;
       group.setAttribute('aria-hidden', String(!match));
     });
