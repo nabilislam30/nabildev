@@ -8,6 +8,7 @@
 <script>(function(){try{var t=localStorage.getItem('nabil-theme');var light=t==='light'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches);if(light)document.documentElement.dataset.theme='light';}catch(e){}})();</script>
 <link rel="canonical" href="https://nabildev.com/">
 <link rel="stylesheet" href="assets/styles.css?v=20260818-1309">
+<link rel="stylesheet" href="assets/eks-project-20260909.css?v=20260909-1540">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#052426">
 <meta property="og:type" content="website">
@@ -84,17 +85,55 @@
     </div>
 
     <div class="evidence-grid">
-      <article class="evidence-card card reveal">
+      <article class="evidence-card evidence-card-stable evidence-card-eks card reveal">
         <div class="evidence-index">01</div>
         <div class="evidence-header">
-          <span class="kicker">AWS container platform</span>
-          <h3>Deploying a containerised application on AWS using Terraform</h3>
+          <span class="kicker">Platform engineering</span>
+          <h3 class="featured-project-title">Building a GitOps platform on Amazon EKS</h3>
+          <p>Built a multi-AZ Amazon EKS platform with Terraform, GitHub Actions and ArgoCD, with HTTPS, automated DNS, monitoring and security scanning.</p>
+          <div class="integrated-stack-pills" aria-label="Technologies applied in the Amazon EKS platform project">
+            <span><b>Terraform</b><small>IaC</small></span><i>→</i>
+            <span><b>Amazon EKS</b><small>Kubernetes</small></span><i>→</i>
+            <span><b>ECR</b><small>Registry</small></span><i>→</i>
+            <span><b>ArgoCD</b><small>GitOps</small></span><i>→</i>
+            <span><b>GitHub Actions</b><small>CI/CD</small></span>
+          </div>
+        </div>
+        <div class="evidence-build">
+          <div class="project-terminal reveal" data-terminal-once data-terminal-lines='[
+  "$ terraform plan",
+  "$ kubectl get nodes",
+  "$ kubectl get pods -A",
+  "$ argocd app list"
+]'>
+            <div class="terminal-bar"><i></i><i></i><i></i><span>terraform / eks / argocd</span></div>
+            <pre><code data-terminal-output></code><span class="terminal-cursor">▋</span></pre>
+          </div>
+        </div>
+        <div class="architecture-column">
+          <div class="architecture-cta"><a href="projects/2048-eks-platform.html" class="card-link">View case study <span>↗</span></a></div>
+          <div class="architecture-lab architecture-stable architecture-featured architecture-eks animated-architecture" data-architecture-flow>
+            <button class="arch-node" data-arch-info="Cloudflare resolves 2048.nabilenv.com, while ExternalDNS keeps the application DNS record aligned with the AWS load balancer.">Cloudflare DNS</button><i class="flow-line horizontal"><span></span></i>
+            <button class="arch-node" data-arch-info="The AWS Load Balancer Controller provisions the internet-facing ALB; ACM terminates HTTPS before traffic enters Kubernetes.">ALB / HTTPS</button><i class="flow-line horizontal"><span></span></i>
+            <button class="arch-node accent" data-arch-info="Amazon EKS provides the managed Kubernetes platform, with worker nodes running inside private subnets across two Availability Zones.">EKS</button><i class="flow-line horizontal"><span></span></i>
+            <button class="arch-node" data-arch-info="ArgoCD-reconciled Kubernetes workloads include the 2048 application and the supporting controllers and monitoring stack.">K8s Workloads</button>
+            <div class="arch-tooltip" data-arch-tooltip>Hover an architecture node</div>
+          </div>
+          <div class="eks-evidence-line" aria-label="Additional Amazon EKS platform evidence"><span>GitOps</span><span>OIDC</span><span>Monitoring</span><span>Security scanning</span></div>
+        </div>
+      </article>
+
+      <article class="evidence-card evidence-card-stable card reveal">
+        <div class="evidence-index">02</div>
+        <div class="evidence-header">
+          <span class="kicker">ECS Threat Composer</span>
+          <h3 class="featured-project-title">Deploying Threat Composer on AWS ECS Fargate</h3>
           <p>Built, containerised and deployed an application using Docker, Terraform and ECS, with HTTPS and a custom domain.</p>
           <div class="integrated-stack-pills" aria-label="Technologies applied in the ECS Threat Composer project">
             <span><b>Docker</b><small>Containers</small></span><i>→</i>
             <span><b>Terraform</b><small>IaC</small></span><i>→</i>
             <span><b>ECR</b><small>Registry</small></span><i>→</i>
-            <span><b>ECS Fargate</b><small>Runtime</small></span><i>→</i>
+            <span><b>ECS Fargate</b><small>Serverless</small></span><i>→</i>
             <span><b>GitHub Actions</b><small>CI/CD</small></span>
           </div>
         </div>
@@ -110,7 +149,7 @@
             <pre><code data-terminal-output></code><span class="terminal-cursor">▋</span></pre>
           </div>
         </div>
-        <div class="architecture-column"><div class="architecture-cta"><a href="projects/ecs-threat-composer.html" class="card-link">View case study <span>↗</span></a></div><div class="architecture-lab architecture-stable animated-architecture" data-architecture-flow>
+        <div class="architecture-column"><div class="architecture-cta"><a href="projects/ecs-threat-composer.html" class="card-link">View case study <span>↗</span></a></div><div class="architecture-lab architecture-stable architecture-featured architecture-ecs animated-architecture" data-architecture-flow>
           <button class="arch-node" data-arch-info="Resolves tm.nabilstack.com to the Application Load Balancer.">Route 53</button><i class="flow-line horizontal"><span></span></i>
           <button class="arch-node" data-arch-info="Terminates HTTPS using ACM and forwards requests to the ECS service.">ALB / HTTPS</button><i class="flow-line horizontal"><span></span></i>
           <button class="arch-node accent" data-arch-info="Runs the ARM64 NGINX application container without managing EC2 hosts.">ECS Fargate</button><i class="flow-line horizontal"><span style="animation-direction:reverse !important"></span></i>
@@ -119,12 +158,12 @@
         </div></div>
       </article>
 
-      <article class="evidence-card card reveal">
-        <div class="evidence-index">02</div>
+      <article class="evidence-card evidence-card-stable card reveal">
+        <div class="evidence-index">03</div>
         <div class="evidence-header">
-          <span class="kicker">Platform engineering</span>
-          <h3>Building immutable AWS infrastructure with Terraform</h3>
-          <p>End-to-end platform engineering project demonstrating how secure, versioned and immutable AWS infrastructure can be designed, deployed and operated with Terraform and GitHub Actions.</p>
+          <span class="kicker">Immutable AWS Infrastructure</span>
+          <h3 class="featured-project-title">Immutable AWS infrastructure with Terraform</h3>
+          <p>Production-inspired AWS platform built with Terraform, immutable infrastructure and GitHub Actions.</p>
           <div class="integrated-stack-pills" aria-label="Technologies applied in the immutable AWS infrastructure project">
             <span><b>Terraform</b><small>IaC</small></span><i>→</i>
             <span><b>AWS</b><small>Platform</small></span><i>→</i>
@@ -144,44 +183,11 @@
             <pre><code data-terminal-output></code><span class="terminal-cursor">▋</span></pre>
           </div>
         </div>
-        <div class="architecture-column"><div class="architecture-cta"><a href="projects/immutable-aws-infrastructure.html" class="card-link">View case study <span>↗</span></a></div><div class="architecture-lab architecture-stable animated-architecture" data-architecture-flow>
+        <div class="architecture-column"><div class="architecture-cta"><a href="projects/immutable-aws-infrastructure.html" class="card-link">View case study <span>↗</span></a></div><div class="architecture-lab architecture-stable architecture-featured architecture-immutable animated-architecture" data-architecture-flow>
           <button class="arch-node" data-arch-info="Public traffic enters the development workload through the load balancer.">Internet</button><i class="flow-line horizontal"><span></span></i>
           <button class="arch-node" data-arch-info="Routes traffic to healthy application instances and performs health checks.">ALB</button><i class="flow-line horizontal"><span></span></i>
           <button class="arch-node accent" data-arch-info="Replaceable Auto Scaling instances are launched from a Golden AMI built with AWS Image Builder.">ASG / EC2</button><i class="flow-line horizontal"><span></span></i>
           <button class="arch-node" data-arch-info="Private PostgreSQL database protected through security-group access, KMS encryption and Secrets Manager credentials.">RDS</button>
-          <div class="arch-tooltip" data-arch-tooltip>Hover an architecture node</div>
-        </div></div>
-      </article>
-
-      <article class="evidence-card evidence-card-stable card reveal">
-        <div class="evidence-index">03</div>
-        <div class="evidence-header">
-          <span class="kicker">Cloud infrastructure</span>
-          <h3>Automating a WordPress infrastructure deployment</h3>
-          <p>Provisioned a reproducible AWS environment with Terraform, covering networking, routing, security and compute.</p>
-          <div class="integrated-stack-pills" aria-label="Technologies applied in this project">
-            <span><b>Terraform</b><small>IaC</small></span><i>→</i>
-            <span><b>AWS</b><small>Cloud</small></span><i>→</i>
-            <span><b>Linux</b><small>Bootstrap</small></span><i>→</i>
-            <span><b>Bash</b><small>Automation</small></span>
-          </div>
-        </div>
-        <div class="evidence-build">
-          <div class="project-terminal reveal" data-terminal-once data-terminal-lines='[
-  "$ terraform init",
-  "$ terraform plan",
-  "$ terraform apply",
-  "✓ infrastructure deployed"
-]'>
-            <div class="terminal-bar"><i></i><i></i><i></i><span>terraform / aws</span></div>
-            <pre><code data-terminal-output></code><span class="terminal-cursor">▋</span></pre>
-          </div>
-        </div>
-        <div class="architecture-column"><div class="architecture-cta"><a href="projects/terraform-wordpress.html" class="card-link">View case study <span>↗</span></a></div><div class="architecture-lab architecture-stable animated-architecture" data-architecture-flow>
-          <button class="arch-node" data-arch-info="Public entry point for the environment.">Internet</button><i class="flow-line horizontal"><span></span></i>
-          <button class="arch-node" data-arch-info="Internet Gateway attached to the VPC.">IGW</button><i class="flow-line horizontal"><span></span></i>
-          <button class="arch-node" data-arch-info="Public subnet with a route to the internet.">Subnet</button><i class="flow-line horizontal"><span></span></i>
-          <button class="arch-node accent" data-arch-info="EC2 instance bootstrapped with WordPress.">EC2</button>
           <div class="arch-tooltip" data-arch-tooltip>Hover an architecture node</div>
         </div></div>
       </article>

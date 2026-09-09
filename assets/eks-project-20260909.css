@@ -1,0 +1,220 @@
+/* Amazon EKS project presentation — 09 Sep 2026
+   Keeps the established portfolio card language while giving Project 01 a
+   restrained teal emphasis and enough room for the larger platform story. */
+
+body[data-page="home"] .evidence-card-eks,
+body[data-page="projects"] .project-card-eks{
+  border-color:color-mix(in srgb,var(--green) 34%,var(--line));
+  box-shadow:0 14px 42px rgba(0,0,0,.14),inset 0 0 0 1px color-mix(in srgb,var(--green) 8%,transparent);
+}
+
+body[data-page="home"] .evidence-card-eks:hover,
+body[data-page="projects"] .project-card-eks:hover{
+  border-color:color-mix(in srgb,var(--green) 58%,var(--line-strong));
+  box-shadow:0 18px 48px rgba(0,20,21,.24),inset 0 0 0 1px color-mix(in srgb,var(--green) 14%,transparent);
+}
+
+html[data-theme="light"] body[data-page="home"] .evidence-card-eks,
+html[data-theme="light"] body[data-page="projects"] .project-card-eks{
+  box-shadow:0 14px 36px rgba(20,80,82,.08),inset 0 0 0 1px color-mix(in srgb,var(--green) 10%,transparent);
+}
+
+/* Homepage stack pills keep the same shape and motion, with a restrained teal
+   focus state for the EKS card only. */
+body[data-page="home"] .evidence-card-eks .integrated-stack-pills>span{
+  transition:transform 180ms ease,border-color 180ms ease,background-color 180ms ease,box-shadow 180ms ease;
+}
+body[data-page="home"] .evidence-card-eks .integrated-stack-pills>span:hover{
+  transform:translateY(-1px);
+  border-color:color-mix(in srgb,var(--green) 72%,var(--line));
+  background:color-mix(in srgb,var(--green) 11%,var(--panel));
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 17%,transparent),0 0 14px color-mix(in srgb,var(--green) 18%,transparent);
+}
+
+/* Architecture nodes remain interactive and use the same tooltip behaviour as
+   the other homepage project diagrams. */
+body[data-page="home"] .evidence-card-eks .arch-node:hover,
+body[data-page="home"] .evidence-card-eks .arch-node:focus,
+body[data-page="projects"] .project-card-eks .arch-node:hover,
+body[data-page="projects"] .project-card-eks .arch-node:focus{
+  border-color:var(--green);
+  outline-color:color-mix(in srgb,var(--green) 28%,transparent);
+}
+
+.eks-evidence-line{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:5px 9px;
+  min-height:28px;
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.eks-evidence-line span{
+  display:inline-flex;
+  align-items:center;
+  white-space:nowrap;
+}
+.eks-evidence-line span+span:before{
+  content:"·";
+  margin-right:9px;
+  color:var(--green);
+}
+
+/* Dedicated EKS architecture widths: Cloudflare DNS and K8s Workloads receive
+   more room while the shorter EKS node stays compact. */
+@media(min-width:1121px){
+  body[data-page="home"] .architecture-eks{
+    grid-template-columns:
+      minmax(96px,1.22fr) 12px
+      minmax(76px,.96fr) 12px
+      minmax(48px,.62fr) 12px
+      minmax(94px,1.20fr);
+    padding:30px 14px 18px;
+  }
+  body[data-page="home"] .architecture-eks .arch-node{
+    padding:11px 5px;
+    font-size:10px;
+  }
+}
+
+/* Projects page: Project 01 spans both columns and uses the available width for
+   the platform architecture rather than leaving an orphan fifth card. */
+body[data-page="projects"] .project-card-featured{
+  grid-column:1/-1;
+  min-height:0;
+  display:grid;
+  grid-template-columns:minmax(0,1.02fr) minmax(390px,.98fr);
+  grid-template-areas:
+    "copy architecture"
+    "links architecture";
+  column-gap:42px;
+  row-gap:22px;
+  align-items:start;
+  padding:36px 38px 34px;
+}
+body[data-page="projects"] .project-card-featured .project-number{
+  left:36px;
+  right:auto;
+  top:35px;
+}
+body[data-page="projects"] .project-featured-copy{
+  grid-area:copy;
+  min-width:0;
+  padding-left:82px;
+}
+body[data-page="projects"] .project-featured-copy h3{
+  max-width:640px;
+  margin-top:9px;
+}
+body[data-page="projects"] .project-featured-copy p{
+  max-width:680px;
+  margin-bottom:18px;
+}
+body[data-page="projects"] .project-featured-architecture{
+  grid-area:architecture;
+  min-width:0;
+  align-self:center;
+}
+body[data-page="projects"] .project-featured-links{
+  grid-area:links;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px 20px;
+  padding-left:82px;
+}
+body[data-page="projects"] .project-featured-links>a{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-weight:850;
+}
+body[data-page="projects"] .project-featured-links .project-case-link{
+  margin:0;
+}
+
+body[data-page="projects"] .project-card-eks .tag{
+  cursor:default;
+  transition:transform 180ms ease,border-color 180ms ease,background-color 180ms ease,box-shadow 180ms ease,color 180ms ease;
+}
+body[data-page="projects"] .project-card-eks .tag:hover{
+  transform:translateY(-1px);
+  color:var(--text);
+  border-color:color-mix(in srgb,var(--green) 72%,var(--line));
+  background:color-mix(in srgb,var(--green) 11%,var(--panel));
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 17%,transparent),0 0 14px color-mix(in srgb,var(--green) 18%,transparent);
+}
+
+@media(min-width:651px){
+  body[data-page="projects"] .architecture-project-eks{
+    grid-template-columns:
+      minmax(104px,1.22fr) 16px
+      minmax(82px,.96fr) 16px
+      minmax(52px,.62fr) 16px
+      minmax(102px,1.18fr);
+    min-height:238px;
+    padding:32px 20px 20px;
+  }
+  body[data-page="projects"] .architecture-project-eks .arch-node{
+    padding:11px 6px;
+    font-size:10.5px;
+  }
+}
+
+@media(max-width:900px){
+  body[data-page="projects"] .project-card-featured{
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "copy"
+      "architecture"
+      "links";
+    row-gap:24px;
+  }
+  body[data-page="projects"] .project-featured-architecture{
+    align-self:stretch;
+  }
+}
+
+@media(max-width:650px){
+  body[data-page="home"] .eks-evidence-line,
+  body[data-page="projects"] .eks-evidence-line{
+    justify-content:flex-start;
+    gap:4px 7px;
+  }
+  .eks-evidence-line span+span:before{
+    margin-right:7px;
+  }
+
+  body[data-page="projects"] .project-card-featured{
+    padding:23px;
+  }
+  body[data-page="projects"] .project-card-featured .project-number{
+    left:auto;
+    right:22px;
+    top:22px;
+  }
+  body[data-page="projects"] .project-featured-copy,
+  body[data-page="projects"] .project-featured-links{
+    padding-left:0;
+  }
+  body[data-page="projects"] .project-featured-copy h3{
+    max-width:88%;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  body[data-page="home"] .evidence-card-eks .integrated-stack-pills>span,
+  body[data-page="projects"] .project-card-eks .tag{
+    transition:none;
+  }
+  body[data-page="home"] .evidence-card-eks .integrated-stack-pills>span:hover,
+  body[data-page="projects"] .project-card-eks .tag:hover{
+    transform:none;
+  }
+}
