@@ -3,7 +3,8 @@
 
   const bar = document.querySelector('.lab-page .filter-bar');
   const cards = [...document.querySelectorAll('.lab-topic-card[data-category]')];
-  if (!bar || !cards.length) return;
+  const groups = [...document.querySelectorAll('.lab-topic-group[data-group]')];
+  if (!bar || !cards.length || !groups.length) return;
 
   const buttons = [...bar.querySelectorAll('.filter[data-filter]')];
 
@@ -12,6 +13,12 @@
       const active = button.dataset.filter === filter;
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', String(active));
+    });
+
+    groups.forEach((group) => {
+      const match = filter === 'all' || group.dataset.group === filter;
+      group.hidden = !match;
+      group.setAttribute('aria-hidden', String(!match));
     });
 
     cards.forEach((card) => {
