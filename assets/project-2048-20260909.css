@@ -1,0 +1,27 @@
+/* 2048 EKS featured-project architecture — 09 Sep 2026 */
+@media (min-width:1121px){
+  body[data-page="home"] .architecture-eks{
+    grid-template-columns:
+      minmax(72px,.98fr) 14px
+      minmax(82px,1.12fr) 14px
+      minmax(76px,1.02fr) 14px
+      minmax(66px,.88fr);
+    padding:30px 16px 18px;
+    column-gap:0;
+  }
+  body[data-page="home"] .architecture-eks .arch-node{
+    min-width:0;
+    width:100%;
+    padding:11px 4px;
+    font-size:10.5px;
+    white-space:nowrap;
+  }
+  body[data-page="home"] .architecture-eks .flow-line.horizontal{
+    width:100%;
+    justify-self:stretch;
+    margin:0;
+  }
+  body[data-page="home"] .architecture-eks .arch-tooltip{
+    margin-top:24px;
+  }
+}
