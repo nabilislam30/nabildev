@@ -420,7 +420,7 @@ html[data-theme="light"] .integrated-stack-pills>span:hover{
   .footer .footer-social .footer-social-link>b{
     display:none;
   }
-  .footer .footer-social-icon{
+  .footer-social-icon{
     width:30px;
     height:30px;
   }
@@ -476,5 +476,125 @@ html[data-theme="light"] .integrated-stack-pills>span:hover{
   .architecture-stable .flow-line.horizontal span,
   .case-flow b{
     animation:none !important;
+  }
+}
+
+/* =========================================================
+   Homepage tool rail — Better Stack-inspired soft-focus edges.
+   Keep the centre of the marquee crisp while tools progressively blur and
+   fade as they enter or leave the viewport. The duplicated track already
+   provides the seamless loop, so this remains CSS-only.
+   ========================================================= */
+body[data-page="home"] .tool-marquee{
+  isolation:isolate;
+  border-block:0;
+  background:linear-gradient(90deg,
+    color-mix(in srgb,var(--bg) 96%,transparent),
+    color-mix(in srgb,var(--panel) 24%,transparent) 18%,
+    color-mix(in srgb,var(--panel) 30%,transparent) 50%,
+    color-mix(in srgb,var(--panel) 24%,transparent) 82%,
+    color-mix(in srgb,var(--bg) 96%,transparent));
+  box-shadow:inset 0 1px color-mix(in srgb,var(--text) 5%,transparent),inset 0 -1px color-mix(in srgb,var(--text) 5%,transparent);
+}
+
+body[data-page="home"] .tool-track{
+  animation-duration:38s;
+}
+
+body[data-page="home"] .tool{
+  opacity:.92;
+  transition:background .18s ease,transform .18s ease,opacity .18s ease,filter .18s ease;
+}
+
+body[data-page="home"] .tool:hover{
+  opacity:1;
+  filter:none;
+}
+
+body[data-page="home"] .tool-fade{
+  z-index:5;
+  width:clamp(110px,13vw,210px);
+  overflow:hidden;
+  background:none;
+}
+
+body[data-page="home"] .tool-fade::before,
+body[data-page="home"] .tool-fade::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  pointer-events:none;
+}
+
+/* Broad low-strength blur begins before the hard edge, so logos feel as though
+   they move behind the page rather than simply disappearing under a gradient. */
+body[data-page="home"] .tool-fade-left::before{
+  left:0;
+  width:100%;
+  -webkit-backdrop-filter:blur(4px);
+  backdrop-filter:blur(4px);
+  -webkit-mask-image:linear-gradient(90deg,#000 0%,rgba(0,0,0,.92) 26%,rgba(0,0,0,.48) 67%,transparent 100%);
+  mask-image:linear-gradient(90deg,#000 0%,rgba(0,0,0,.92) 26%,rgba(0,0,0,.48) 67%,transparent 100%);
+}
+body[data-page="home"] .tool-fade-right::before{
+  right:0;
+  width:100%;
+  -webkit-backdrop-filter:blur(4px);
+  backdrop-filter:blur(4px);
+  -webkit-mask-image:linear-gradient(270deg,#000 0%,rgba(0,0,0,.92) 26%,rgba(0,0,0,.48) 67%,transparent 100%);
+  mask-image:linear-gradient(270deg,#000 0%,rgba(0,0,0,.92) 26%,rgba(0,0,0,.48) 67%,transparent 100%);
+}
+
+/* A narrower stronger layer finishes the Better Stack-style depth at the very
+   edge while the background gradient lowers contrast at the same time. */
+body[data-page="home"] .tool-fade-left::after{
+  left:0;
+  width:64%;
+  background:linear-gradient(90deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 88%,transparent) 34%,transparent 100%);
+  -webkit-backdrop-filter:blur(9px);
+  backdrop-filter:blur(9px);
+  -webkit-mask-image:linear-gradient(90deg,#000 0%,rgba(0,0,0,.82) 45%,transparent 100%);
+  mask-image:linear-gradient(90deg,#000 0%,rgba(0,0,0,.82) 45%,transparent 100%);
+}
+body[data-page="home"] .tool-fade-right::after{
+  right:0;
+  width:64%;
+  background:linear-gradient(270deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 88%,transparent) 34%,transparent 100%);
+  -webkit-backdrop-filter:blur(9px);
+  backdrop-filter:blur(9px);
+  -webkit-mask-image:linear-gradient(270deg,#000 0%,rgba(0,0,0,.82) 45%,transparent 100%);
+  mask-image:linear-gradient(270deg,#000 0%,rgba(0,0,0,.82) 45%,transparent 100%);
+}
+
+html[data-theme="light"] body[data-page="home"] .tool-marquee{
+  background:linear-gradient(90deg,
+    color-mix(in srgb,var(--bg) 98%,transparent),
+    color-mix(in srgb,var(--panel-2) 36%,transparent) 20%,
+    color-mix(in srgb,var(--panel-2) 44%,transparent) 50%,
+    color-mix(in srgb,var(--panel-2) 36%,transparent) 80%,
+    color-mix(in srgb,var(--bg) 98%,transparent));
+}
+
+@media(max-width:650px){
+  body[data-page="home"] .tool-fade{
+    width:72px;
+  }
+  body[data-page="home"] .tool-fade-left::before,
+  body[data-page="home"] .tool-fade-right::before{
+    -webkit-backdrop-filter:blur(3px);
+    backdrop-filter:blur(3px);
+  }
+  body[data-page="home"] .tool-fade-left::after,
+  body[data-page="home"] .tool-fade-right::after{
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  body[data-page="home"] .tool-track{
+    animation:none !important;
+    transform:none !important;
   }
 }
