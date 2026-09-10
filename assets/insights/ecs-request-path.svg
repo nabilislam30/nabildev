@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">ECS Fargate request path insight</title>
+  <desc id="desc">A visual showing Route 53, an HTTPS Application Load Balancer, ECS Fargate tasks and ECR with health checks.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08292b"/><stop offset="1" stop-color="#0d3336"/></linearGradient>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M34 0H0V34" fill="none" stroke="#d9efea" stroke-opacity=".035"/></pattern>
+  </defs>
+  <rect width="1200" height="620" rx="30" fill="url(#bg)"/>
+  <rect width="1200" height="620" rx="30" fill="url(#grid)"/>
+  <rect x="44" y="42" width="1112" height="536" rx="22" fill="#061f21" stroke="#b9d9d3" stroke-opacity=".16"/>
+  <circle cx="76" cy="74" r="6" fill="#ef6a5b"/><circle cx="96" cy="74" r="6" fill="#e9a648"/><circle cx="116" cy="74" r="6" fill="#75d6c0"/>
+  <text x="142" y="80" fill="#8faeaa" font-family="system-ui,sans-serif" font-size="15" font-weight="700" letter-spacing="1.8">REQUEST PATH / ECS FARGATE</text>
+  <text x="76" y="142" fill="#fbf6ed" font-family="system-ui,sans-serif" font-size="25" font-weight="800">HTTPS request flow</text>
+  <text x="76" y="171" fill="#8faeaa" font-family="system-ui,sans-serif" font-size="14">Public traffic reaches healthy container tasks without managing EC2 hosts.</text>
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <g><rect x="74" y="224" width="160" height="84" rx="16" fill="#0e3f41" stroke="#b9d9d3" stroke-opacity=".28"/><text x="154" y="257" fill="#fbf6ed" font-size="16" font-weight="800">Route 53</text><text x="154" y="282" fill="#8faeaa" font-size="12">DNS</text></g>
+    <path d="M248 266H322" stroke="#ea9239" stroke-width="2"/><circle cx="285" cy="266" r="5" fill="#ea9239"/><path d="m315 259 9 7-9 7" fill="none" stroke="#ea9239" stroke-width="2"/>
+    <g><rect x="336" y="206" width="210" height="120" rx="18" fill="#123f42" stroke="#76d6c0" stroke-opacity=".48"/><text x="441" y="246" fill="#fbf6ed" font-size="17" font-weight="800">ALB / HTTPS</text><text x="441" y="272" fill="#8faeaa" font-size="12">ACM certificate</text><rect x="390" y="289" width="102" height="22" rx="11" fill="#072b2d"/><text x="441" y="304" fill="#76d6c0" font-size="10" font-weight="700">443 healthy</text></g>
+    <path d="M560 266H634" stroke="#ea9239" stroke-width="2"/><circle cx="597" cy="266" r="5" fill="#ea9239"/><path d="m627 259 9 7-9 7" fill="none" stroke="#ea9239" stroke-width="2"/>
+    <g><rect x="648" y="196" width="252" height="140" rx="18" fill="#0e3f41" stroke="#b9d9d3" stroke-opacity=".28"/><text x="774" y="235" fill="#fbf6ed" font-size="17" font-weight="800">ECS Fargate</text><rect x="679" y="258" width="84" height="48" rx="10" fill="#072b2d" stroke="#76d6c0" stroke-opacity=".3"/><rect x="785" y="258" width="84" height="48" rx="10" fill="#072b2d" stroke="#76d6c0" stroke-opacity=".3"/><text x="721" y="279" fill="#c7d6d3" font-size="10">task 01</text><text x="721" y="294" fill="#76d6c0" font-size="9">HEALTHY</text><text x="827" y="279" fill="#c7d6d3" font-size="10">task 02</text><text x="827" y="294" fill="#76d6c0" font-size="9">HEALTHY</text></g>
+    <path d="M914 266H988" stroke="#ea9239" stroke-width="2"/><circle cx="951" cy="266" r="5" fill="#ea9239"/><path d="m981 259 9 7-9 7" fill="none" stroke="#ea9239" stroke-width="2"/>
+    <g><rect x="1002" y="224" width="124" height="84" rx="16" fill="#0e3f41" stroke="#b9d9d3" stroke-opacity=".28"/><text x="1064" y="257" fill="#fbf6ed" font-size="16" font-weight="800">ECR</text><text x="1064" y="282" fill="#8faeaa" font-size="12">image</text></g>
+  </g>
+  <g font-family="system-ui,sans-serif">
+    <rect x="74" y="388" width="1052" height="122" rx="18" fill="#092d2f" stroke="#b9d9d3" stroke-opacity=".12"/>
+    <text x="100" y="422" fill="#ea9239" font-size="12" font-weight="800" letter-spacing="1.6">SERVICE HEALTH</text>
+    <path d="M102 474 C170 450, 222 486, 286 457 S414 455, 478 466 S606 447, 670 462 S798 477, 862 452 S988 466,1088 448" fill="none" stroke="#76d6c0" stroke-width="3" stroke-linecap="round"/>
+    <path d="M102 487H1088" stroke="#b9d9d3" stroke-opacity=".12"/>
+    <text x="100" y="499" fill="#8faeaa" font-size="11">ALB health checks keep traffic on healthy Fargate tasks while ECR remains the image source for task starts.</text>
+  </g>
+</svg>
