@@ -136,5 +136,80 @@ html = html.replace(
 // remove the redundant marketing-style CTA.
 html = html.replace(/<section class="home-cta">[\s\S]*?<\/section>\s*/g, '');
 
+// Visual project-insight carousel. Keep this as part of the authoritative
+// homepage build so Cloudflare serves the section without client-side content
+// rewriting. Existing copies are removed first to keep the build idempotent.
+html = html.replace(/\s*<link rel="stylesheet" href="\/assets\/project-insights-20260910\.css(?:\?v=[^"]+)?">\n?/g, '\n');
+html = html.replace(/\s*<script src="\/assets\/project-insights-20260910\.js(?:\?v=[^"]+)?"><\/script>\n?/g, '\n');
+html = html.replace(/\s*<section class="project-insights-section"[\s\S]*?<\/section>\s*/g, '\n');
+
+html = html.replace(
+  '</head>',
+  '  <link rel="stylesheet" href="/assets/project-insights-20260910.css?v=20260910-1505">\n</head>'
+);
+
+const projectInsights = `<section class="project-insights-section" data-project-insights aria-labelledby="project-insights-title">
+  <div class="container insights-shell">
+    <div class="insights-head reveal">
+      <div class="insights-heading-copy">
+        <span class="kicker">Project insights</span>
+        <h2 id="project-insights-title">Inside the engineering.</h2>
+        <p>A closer look at the delivery flows and infrastructure patterns behind selected projects.</p>
+      </div>
+      <div class="insights-actions" aria-label="Project insight carousel controls">
+        <button class="insight-arrow" type="button" data-insights-prev aria-label="Previous insight">←</button>
+        <button class="insight-arrow" type="button" data-insights-next aria-label="Next insight">→</button>
+        <a class="insights-all-link" href="projects.html">View projects <span>↗</span></a>
+      </div>
+    </div>
+
+    <div class="insights-viewport">
+      <div class="insights-track" data-insights-track tabindex="0" aria-label="Project insight cards">
+        <article class="project-insight-card" data-insight-card>
+          <div class="insight-visual"><img src="/assets/insights/eks-gitops.svg" alt="GitOps release flow from GitHub Actions through ECR and ArgoCD to Amazon EKS"></div>
+          <div class="insight-body">
+            <div class="insight-meta"><span class="kicker">Amazon EKS</span><span class="insight-number">01</span></div>
+            <h3>GitOps delivery to EKS</h3>
+            <p>GitHub Actions builds and scans the application image, ECR stores it, and ArgoCD reconciles the Kubernetes deployment from Git.</p>
+            <div class="insight-footer"><div class="insight-tags"><span>ArgoCD</span><span>ECR</span><span>GitHub Actions</span></div><a class="insight-case-link" href="projects/2048-eks-platform.html">Open case study <span>↗</span></a></div>
+          </div>
+        </article>
+
+        <article class="project-insight-card" data-insight-card>
+          <div class="insight-visual"><img src="/assets/insights/ecs-request-path.svg" alt="HTTPS request path through Route 53 and an Application Load Balancer to ECS Fargate"></div>
+          <div class="insight-body">
+            <div class="insight-meta"><span class="kicker">ECS Fargate</span><span class="insight-number">02</span></div>
+            <h3>HTTPS traffic to Fargate</h3>
+            <p>Route 53 resolves the application domain, the ALB terminates HTTPS and forwards traffic only to healthy Fargate tasks running the container.</p>
+            <div class="insight-footer"><div class="insight-tags"><span>Route 53</span><span>ALB</span><span>Fargate</span></div><a class="insight-case-link" href="projects/ecs-threat-composer.html">Open case study <span>↗</span></a></div>
+          </div>
+        </article>
+
+        <article class="project-insight-card" data-insight-card>
+          <div class="insight-visual"><img src="/assets/insights/immutable-terraform.svg" alt="Immutable infrastructure delivery using Terraform, a Golden AMI and an Auto Scaling Group"></div>
+          <div class="insight-body">
+            <div class="insight-meta"><span class="kicker">Terraform</span><span class="insight-number">03</span></div>
+            <h3>Replace rather than patch</h3>
+            <p>Infrastructure changes are reviewed through Terraform and new EC2 instances are launched from a versioned Golden AMI instead of being changed in place.</p>
+            <div class="insight-footer"><div class="insight-tags"><span>Terraform</span><span>Golden AMI</span><span>Auto Scaling</span></div><a class="insight-case-link" href="projects/immutable-aws-infrastructure.html">Open case study <span>↗</span></a></div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="insight-progress" aria-hidden="true"><span data-insights-current>01</span><div class="insight-progress-line"><span data-insights-progress></span></div><span>03</span></div>
+  </div>
+</section>`;
+
+html = html.replace(
+  '<section class="journey-section journey-scroll-section">',
+  `${projectInsights}\n<section class="journey-section journey-scroll-section">`
+);
+
+html = html.replace(
+  '</body>',
+  '  <script src="/assets/project-insights-20260910.js?v=20260910-1505"></script>\n</body>'
+);
+
 await fs.writeFile(homepage, html);
-console.log('Applied authoritative homepage project, Kubernetes Lab and project-process refinements.');
+console.log('Applied authoritative homepage project, insight carousel, Kubernetes Lab and project-process refinements.');
