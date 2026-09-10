@@ -64,7 +64,7 @@ body[data-page="projects"] .project-grid > .project-card:nth-child(-n+2) > .tags
 }
 
 .project-mini-architecture.flow-active .flow-line.horizontal span{
-  animation:archSignal 1.7s ease-in-out infinite;
+  animation:signalAcross 1.7s ease-in-out infinite;
 }
 
 .project-mini-architecture .arch-tooltip{
@@ -136,5 +136,8 @@ body[data-page="projects"] .project-grid > .project-card:nth-child(-n+2) > .tags
     left:50%;
     top:-4px;
     transform:translateX(-50%);
+  }
+  .project-mini-architecture.flow-active .flow-line.horizontal span{
+    animation-name:signalDown;
   }
 }
