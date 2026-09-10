@@ -1,0 +1,20 @@
+/* Architecture inspection state only. Existing flow/reveal animations are untouched. */
+
+.arch-node[data-arch-info],
+.case-node[data-arch-info]{
+  cursor:pointer;
+}
+
+.arch-node.arch-node-selected,
+.case-node.arch-node-selected{
+  border-color:var(--green);
+  color:var(--text);
+  background:color-mix(in srgb,var(--green) 10%,var(--panel));
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 16%,transparent);
+}
+
+.arch-node[data-arch-info]:focus-visible,
+.case-node[data-arch-info]:focus-visible{
+  outline:2px solid color-mix(in srgb,var(--green) 55%,transparent);
+  outline-offset:3px;
+}
