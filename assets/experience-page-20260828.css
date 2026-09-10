@@ -15,8 +15,8 @@ body[data-page="experience"] .experience-card:hover time{
   color:color-mix(in srgb,var(--orange) 46%,transparent);
 }
 
-/* Keep employment and structured training visually distinct while preserving
-   the existing Experience card design and reveal/hover animations. */
+/* Match the approved reference: professional roles together, then a clearly
+   separated training/development block. */
 body[data-page="experience"] .experience-groups{
   display:grid;
   gap:64px;
@@ -26,10 +26,17 @@ body[data-page="experience"] .experience-group-head{
   margin-bottom:24px;
 }
 
+body[data-page="experience"] .experience-group-head .kicker{
+  display:block;
+  margin-bottom:14px;
+}
+
+/* Roles and Structured DevOps learning use the same heading scale. */
 body[data-page="experience"] .experience-group-head h2{
-  margin:7px 0 0;
-  font-size:clamp(36px,4.2vw,52px);
+  margin:0;
+  font-size:clamp(40px,4.2vw,44px) !important;
   line-height:1.04;
+  letter-spacing:-.035em;
 }
 
 body[data-page="experience"] .experience-role-list{
@@ -37,15 +44,14 @@ body[data-page="experience"] .experience-role-list{
   gap:18px;
 }
 
-/* Separate the relationship label from the organisation name. This prevents
-   CURRENT ROLEFIMATIX / PREVIOUS ROLECIVICA / PROGRAMMECODERCO from reading
-   as one word while keeping the compact technical metadata style. */
+/* Compact technical metadata row used in the approved screenshot. */
 body[data-page="experience"] .experience-label-row{
   display:flex;
   flex-wrap:wrap;
   align-items:center;
-  gap:11px;
-  margin-bottom:7px;
+  column-gap:9px;
+  row-gap:4px;
+  margin-bottom:9px;
 }
 
 body[data-page="experience"] .experience-type{
@@ -56,6 +62,7 @@ body[data-page="experience"] .experience-type{
   font:800 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;
   letter-spacing:.08em;
   text-transform:uppercase;
+  white-space:nowrap;
 }
 
 body[data-page="experience"] .experience-type::before{
@@ -69,12 +76,12 @@ body[data-page="experience"] .experience-type::before{
 }
 
 body[data-page="experience"] .experience-company{
+  display:inline-block;
   color:var(--orange);
-  font-size:11px;
-  font-weight:900;
-  line-height:1.2;
+  font:900 11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;
   letter-spacing:.08em;
   text-transform:uppercase;
+  white-space:nowrap;
 }
 
 @media(max-width:820px){
@@ -86,11 +93,15 @@ body[data-page="experience"] .experience-company{
   body[data-page="experience"] .experience-groups{
     gap:52px;
   }
+
+  body[data-page="experience"] .experience-group-head h2{
+    font-size:clamp(36px,8vw,42px) !important;
+  }
 }
 
 @media(max-width:520px){
   body[data-page="experience"] .experience-label-row{
-    gap:8px;
+    column-gap:8px;
   }
 }
 
