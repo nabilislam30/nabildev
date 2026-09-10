@@ -61,4 +61,42 @@
       });
     });
   }
+
+  // EKS case-study motion polish. This only adds state classes; it does not
+  // replace the existing reveal, architecture, terminal or navigation logic.
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  root.classList.add('eks-motion-enabled');
+
+  const motionTargets = [];
+  const register = (element, className) => {
+    if (!element) return;
+    if (className) element.classList.add(className);
+    element.classList.add('eks-motion-watch');
+    motionTargets.push(element);
+  };
+
+  register(root.querySelector('.eks-facts-grid'), 'eks-motion-facts');
+  root.querySelectorAll('.case-steps').forEach((list) => register(list, 'eks-motion-list'));
+  register(root.querySelector('.eks-evolution-grid'), 'eks-motion-evolution');
+  register(root.querySelector('.project-terminal'), 'eks-motion-terminal');
+  register(root.querySelector('.case-resolution-grid'), 'eks-motion-resolutions');
+  register(root.querySelector('.case-outcome-panel'), 'eks-motion-outcome');
+
+  // Give the hero a short entrance without changing layout or spacing.
+  root.querySelector('.case-hero')?.classList.add('eks-hero-motion');
+
+  if (reducedMotion || !('IntersectionObserver' in window)) {
+    motionTargets.forEach((target) => target.classList.add('is-inview'));
+    return;
+  }
+
+  const motionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-inview');
+      motionObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.16, rootMargin: '0px 0px -8% 0px' });
+
+  motionTargets.forEach((target) => motionObserver.observe(target));
 })();
