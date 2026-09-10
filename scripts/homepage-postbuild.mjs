@@ -12,7 +12,7 @@ let html = await fs.readFile(homepage, 'utf8');
 // featured cards must not depend on runtime JavaScript to acquire the canonical
 // WordPress card structure or their final recruiter-facing titles.
 html = html
-  .replace('assets/styles.css?v=20260818-1309', 'assets/styles.css?v=20260826-03')
+  .replace(/assets\/styles\.css\?v=[^"]+/, 'assets/styles.css?v=20260910-1434')
   .replaceAll('features.css?v=20260820-01', 'features.css?v=20260826-03')
   .replaceAll('features.js?v=20260820-01', 'features.js?v=20260826-03');
 
