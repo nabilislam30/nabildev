@@ -41,30 +41,143 @@ body[data-page="projects"] .project-card-eks .arch-node:focus{
   outline-color:color-mix(in srgb,var(--green) 28%,transparent);
 }
 
+/* Platform capability evidence sits outside the traffic path because these are
+   cross-cutting platform controls rather than request-routing components. */
 .eks-evidence-line{
+  position:relative;
   display:flex;
   flex-wrap:wrap;
   align-items:center;
   justify-content:center;
-  gap:5px 9px;
-  min-height:28px;
+  gap:8px;
+  min-height:86px;
   margin-top:10px;
+  padding:24px 0 30px;
+}
+.eks-evidence-line::before{
+  content:"Platform capabilities";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
   color:var(--muted-2);
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:.055em;
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:.11em;
+  text-align:center;
   text-transform:uppercase;
 }
 .eks-evidence-line span{
+  position:relative;
   display:inline-flex;
   align-items:center;
+  justify-content:center;
+  min-height:28px;
+  padding:6px 10px;
+  border:1px solid color-mix(in srgb,var(--green) 24%,var(--line));
+  border-radius:999px;
+  background:color-mix(in srgb,var(--panel) 92%,transparent);
+  color:var(--muted);
+  font-size:9.5px;
+  font-weight:800;
+  letter-spacing:.035em;
+  line-height:1;
+  text-transform:none;
   white-space:nowrap;
+  opacity:.62;
+  transform:translateY(3px);
+  transition:transform 180ms ease,border-color 180ms ease,background-color 180ms ease,box-shadow 180ms ease,color 180ms ease,opacity 180ms ease;
 }
-.eks-evidence-line span+span:before{
-  content:"·";
-  margin-right:9px;
-  color:var(--green);
+
+/* The card's existing reveal observer adds .visible once. That starts this
+   sequence once when Project 01 enters the viewport. */
+body[data-page="home"] .evidence-card-eks.visible .eks-evidence-line span{
+  animation:eksCapabilityActivate 520ms cubic-bezier(.22,1,.36,1) forwards;
 }
+body[data-page="home"] .evidence-card-eks.visible .eks-evidence-line span:nth-child(1){animation-delay:120ms}
+body[data-page="home"] .evidence-card-eks.visible .eks-evidence-line span:nth-child(2){animation-delay:250ms}
+body[data-page="home"] .evidence-card-eks.visible .eks-evidence-line span:nth-child(3){animation-delay:380ms}
+body[data-page="home"] .evidence-card-eks.visible .eks-evidence-line span:nth-child(4){animation-delay:510ms}
+
+@keyframes eksCapabilityActivate{
+  0%{
+    opacity:.62;
+    transform:translateY(3px);
+    border-color:color-mix(in srgb,var(--green) 24%,var(--line));
+    background:color-mix(in srgb,var(--panel) 92%,transparent);
+    box-shadow:none;
+  }
+  55%{
+    opacity:1;
+    transform:translateY(-1px);
+    color:var(--text);
+    border-color:color-mix(in srgb,var(--green) 80%,var(--line));
+    background:color-mix(in srgb,var(--green) 13%,var(--panel));
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 18%,transparent),0 0 15px color-mix(in srgb,var(--green) 24%,transparent);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0);
+    color:var(--muted);
+    border-color:color-mix(in srgb,var(--green) 34%,var(--line));
+    background:color-mix(in srgb,var(--panel) 94%,transparent);
+    box-shadow:none;
+  }
+}
+
+.eks-evidence-line span:hover{
+  z-index:6;
+  opacity:1;
+  transform:translateY(-1px);
+  color:var(--text);
+  border-color:color-mix(in srgb,var(--green) 76%,var(--line));
+  background:color-mix(in srgb,var(--green) 11%,var(--panel));
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 17%,transparent),0 0 14px color-mix(in srgb,var(--green) 18%,transparent);
+}
+
+/* Each capability explains what it contributes to this EKS project. */
+.eks-evidence-line span::after{
+  position:absolute;
+  top:calc(100% + 8px);
+  left:50%;
+  width:230px;
+  padding:7px 9px;
+  border:1px solid color-mix(in srgb,var(--green) 24%,var(--line));
+  border-radius:9px;
+  background:color-mix(in srgb,var(--panel) 97%,#00191a 3%);
+  color:var(--muted);
+  box-shadow:0 9px 22px rgba(0,0,0,.18);
+  font-size:9.5px;
+  font-weight:650;
+  letter-spacing:0;
+  line-height:1.4;
+  text-align:left;
+  text-transform:none;
+  white-space:normal;
+  opacity:0;
+  pointer-events:none;
+  transform:translate(-50%,4px);
+  transition:opacity 160ms ease,transform 160ms ease;
+}
+.eks-evidence-line span:nth-child(1)::after{content:"ArgoCD keeps Kubernetes workloads aligned with the desired state stored in Git."}
+.eks-evidence-line span:nth-child(2)::after{content:"GitHub Actions assumes AWS IAM roles through OIDC instead of storing long-lived access keys."}
+.eks-evidence-line span:nth-child(3)::after{content:"Prometheus and Grafana provide visibility into cluster, node and workload health."}
+.eks-evidence-line span:nth-child(4)::after{content:"Checkov scans Terraform and Trivy scans container images before release."}
+.eks-evidence-line span:hover::after{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+.eks-evidence-line span:first-child::after{
+  left:0;
+  transform:translate(0,4px);
+}
+.eks-evidence-line span:first-child:hover::after{transform:translate(0,0)}
+.eks-evidence-line span:last-child::after{
+  right:0;
+  left:auto;
+  transform:translate(0,4px);
+}
+.eks-evidence-line span:last-child:hover::after{transform:translate(0,0)}
 
 /* Dedicated EKS architecture widths: Cloudflare DNS and K8s Workloads receive
    more room while the shorter EKS node stays compact. */
@@ -179,16 +292,23 @@ body[data-page="projects"] .project-card-eks .tag:hover{
   body[data-page="projects"] .project-featured-architecture{
     align-self:stretch;
   }
+  .eks-evidence-line span::after{
+    width:min(210px,70vw);
+  }
 }
 
 @media(max-width:650px){
   body[data-page="home"] .eks-evidence-line,
   body[data-page="projects"] .eks-evidence-line{
     justify-content:flex-start;
-    gap:4px 7px;
+    min-height:76px;
+    padding-bottom:22px;
   }
-  .eks-evidence-line span+span:before{
-    margin-right:7px;
+  .eks-evidence-line::before{
+    text-align:left;
+  }
+  .eks-evidence-line span::after{
+    display:none;
   }
 
   body[data-page="projects"] .project-card-featured{
@@ -210,11 +330,19 @@ body[data-page="projects"] .project-card-eks .tag:hover{
 
 @media(prefers-reduced-motion:reduce){
   body[data-page="home"] .evidence-card-eks .integrated-stack-pills>span,
-  body[data-page="projects"] .project-card-eks .tag{
+  body[data-page="projects"] .project-card-eks .tag,
+  .eks-evidence-line span,
+  .eks-evidence-line span::after{
     transition:none;
+    animation:none !important;
   }
   body[data-page="home"] .evidence-card-eks .integrated-stack-pills>span:hover,
-  body[data-page="projects"] .project-card-eks .tag:hover{
+  body[data-page="projects"] .project-card-eks .tag:hover,
+  .eks-evidence-line span:hover{
+    transform:none;
+  }
+  .eks-evidence-line span{
+    opacity:1;
     transform:none;
   }
 }
