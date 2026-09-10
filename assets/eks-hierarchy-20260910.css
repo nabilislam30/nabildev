@@ -1,0 +1,68 @@
+/* EKS case-study hierarchy refinement — scoped to this page only. */
+body[data-case="eks"] .eks-overview-clean{
+  max-width:980px;
+}
+
+body[data-case="eks"] .eks-overview-clean > p{
+  max-width:900px;
+}
+
+body[data-case="eks"] .eks-facts-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-top:22px;
+}
+
+body[data-case="eks"] .eks-fact{
+  min-height:96px;
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:color-mix(in srgb,var(--panel) 34%,transparent);
+}
+
+body[data-case="eks"] .eks-fact strong{
+  display:block;
+  margin-bottom:5px;
+  color:var(--text);
+  font-size:19px;
+  line-height:1.05;
+}
+
+body[data-case="eks"] .eks-fact:first-child strong,
+body[data-case="eks"] .eks-fact:nth-child(2) strong{
+  color:var(--orange);
+}
+
+body[data-case="eks"] .eks-fact:nth-child(3) strong,
+body[data-case="eks"] .eks-fact:nth-child(4) strong{
+  color:var(--green);
+}
+
+body[data-case="eks"] .eks-fact span{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.4;
+}
+
+body[data-case="eks"] .eks-architecture-primary{
+  margin:22px 0;
+}
+
+body[data-case="eks"] .eks-architecture-primary .case-architecture{
+  margin:0;
+}
+
+@media(max-width:760px){
+  body[data-case="eks"] .eks-facts-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:480px){
+  body[data-case="eks"] .eks-facts-grid{
+    grid-template-columns:1fr;
+  }
+}
