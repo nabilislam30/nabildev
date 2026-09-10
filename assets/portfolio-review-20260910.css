@@ -1,8 +1,8 @@
 /* Portfolio review branch refinements — 10 Sep 2026 */
 
 :root{
-  --section-space:clamp(72px,8vw,104px);
-  --section-gap:clamp(28px,3vw,38px);
+  --section-space:clamp(52px,6vw,76px);
+  --section-gap:clamp(24px,3vw,34px);
   --card-gap:clamp(16px,2vw,22px);
 }
 
@@ -17,21 +17,51 @@ main > section:not(.hero):not(.page-hero):not(.case-hero){padding-block:var(--se
 .card-link span,.project-case-link span,.project-featured-links a span{transition:transform 180ms ease}
 .card-link:hover span,.project-case-link:hover span,.project-featured-links a:hover span{transform:translate(2px,-2px)}
 
-/* Experience: separate employment from training. */
-.experience-group + .experience-group{margin-top:72px}
+/* Homepage architecture definitions: all three selected projects now explain the diagram. */
+body[data-page="home"] .architecture-ecs::after,
+body[data-page="home"] .architecture-immutable::after{
+  grid-column:1/-1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:54px;
+  margin-top:20px;
+  padding:11px 14px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.45;
+  text-align:center;
+}
+body[data-page="home"] .architecture-ecs::after{
+  content:"Runs the NGINX application container on ECS Fargate behind an HTTPS load balancer, without managing EC2 hosts.";
+}
+body[data-page="home"] .architecture-immutable::after{
+  content:"Replaceable EC2 instances launch from a Golden AMI behind an ALB, with the PostgreSQL database kept private.";
+}
+
+/* Experience: deliberate separation between every role and the training block. */
+body[data-page="experience"] main > section:not(.page-hero){padding:56px 0 72px}
+.experience-group + .experience-group{margin-top:52px}
 .experience-group-head{margin-bottom:24px}
 .experience-group-head h2{margin:.35rem 0 0;font-size:clamp(30px,4vw,44px)}
-.experience-role-list{display:grid;gap:18px}
+.experience-role-list{display:grid;gap:28px}
 .experience-card{position:relative}
-.experience-type{display:inline-flex;align-items:center;gap:8px;margin-bottom:8px;color:var(--muted-2);font:800 11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase}
+.experience-type{display:inline-flex;align-items:center;gap:8px;margin-bottom:10px;color:var(--muted-2);font:800 11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase}
 .experience-type::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
 
-/* About: less dashboard-like; one current-work feature plus three development areas. */
+/* About: compact section rhythm and clear current-focus metadata. */
+body[data-page="about"] .about-story-section{padding:48px 0 22px!important}
+body[data-page="about"] .about-work-section{padding:28px 0 24px!important}
+body[data-page="about"] .about-learning-section{padding:30px 0 64px!important}
 .about-current-focus{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:var(--card-gap)}
-.about-current-main,.about-current-side{padding:32px}
+.about-current-main,.about-current-side{padding:30px}
 .about-current-main h3{font-size:clamp(28px,3vw,38px);margin:.45rem 0 .75rem}
-.about-current-side{display:grid;align-content:start;gap:18px}
-.about-focus-link{margin-top:20px}
+.about-current-side{display:grid;align-content:start;gap:14px}
+.about-current-meta{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin-bottom:7px}
+.about-current-meta .about-status,.about-current-meta .kicker{margin:0}
+.about-focus-link{margin-top:18px}
 
 /* Articles */
 .article-grid-review{display:grid;grid-template-columns:minmax(0,1.25fr) repeat(2,minmax(0,.75fr));gap:var(--card-gap)}
@@ -59,40 +89,136 @@ main > section:not(.hero):not(.page-hero):not(.case-hero){padding-block:var(--se
 .article-callout{padding:22px 24px;border-left:3px solid var(--orange);background:color-mix(in srgb,var(--panel) 65%,transparent);border-radius:0 14px 14px 0}
 .article-related{margin-top:52px;padding:26px}
 
-/* Project listing: consistent footer links. */
+/* Projects: one horizontal architecture language and one aligned action row. */
 .project-card{display:flex;flex-direction:column}
-.project-card-actions{display:flex;flex-wrap:wrap;gap:18px;margin-top:auto;padding-top:20px}
-.project-card-actions a{font-weight:800}
+.project-card-actions{
+  display:flex!important;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:flex-start;
+  gap:20px;
+  width:100%;
+  margin-top:auto;
+  padding-top:20px;
+}
+.project-card-actions a,.project-card-actions .project-case-link{
+  display:inline-flex!important;
+  align-items:center;
+  width:auto!important;
+  margin:0!important;
+  padding:0!important;
+  font-weight:800;
+}
+body[data-page="projects"] .project-card:not(.project-card-featured) .arch{
+  min-height:156px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:20px 16px;
+}
+body[data-page="projects"] .project-card:not(.project-card-featured) .arch-row{
+  flex:0 1 auto;
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:nowrap;
+  gap:5px;
+}
+body[data-page="projects"] .project-card:not(.project-card-featured) .arch-box{
+  padding:8px 9px;
+  white-space:nowrap;
+  font-size:10.5px;
+}
+body[data-page="projects"] .project-card:not(.project-card-featured) .line{
+  flex:0 0 18px;
+  width:18px;
+  height:1px;
+  margin:0;
+  background:linear-gradient(90deg,var(--orange),transparent);
+}
+body[data-page="projects"] .project-card:not(.project-card-featured) .flow-project-line span{
+  left:-4px;
+  top:50%;
+  transform:translateY(-50%);
+}
+body[data-page="projects"] .project-card:not(.project-card-featured) .arch.flow-active .flow-project-line span{
+  animation:projectSignalAcross 1.7s ease-in-out infinite;
+}
+@keyframes projectSignalAcross{
+  0%{left:-4px;opacity:0}
+  15%,82%{opacity:1}
+  100%{left:calc(100% - 4px);opacity:0}
+}
 
-/* Lab evidence links turn topic cards into proof rather than topic lists. */
-.lab-topic-card{display:flex;flex-direction:column}
-.lab-topic-evidence{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:12px;font-weight:850;color:var(--text)}
-.lab-topic-evidence span{transition:transform 180ms ease}
-.lab-topic-evidence:hover span{transform:translate(2px,-2px)}
-.lab-topic-card .tags{margin-top:auto;padding-top:18px}
+/* Lab: compact, consistent cards with the repository link kept at section level only. */
+body[data-page="lab"] .lab-page{padding:56px 0 72px!important}
+body[data-page="lab"] .lab-overview{margin-bottom:28px}
+body[data-page="lab"] .lab-page .filter-bar{margin-bottom:22px!important}
+body[data-page="lab"] .lab-curriculum-grid{gap:16px!important;align-items:stretch}
+body[data-page="lab"] .lab-topic-card{
+  min-height:238px!important;
+  height:100%;
+  padding:24px 25px 22px!important;
+}
+body[data-page="lab"] .lab-topic-card h3{margin-bottom:10px}
+body[data-page="lab"] .lab-topic-card p{line-height:1.55}
+body[data-page="lab"] .lab-topic-card .tags{padding-top:16px!important}
 
-/* Contact */
-.contact-intro-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.7fr);gap:var(--card-gap);align-items:stretch}
-.contact-primary{padding:34px}
-.contact-primary h2{font-size:clamp(32px,4vw,46px);margin:.4rem 0 1rem}
-.contact-routes{display:grid;gap:var(--card-gap)}
-.contact-note{padding:24px;color:var(--muted)}
+/* Contact: two compact cards only, no nested third panel. */
+body[data-page="contact"] main > section:not(.page-hero){padding:56px 0 72px}
+.contact-intro-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--card-gap);align-items:stretch}
+.contact-primary,.contact-route{min-height:0;padding:30px!important;display:flex;flex-direction:column;align-items:flex-start}
+.contact-primary h2,.contact-route h2{font-size:clamp(30px,3.6vw,42px);margin:.4rem 0 .8rem}
+.contact-primary p,.contact-route p{margin-bottom:20px;color:var(--muted)}
+.contact-primary .btn,.contact-route strong{margin-top:auto}
+.contact-routes{display:contents}
+.contact-note{display:none!important}
 
 /* Consistent command palette accessibility focus. */
 .command-search input:focus-visible,.filter:focus-visible,.arch-node:focus-visible,.btn:focus-visible,.card-link:focus-visible,a:focus-visible{outline:2px solid color-mix(in srgb,var(--green) 70%,white);outline-offset:3px}
 
+@media(max-width:980px){
+  body[data-page="projects"] .project-card:not(.project-card-featured) .arch{gap:5px;padding-inline:12px}
+  body[data-page="projects"] .project-card:not(.project-card-featured) .arch-box{font-size:9.5px;padding:8px 7px}
+  body[data-page="projects"] .project-card:not(.project-card-featured) .line{flex-basis:14px;width:14px}
+}
 @media(max-width:900px){
   .article-grid-review{grid-template-columns:1fr 1fr}
   .article-card-featured{grid-column:1/-1;grid-row:auto;min-height:360px}
   .about-current-focus,.contact-intro-grid{grid-template-columns:1fr}
   .article-layout{grid-template-columns:1fr;gap:24px}
   .article-toc{position:static}
+  .contact-primary .btn,.contact-route strong{margin-top:8px}
 }
 @media(max-width:650px){
   .article-grid-review{grid-template-columns:1fr}
   .article-card-featured{min-height:0;padding:26px}
-  .experience-group + .experience-group{margin-top:52px}
+  .experience-group + .experience-group{margin-top:44px}
+  .experience-role-list{gap:20px}
+  body[data-page="projects"] .project-card:not(.project-card-featured) .arch{
+    min-height:0;
+    flex-direction:column;
+    align-items:stretch;
+    gap:7px;
+  }
+  body[data-page="projects"] .project-card:not(.project-card-featured) .arch-row{flex-wrap:wrap}
+  body[data-page="projects"] .project-card:not(.project-card-featured) .line{
+    flex:0 0 20px;
+    width:1px;
+    height:20px;
+    margin:auto;
+    background:linear-gradient(var(--orange),transparent);
+  }
+  body[data-page="projects"] .project-card:not(.project-card-featured) .flow-project-line span{
+    left:50%;top:-4px;transform:translateX(-50%);
+  }
+  body[data-page="projects"] .project-card:not(.project-card-featured) .arch.flow-active .flow-project-line span{
+    animation:signalDown 1.7s ease-in-out infinite;
+  }
+  body[data-page="lab"] .lab-topic-card{min-height:0!important}
 }
 @media(prefers-reduced-motion:reduce){
-  .card-link span,.project-case-link span,.project-featured-links a span,.lab-topic-evidence span{transition:none!important;transform:none!important}
+  .card-link span,.project-case-link span,.project-featured-links a span{transition:none!important;transform:none!important}
 }
