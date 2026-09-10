@@ -1,9 +1,9 @@
 /* Kubernetes Lab — single-grid layout, 10 Sep 2026 */
 body[data-page="lab"] .lab-page{
-  padding:72px 0 96px;
+  padding:56px 0 72px;
 }
 body[data-page="lab"] .lab-overview{
-  margin-bottom:36px;
+  margin-bottom:28px;
 }
 body[data-page="lab"] .lab-overview h2{
   margin:8px 0 12px;
@@ -20,12 +20,11 @@ body[data-page="lab"] .lab-repository-link{
   margin-top:18px;
 }
 
-/* Keep the controls close to the cards. The All view has no group headings. */
 body[data-page="lab"] .lab-page .filter-bar{
-  margin-bottom:30px !important;
+  margin-bottom:22px !important;
 }
 body[data-page="lab"] .lab-active-group-heading{
-  margin:0 0 16px;
+  margin:0 0 14px;
   color:var(--text);
   font-size:13px;
   font-weight:800;
@@ -33,13 +32,11 @@ body[data-page="lab"] .lab-active-group-heading{
   letter-spacing:.12em;
   text-transform:uppercase;
 }
-body[data-page="lab"] .lab-active-group-heading[hidden]{
-  display:none !important;
-}
+body[data-page="lab"] .lab-active-group-heading[hidden]{display:none !important}
 body[data-page="lab"] .lab-curriculum-grid{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:20px;
+  gap:16px;
   align-items:stretch;
 }
 body[data-page="lab"][data-lab-filter="networking"] .lab-curriculum-grid,
@@ -48,42 +45,41 @@ body[data-page="lab"][data-lab-filter="security"] .lab-curriculum-grid{
 }
 body[data-page="lab"] .lab-topic-card{
   position:relative;
-  min-height:275px;
-  padding:28px 30px 26px;
+  min-height:238px;
+  height:100%;
+  padding:24px 25px 22px;
   display:flex;
   flex-direction:column;
   align-items:flex-start;
 }
 body[data-page="lab"] .lab-topic-card.filtered-out,
-body[data-page="lab"] .lab-topic-card[hidden]{
-  display:none !important;
-}
+body[data-page="lab"] .lab-topic-card[hidden]{display:none !important}
 body[data-page="lab"] .lab-topic-no{
   position:absolute;
-  top:25px;
-  right:26px;
+  top:22px;
+  right:22px;
   color:color-mix(in srgb,var(--text) 13%,transparent);
-  font:900 30px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  font:900 28px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 body[data-page="lab"] .lab-topic-card>.kicker{
   display:block;
-  margin:0 44px 12px 0;
+  margin:0 44px 10px 0;
 }
 body[data-page="lab"] .lab-topic-card h3{
-  margin:0 44px 12px 0;
-  font-size:22px;
+  margin:0 44px 10px 0;
+  font-size:21px;
   line-height:1.16;
 }
 body[data-page="lab"] .lab-topic-card p{
   margin:0;
   color:var(--muted);
   font-size:14px;
-  line-height:1.65;
-  flex:1;
+  line-height:1.55;
 }
+body[data-page="lab"] .lab-topic-evidence{display:none !important}
 body[data-page="lab"] .lab-topic-card .tags{
   margin-top:auto;
-  padding-top:22px;
+  padding-top:16px;
   display:flex;
   flex-wrap:wrap;
   gap:7px;
@@ -91,8 +87,8 @@ body[data-page="lab"] .lab-topic-card .tags{
 body[data-page="lab"] .lab-topic-card .tag{
   display:inline-flex;
   align-items:center;
-  min-height:32px;
-  padding:7px 11px;
+  min-height:30px;
+  padding:6px 10px;
   border:1px solid var(--line);
   border-radius:999px;
   background:color-mix(in srgb,var(--panel) 35%,transparent);
@@ -115,35 +111,15 @@ body[data-page="lab"] .lab-topic-card .tag:focus-visible{
 @media(max-width:1000px){
   body[data-page="lab"] .lab-curriculum-grid,
   body[data-page="lab"][data-lab-filter="networking"] .lab-curriculum-grid,
-  body[data-page="lab"][data-lab-filter="security"] .lab-curriculum-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
+  body[data-page="lab"][data-lab-filter="security"] .lab-curriculum-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:650px){
-  body[data-page="lab"] .lab-page{
-    padding:54px 0 72px;
-  }
-  body[data-page="lab"] .lab-page .filter-bar{
-    margin-bottom:24px !important;
-  }
+  body[data-page="lab"] .lab-page{padding:46px 0 62px}
+  body[data-page="lab"] .lab-page .filter-bar{margin-bottom:20px !important}
   body[data-page="lab"] .lab-curriculum-grid,
   body[data-page="lab"][data-lab-filter="networking"] .lab-curriculum-grid,
-  body[data-page="lab"][data-lab-filter="security"] .lab-curriculum-grid{
-    grid-template-columns:1fr;
-    gap:14px;
-  }
-  body[data-page="lab"] .lab-active-group-heading{
-    margin-bottom:13px;
-  }
-  body[data-page="lab"] .lab-topic-card{
-    min-height:0;
-    padding:24px 22px;
-  }
-  body[data-page="lab"] .lab-topic-no{
-    top:22px;
-    right:20px;
-  }
+  body[data-page="lab"][data-lab-filter="security"] .lab-curriculum-grid{grid-template-columns:1fr;gap:13px}
+  body[data-page="lab"] .lab-topic-card{min-height:0;padding:22px 20px}
+  body[data-page="lab"] .lab-topic-no{top:20px;right:18px}
 }
-@media(prefers-reduced-motion:reduce){
-  body[data-page="lab"] .lab-topic-card .tag{transition:none}
-}
+@media(prefers-reduced-motion:reduce){body[data-page="lab"] .lab-topic-card .tag{transition:none}}
