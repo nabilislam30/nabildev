@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="../assets/architecture-inspect-20260910.css">
 <link rel="stylesheet" href="../assets/eks-feature-pack-20260910.css">
 <link rel="stylesheet" href="../assets/eks-hierarchy-20260910.css">
+<link rel="stylesheet" href="../assets/eks-visual-architecture-20260910.css">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#052426">
 <meta property="og:type" content="article">
@@ -60,22 +61,26 @@
 </div></section>
 
 <section class="case-section alt"><div class="container"><span class="kicker">02 — Architecture</span><h2>How the platform fits together.</h2>
-<div class="eks-architecture-primary"><div class="card case-architecture reveal"><span class="kicker">Application traffic</span><div class="case-flow-row" data-case-flow><span class="case-node" data-arch-info="Cloudflare resolves the application hostname while ExternalDNS keeps the DNS record aligned with the AWS load balancer.">Cloudflare DNS</span><i class="case-flow"><b></b></i><span class="case-node" data-arch-info="The internet-facing Application Load Balancer terminates HTTPS and forwards requests to the Kubernetes ingress path.">ALB / HTTPS</span><i class="case-flow"><b></b></i><span class="case-node" data-arch-info="Amazon EKS provides the managed Kubernetes platform running across the project VPC.">Amazon EKS</span><i class="case-flow"><b></b></i><span class="case-node" data-arch-info="Kubernetes Services and workloads receive the application traffic inside the cluster.">K8s Workloads</span></div><p class="intro compact-intro" data-arch-tooltip>The AWS Load Balancer Controller provisions the internet-facing ALB. Kubernetes Ingress and Service resources route traffic to the application workloads running on EKS.</p></div></div>
+<div class="eks-visual-architecture reveal" data-eks-visual-architecture>
+  <div class="eks-arch-toolbar">
+    <div><span class="kicker">Architecture &amp; deployment flow</span><h3>Application architecture</h3><p>Switch between the live request path and the GitOps delivery path.</p></div>
+    <div class="eks-arch-controls">
+      <div class="eks-arch-tabs" role="tablist" aria-label="Architecture flow">
+        <button class="eks-arch-tab active" type="button" role="tab" aria-selected="true" data-eks-arch-tab="traffic">Application traffic</button>
+        <button class="eks-arch-tab" type="button" role="tab" aria-selected="false" data-eks-arch-tab="deployment">Deployment flow</button>
+      </div>
+      <button class="eks-arch-expand" type="button" aria-expanded="false" data-eks-arch-expand>Expand <span aria-hidden="true">↗</span></button>
+    </div>
+  </div>
+  <div class="eks-arch-stage">
+    <div class="eks-arch-canvas"><div class="eks-arch-flow" data-eks-arch-flow aria-live="polite"></div></div>
+    <aside class="eks-arch-info" data-eks-arch-info aria-live="polite"></aside>
+  </div>
+</div>
+
 <ol class="case-steps"><li><b>01</b><span>A custom VPC spans two Availability Zones with public and private subnets. EKS worker nodes run in the private subnets while the internet-facing ALB sits in the public networking layer.</span></li><li><b>02</b><span>Amazon ECR stores immutable application images. Each release is tagged with the Git commit SHA so the running version can be traced back to source.</span></li><li><b>03</b><span>Cloudflare manages the DNS zone, ExternalDNS manages the application DNS record, and AWS Certificate Manager provides TLS for <code>2048.nabilenv.com</code>.</span></li><li><b>04</b><span>ArgoCD manages the application, AWS Load Balancer Controller, ExternalDNS and monitoring stack using Git as the source of truth.</span></li><li><b>05</b><span>Prometheus and Grafana provide cluster and workload visibility, with Alertmanager, node metrics and Kubernetes state metrics included through the monitoring stack.</span></li></ol>
 
 <div class="eks-feature-stack">
-  <div class="eks-feature-panel eks-deployment-flow reveal">
-    <div class="eks-feature-head"><div><span class="kicker">Deployment flow</span><h3>From commit to cluster.</h3><p>The application release pipeline builds and scans the image, pushes it to ECR, updates the image reference in Git, and leaves ArgoCD to reconcile the change into EKS.</p></div></div>
-    <div class="eks-deployment-row" aria-label="Application deployment flow">
-      <span class="eks-deploy-node">Git push</span><i class="eks-deploy-connector" aria-hidden="true"></i>
-      <span class="eks-deploy-node">GitHub Actions</span><i class="eks-deploy-connector" aria-hidden="true"></i>
-      <span class="eks-deploy-node">Amazon ECR</span><i class="eks-deploy-connector" aria-hidden="true"></i>
-      <span class="eks-deploy-node">Git image update</span><i class="eks-deploy-connector" aria-hidden="true"></i>
-      <span class="eks-deploy-node">ArgoCD</span><i class="eks-deploy-connector" aria-hidden="true"></i>
-      <span class="eks-deploy-node">Amazon EKS</span>
-    </div>
-  </div>
-
   <div class="eks-feature-panel reveal">
     <div class="eks-feature-head"><div><span class="kicker">Architecture evolution</span><h3>How cluster capacity changed.</h3><p>Monitoring exposed a pod-density constraint on the original worker capacity, so the node group was scaled and the Terraform desired state was updated to match.</p></div></div>
     <div class="eks-evolution-grid" aria-label="EKS architecture evolution">
@@ -177,5 +182,6 @@ $ argocd app list</pre></div>
 <script src="../assets/case-nav-20260910.js"></script>
 <script src="../assets/architecture-inspect-20260910.js"></script>
 <script src="../assets/eks-feature-pack-20260910.js"></script>
+<script src="../assets/eks-visual-architecture-20260910.js"></script>
 </body>
 </html>
