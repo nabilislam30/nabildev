@@ -1,0 +1,35 @@
+name: Portfolio review build
+
+on:
+  push:
+    branches:
+      - portfolio-review-20260910
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout review branch
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Build site
+        run: npm run build
+      - name: Verify key output files
+        run: |
+          test -f dist/index.html
+          test -f dist/projects.html
+          test -f dist/lab.html
+          test -f dist/experience.html
+          test -f dist/articles.html
+          test -f dist/about.html
+          test -f dist/contact.html
+          test -f dist/articles/troubleshooting-amazon-eks.html
+          test -f dist/projects/2048-eks-platform.html
