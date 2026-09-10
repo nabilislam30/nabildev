@@ -8,7 +8,7 @@
 <script>(function(){try{var t=localStorage.getItem('nabil-theme');var light=t==='light'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches);if(light)document.documentElement.dataset.theme='light';}catch(e){}})();</script>
 <link rel="canonical" href="https://nabildev.com/projects/2048-eks-platform.html">
 <link rel="stylesheet" href="../assets/styles.css">
-<link rel="stylesheet" href="../assets/eks-case-20260910.css?v=20260910-1221">
+<link rel="stylesheet" href="../assets/eks-case-20260910.css?v=20260910-1248">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#052426">
 <meta property="og:type" content="article">
@@ -60,9 +60,14 @@
 <div class="project-terminal reveal" data-terminal-once data-terminal-lines='[&quot;$ terraform plan&quot;, &quot;$ kubectl get nodes&quot;, &quot;$ kubectl get pods -A&quot;, &quot;$ argocd app list&quot;]'><div class="terminal-bar"><i></i><i></i><i></i><span>terraform · eks · argocd</span></div><pre><code data-terminal-output></code><span class="terminal-cursor">▋</span></pre></div>
 </div></section>
 
-<section class="case-section alt case-results-section"><div class="container case-two-col case-results-grid">
-<div class="case-challenges-copy"><span class="kicker">04 — Challenges &amp; solutions</span><h2>Challenges and troubleshooting.</h2><ul class="case-list"><li>EKS worker nodes initially failed to join the cluster. I worked through the node group configuration, IAM permissions and cluster networking until the nodes registered successfully.</li><li>The AWS Load Balancer Controller initially failed to detect the VPC. I reviewed the controller configuration so it could identify the correct VPC and provision the Application Load Balancer.</li><li>Adding the monitoring stack increased pod demand beyond the original worker-node capacity. I increased the managed node group to three <code>t3.small</code> nodes so the application and monitoring workloads could schedule reliably.</li></ul></div>
-<div class="case-outcome-copy"><span class="kicker">Outcome</span><h2>Project outcome.</h2><p>The outcome of the EKS project was a production-grade Kubernetes platform on AWS capable of running, exposing, updating and monitoring a containerised application. It gave me practical experience in managing deployment automation, platform reliability, security controls and observability within a more complex environment. It also helped me gain a deeper insight into the underlying issues around networking, IAM, cluster capacity and Kubernetes itself. Overall, the project strengthened my understanding of how Kubernetes environments are designed, operated and maintained.</p></div>
+<section class="case-section alt case-results-section"><div class="container">
+<div class="case-resolution-head"><span class="kicker">04 — Troubleshooting</span><h2>Issues resolved.</h2></div>
+<div class="case-resolution-grid">
+  <article class="card case-resolution-card reveal"><span class="case-resolution-no">01</span><span class="kicker">Node registration</span><h3>EKS nodes failed to join</h3><p>EKS worker nodes initially failed to join the cluster. I worked through the node group configuration, IAM permissions and cluster networking until the nodes registered successfully.</p></article>
+  <article class="card case-resolution-card reveal"><span class="case-resolution-no">02</span><span class="kicker">VPC detection</span><h3>Load Balancer Controller</h3><p>The AWS Load Balancer Controller initially failed to detect the VPC. I reviewed the controller configuration so it could identify the correct VPC and provision the Application Load Balancer.</p></article>
+  <article class="card case-resolution-card reveal"><span class="case-resolution-no">03</span><span class="kicker">Cluster capacity</span><h3>Monitoring increased demand</h3><p>Adding the monitoring stack increased pod demand beyond the original worker-node capacity. I increased the managed node group to three <code>t3.small</code> nodes so the application and monitoring workloads could schedule reliably.</p></article>
+</div>
+<div class="card case-outcome-panel reveal"><h2>Outcome.</h2><p>The outcome of the EKS project was a production-grade Kubernetes platform on AWS capable of running, exposing, updating and monitoring a containerised application. It gave me practical experience in managing deployment automation, platform reliability, security controls and observability within a more complex environment. It also helped me gain a deeper insight into the underlying issues around networking, IAM, cluster capacity and Kubernetes itself. Overall, the project strengthened my understanding of how Kubernetes environments are designed, operated and maintained.</p></div>
 </div></section>
 </main>
 <footer class="footer">
