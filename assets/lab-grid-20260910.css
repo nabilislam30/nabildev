@@ -1,0 +1,149 @@
+/* Kubernetes Lab — single-grid layout, 10 Sep 2026 */
+body[data-page="lab"] .lab-page{
+  padding:72px 0 96px;
+}
+body[data-page="lab"] .lab-overview{
+  margin-bottom:36px;
+}
+body[data-page="lab"] .lab-overview h2{
+  margin:8px 0 12px;
+  font-size:clamp(34px,4vw,52px);
+  line-height:1.04;
+}
+body[data-page="lab"] .lab-overview p{
+  max-width:780px;
+  margin:0;
+  color:var(--muted);
+}
+body[data-page="lab"] .lab-repository-link{
+  display:inline-flex;
+  margin-top:18px;
+}
+
+/* Keep the controls close to the cards. The All view has no group headings. */
+body[data-page="lab"] .lab-page .filter-bar{
+  margin-bottom:30px !important;
+}
+body[data-page="lab"] .lab-active-group-heading{
+  margin:0 0 16px;
+  color:var(--text);
+  font-size:13px;
+  font-weight:800;
+  line-height:1.2;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+body[data-page="lab"] .lab-active-group-heading[hidden]{
+  display:none !important;
+}
+body[data-page="lab"] .lab-curriculum-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+  align-items:stretch;
+}
+body[data-page="lab"][data-lab-filter="networking"] .lab-curriculum-grid,
+body[data-page="lab"][data-lab-filter="security"] .lab-curriculum-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+body[data-page="lab"] .lab-topic-card{
+  position:relative;
+  min-height:275px;
+  padding:28px 30px 26px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+body[data-page="lab"] .lab-topic-card.filtered-out,
+body[data-page="lab"] .lab-topic-card[hidden]{
+  display:none !important;
+}
+body[data-page="lab"] .lab-topic-no{
+  position:absolute;
+  top:25px;
+  right:26px;
+  color:color-mix(in srgb,var(--text) 13%,transparent);
+  font:900 30px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+body[data-page="lab"] .lab-topic-card>.kicker{
+  display:block;
+  margin:0 44px 12px 0;
+}
+body[data-page="lab"] .lab-topic-card h3{
+  margin:0 44px 12px 0;
+  font-size:22px;
+  line-height:1.16;
+}
+body[data-page="lab"] .lab-topic-card p{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+  flex:1;
+}
+body[data-page="lab"] .lab-topic-card .tags{
+  margin-top:auto;
+  padding-top:22px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+body[data-page="lab"] .lab-topic-card .tag{
+  display:inline-flex;
+  align-items:center;
+  min-height:32px;
+  padding:7px 11px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:color-mix(in srgb,var(--panel) 35%,transparent);
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.2;
+  cursor:default;
+  transition:transform 180ms ease,border-color 180ms ease,background-color 180ms ease,box-shadow 180ms ease,color 180ms ease;
+}
+body[data-page="lab"] .lab-topic-card .tag:hover,
+body[data-page="lab"] .lab-topic-card .tag:focus-visible{
+  transform:translateY(-1px);
+  color:var(--text);
+  border-color:var(--green);
+  background:color-mix(in srgb,var(--green) 18%,var(--panel));
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 24%,transparent),0 0 18px color-mix(in srgb,var(--green) 34%,transparent);
+  outline:none;
+}
+
+@media(max-width:1000px){
+  body[data-page="lab"] .lab-curriculum-grid,
+  body[data-page="lab"][data-lab-filter="networking"] .lab-curriculum-grid,
+  body[data-page="lab"][data-lab-filter="security"] .lab-curriculum-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:650px){
+  body[data-page="lab"] .lab-page{
+    padding:54px 0 72px;
+  }
+  body[data-page="lab"] .lab-page .filter-bar{
+    margin-bottom:24px !important;
+  }
+  body[data-page="lab"] .lab-curriculum-grid,
+  body[data-page="lab"][data-lab-filter="networking"] .lab-curriculum-grid,
+  body[data-page="lab"][data-lab-filter="security"] .lab-curriculum-grid{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  body[data-page="lab"] .lab-active-group-heading{
+    margin-bottom:13px;
+  }
+  body[data-page="lab"] .lab-topic-card{
+    min-height:0;
+    padding:24px 22px;
+  }
+  body[data-page="lab"] .lab-topic-no{
+    top:22px;
+    right:20px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body[data-page="lab"] .lab-topic-card .tag{transition:none}
+}
