@@ -19,17 +19,25 @@ body[data-page="lab"] .lab-repository-link{
   display:inline-flex;
   margin-top:18px;
 }
+
+/* All is the default view: one continuous curriculum grid with no category
+   headings or section spacing between cards. */
 body[data-page="lab"] .lab-topic-groups{
   display:grid;
-  gap:44px;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+  align-items:stretch;
 }
 body[data-page="lab"] .lab-topic-group{
   min-width:0;
+  padding:0;
+  display:contents;
 }
 body[data-page="lab"] .lab-topic-group[hidden]{
   display:none !important;
 }
 body[data-page="lab"] .lab-group-heading{
+  display:none;
   margin:0 0 16px;
   color:var(--text);
   font-size:13px;
@@ -39,15 +47,30 @@ body[data-page="lab"] .lab-group-heading{
   text-transform:uppercase;
 }
 body[data-page="lab"] .lab-curriculum-grid{
+  display:contents;
+}
+
+/* Category filters restore the grouped presentation for the selected area. */
+body[data-page="lab"].lab-filtered-view .lab-topic-groups{
+  display:block;
+}
+body[data-page="lab"].lab-filtered-view .lab-topic-group:not([hidden]){
+  display:block;
+}
+body[data-page="lab"].lab-filtered-view .lab-group-heading{
+  display:block;
+}
+body[data-page="lab"].lab-filtered-view .lab-curriculum-grid{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
   gap:20px;
   align-items:stretch;
 }
-body[data-page="lab"] .lab-topic-group[data-group="networking"] .lab-curriculum-grid,
-body[data-page="lab"] .lab-topic-group[data-group="security"] .lab-curriculum-grid{
+body[data-page="lab"].lab-filtered-view .lab-topic-group[data-group="networking"] .lab-curriculum-grid,
+body[data-page="lab"].lab-filtered-view .lab-topic-group[data-group="security"] .lab-curriculum-grid{
   grid-template-columns:repeat(2,minmax(0,1fr));
 }
+
 body[data-page="lab"] .lab-topic-card{
   position:relative;
   min-height:275px;
@@ -148,27 +171,33 @@ body[data-page="lab"] .lab-note p{
   color:var(--muted);
   max-width:820px;
 }
+
 @media(max-width:1000px){
-  body[data-page="lab"] .lab-curriculum-grid,
-  body[data-page="lab"] .lab-topic-group[data-group="networking"] .lab-curriculum-grid,
-  body[data-page="lab"] .lab-topic-group[data-group="security"] .lab-curriculum-grid{
+  body[data-page="lab"] .lab-topic-groups{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body[data-page="lab"].lab-filtered-view .lab-curriculum-grid,
+  body[data-page="lab"].lab-filtered-view .lab-topic-group[data-group="networking"] .lab-curriculum-grid,
+  body[data-page="lab"].lab-filtered-view .lab-topic-group[data-group="security"] .lab-curriculum-grid{
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
+
 @media(max-width:650px){
   body[data-page="lab"] .lab-page{
     padding:54px 0 72px;
   }
   body[data-page="lab"] .lab-topic-groups{
-    gap:34px;
-  }
-  body[data-page="lab"] .lab-curriculum-grid,
-  body[data-page="lab"] .lab-topic-group[data-group="networking"] .lab-curriculum-grid,
-  body[data-page="lab"] .lab-topic-group[data-group="security"] .lab-curriculum-grid{
     grid-template-columns:1fr;
     gap:14px;
   }
-  body[data-page="lab"] .lab-group-heading{
+  body[data-page="lab"].lab-filtered-view .lab-curriculum-grid,
+  body[data-page="lab"].lab-filtered-view .lab-topic-group[data-group="networking"] .lab-curriculum-grid,
+  body[data-page="lab"].lab-filtered-view .lab-topic-group[data-group="security"] .lab-curriculum-grid{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  body[data-page="lab"].lab-filtered-view .lab-group-heading{
     margin-bottom:13px;
   }
   body[data-page="lab"] .lab-topic-card{
@@ -180,6 +209,7 @@ body[data-page="lab"] .lab-note p{
     right:20px;
   }
 }
+
 @media(prefers-reduced-motion:reduce){
   body[data-page="lab"] .lab-topic-card .tag{transition:none}
 }

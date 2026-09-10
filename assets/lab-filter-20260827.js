@@ -8,7 +8,16 @@
 
   const buttons = [...bar.querySelectorAll('.filter[data-filter]')];
 
+  // The All tab is a single continuous grid. Preserve numerical module order
+  // even though the source remains grouped for the category-specific views.
+  cards.forEach((card) => {
+    const number = Number(card.querySelector('.lab-topic-no')?.textContent || '');
+    if (Number.isFinite(number)) card.style.order = String(number);
+  });
+
   const applyFilter = (filter) => {
+    document.body.classList.toggle('lab-filtered-view', filter !== 'all');
+
     buttons.forEach((button) => {
       const active = button.dataset.filter === filter;
       button.classList.toggle('active', active);

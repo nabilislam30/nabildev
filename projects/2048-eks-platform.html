@@ -4,25 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="2048 application platform on Amazon EKS built with Terraform, ArgoCD GitOps, GitHub Actions, ECR, HTTPS, monitoring and security scanning.">
-<title>2048 on Amazon EKS — Nabil Islam</title>
+<title>2048 app on Amazon EKS — Nabil Islam</title>
 <script>(function(){try{var t=localStorage.getItem('nabil-theme');var light=t==='light'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches);if(light)document.documentElement.dataset.theme='light';}catch(e){}})();</script>
 <link rel="canonical" href="https://nabildev.com/projects/2048-eks-platform.html">
 <link rel="stylesheet" href="../assets/styles.css">
+<link rel="stylesheet" href="../assets/eks-case-20260910.css?v=20260910-1221">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#052426">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2048 on Amazon EKS — Nabil Islam">
+<meta property="og:title" content="2048 app on Amazon EKS — Nabil Islam">
 <meta property="og:description" content="2048 application platform on Amazon EKS built with Terraform, ArgoCD GitOps, GitHub Actions, ECR, HTTPS, monitoring and security scanning.">
 <meta property="og:url" content="https://nabildev.com/projects/2048-eks-platform.html">
 <meta property="og:image" content="https://nabildev.com/assets/social-preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="2048 on Amazon EKS — Nabil Islam">
+<meta name="twitter:title" content="2048 app on Amazon EKS — Nabil Islam">
 <meta name="twitter:description" content="2048 application platform on Amazon EKS built with Terraform, ArgoCD GitOps, GitHub Actions, ECR, HTTPS, monitoring and security scanning.">
 <meta name="twitter:image" content="https://nabildev.com/assets/social-preview.png">
 </head>
-<body data-page="projects">
+<body data-page="projects" data-case="eks">
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
 <div class="pointer-light" aria-hidden="true"></div>
 <header class="nav-wrap" data-nav>
@@ -40,14 +41,17 @@
 </header>
 <main>
 <section class="case-hero"><div class="container">
-<a class="back-link" href="../projects.html">← Projects</a><span class="kicker">Terraform · EKS · GitOps</span><h1>2048 on Amazon EKS</h1><p>Built an Amazon EKS platform around a containerised 2048 application, with Terraform infrastructure, GitOps delivery, HTTPS, monitoring and security scanning.</p>
-<div class="case-meta"><span>Completed project</span><span>Terraform</span><span>Amazon EKS</span><span>ArgoCD</span><span>GitHub Actions</span><span>ECR</span><span>Prometheus</span><span>Grafana</span></div>
+<a class="back-link" href="../projects.html">← Projects</a>
+<span class="kicker">Terraform · EKS · GitOps</span>
+<h1>2048 app on Amazon EKS</h1>
+<p>Built an Amazon EKS platform around a containerised 2048 application, with Terraform infrastructure, GitOps delivery, HTTPS, monitoring and security scanning.</p>
+<div class="case-meta"><span>Terraform</span><span>Amazon EKS</span><span>ArgoCD</span><span>GitHub Actions</span><span>ECR</span><span>Prometheus</span><span>Grafana</span></div>
 <div class="actions"><a class="btn btn-primary" href="https://github.com/nabilislam30/2048-eks-platform" target="_blank" rel="noopener noreferrer">View repository <span>↗</span></a><a class="btn btn-secondary" href="https://2048.nabilenv.com" target="_blank" rel="noopener noreferrer">Open application <span>↗</span></a></div>
 </div></section>
 
 <section class="case-section"><div class="container case-two-col">
-<div><span class="kicker">01 — Overview</span><h2>What I built.</h2><p>The project started with a simple goal: deploy 2048 on Kubernetes. I expanded that into a complete EKS platform covering AWS networking, container delivery, GitOps, DNS, HTTPS, CI/CD, monitoring and security controls. Terraform provisions the AWS infrastructure, GitHub Actions handles infrastructure and application workflows, and ArgoCD keeps the Kubernetes workloads aligned with Git.</p></div>
-<div class="card case-architecture reveal"><span class="kicker">Application traffic</span><div class="case-flow-row" data-case-flow><span class="case-node">Cloudflare DNS</span><i class="case-flow"><b></b></i><span class="case-node">ALB / HTTPS</span><i class="case-flow"><b></b></i><span class="case-node">Amazon EKS</span><i class="case-flow"><b></b></i><span class="case-node">2048 Pods</span></div><p class="intro compact-intro">The AWS Load Balancer Controller provisions the internet-facing ALB. Kubernetes Ingress and Service resources route traffic to two 2048 application replicas running on EKS.</p></div>
+<div><span class="kicker">01 — Overview</span><h2>What I built.</h2><p>The goal of the project was to deploy a containerised 2048 game application on Amazon EKS. The infrastructure was provisioned with Terraform and application deployments were managed through ArgoCD using a GitOps approach. CI/CD pipelines automated security scans, Docker image builds and application release updates, while ArgoCD handled deployment to EKS. Dynamic DNS and SSL/TLS certificate management were configured for the application endpoint. Prometheus and Grafana were also configured to provide real-time visibility into application performance and infrastructure health.</p></div>
+<div class="card case-architecture reveal"><span class="kicker">Application traffic</span><div class="case-flow-row" data-case-flow><span class="case-node">Cloudflare DNS</span><i class="case-flow"><b></b></i><span class="case-node">ALB / HTTPS</span><i class="case-flow"><b></b></i><span class="case-node">Amazon EKS</span><i class="case-flow"><b></b></i><span class="case-node">K8s Workloads</span></div><p class="intro compact-intro">The AWS Load Balancer Controller provisions the internet-facing ALB. Kubernetes Ingress and Service resources route traffic to the application workloads running on EKS.</p></div>
 </div></section>
 
 <section class="case-section alt"><div class="container"><span class="kicker">02 — Architecture</span><h2>How the platform fits together.</h2><ol class="case-steps"><li><b>01</b><span>A custom VPC spans two Availability Zones with public and private subnets. EKS worker nodes run in the private subnets while the internet-facing ALB sits in the public networking layer.</span></li><li><b>02</b><span>Amazon ECR stores immutable application images. Each release is tagged with the Git commit SHA so the running version can be traced back to source.</span></li><li><b>03</b><span>Cloudflare manages the DNS zone, ExternalDNS manages the application DNS record, and AWS Certificate Manager provides TLS for <code>2048.nabilenv.com</code>.</span></li><li><b>04</b><span>ArgoCD manages the application, AWS Load Balancer Controller, ExternalDNS and monitoring stack using Git as the source of truth.</span></li><li><b>05</b><span>Prometheus and Grafana provide cluster and workload visibility, with Alertmanager, node metrics and Kubernetes state metrics included through the monitoring stack.</span></li></ol></div></section>
@@ -56,9 +60,9 @@
 <div class="project-terminal reveal" data-terminal-once data-terminal-lines='[&quot;$ terraform plan&quot;, &quot;$ kubectl get nodes&quot;, &quot;$ kubectl get pods -A&quot;, &quot;$ argocd app list&quot;]'><div class="terminal-bar"><i></i><i></i><i></i><span>terraform · eks · argocd</span></div><pre><code data-terminal-output></code><span class="terminal-cursor">▋</span></pre></div>
 </div></section>
 
-<section class="case-section alt"><div class="container case-two-col">
-<div><span class="kicker">04 — Challenges &amp; solutions</span><h2>What I had to work through.</h2><ul class="case-list"><li>The monitoring stack increased pod density beyond the original worker-node capacity. I increased the managed node group to three <code>t3.small</code> nodes so the application and supporting workloads could schedule reliably.</li><li>I kept GitOps ownership clear by avoiding direct Kubernetes deployment from GitHub Actions. The pipeline updates Git, then ArgoCD reconciles the cluster.</li><li>I used the AWS Load Balancer Controller instead of adding another ingress layer, which kept the request path simpler and let Kubernetes provision the ALB directly.</li><li>Long-lived AWS keys were avoided by using GitHub OIDC roles, while IRSA gives the Load Balancer Controller AWS permissions without credentials inside the pod.</li><li>Security checks were moved into the delivery path: Checkov scans Terraform before infrastructure changes and Trivy scans application images before ECR push.</li></ul></div>
-<div><span class="kicker">Outcome</span><h2>What the finished platform demonstrates.</h2><p>The completed project brings infrastructure, Kubernetes operations and application delivery together in one platform: Terraform-managed AWS infrastructure, private EKS compute, immutable ECR images, GitHub Actions CI/CD, ArgoCD GitOps, HTTPS and DNS automation, Prometheus/Grafana monitoring and security scanning across both infrastructure and containers.</p><p class="intro compact-intro">The application is available at <strong>2048.nabilenv.com</strong> and the repository contains the infrastructure, Kubernetes manifests, workflows and supporting evidence.</p></div>
+<section class="case-section alt case-results-section"><div class="container case-two-col case-results-grid">
+<div class="case-challenges-copy"><span class="kicker">04 — Challenges &amp; solutions</span><h2>Challenges and troubleshooting.</h2><ul class="case-list"><li>EKS worker nodes initially failed to join the cluster. I worked through the node group configuration, IAM permissions and cluster networking until the nodes registered successfully.</li><li>The AWS Load Balancer Controller initially failed to detect the VPC. I reviewed the controller configuration so it could identify the correct VPC and provision the Application Load Balancer.</li><li>Adding the monitoring stack increased pod demand beyond the original worker-node capacity. I increased the managed node group to three <code>t3.small</code> nodes so the application and monitoring workloads could schedule reliably.</li></ul></div>
+<div class="case-outcome-copy"><span class="kicker">Outcome</span><h2>Project outcome.</h2><p>The outcome of the EKS project was a production-grade Kubernetes platform on AWS capable of running, exposing, updating and monitoring a containerised application. It gave me practical experience in managing deployment automation, platform reliability, security controls and observability within a more complex environment. It also helped me gain a deeper insight into the underlying issues around networking, IAM, cluster capacity and Kubernetes itself. Overall, the project strengthened my understanding of how Kubernetes environments are designed, operated and maintained.</p></div>
 </div></section>
 </main>
 <footer class="footer">

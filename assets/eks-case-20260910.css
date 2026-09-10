@@ -1,0 +1,105 @@
+/* Amazon EKS case-study refinements — 10 Sep 2026 */
+body[data-case="eks"] .case-hero .back-link{
+  display:flex;
+  width:max-content;
+  margin-bottom:28px;
+}
+body[data-case="eks"] .case-hero .kicker{
+  display:block;
+}
+
+/* Inline technical values should read as part of the sentence rather than
+   shrinking into a separate monospace treatment. */
+body[data-case="eks"] .case-steps code,
+body[data-case="eks"] .case-list code{
+  padding:0;
+  border:0;
+  background:none;
+  color:inherit;
+  font:inherit;
+}
+
+/* Keep the full application request path on one clear line on desktop. */
+body[data-case="eks"] .case-architecture .case-flow-row{
+  display:grid;
+  grid-template-columns:
+    minmax(84px,1.15fr) 24px
+    minmax(76px,1fr) 24px
+    minmax(74px,.95fr) 24px
+    minmax(88px,1.15fr);
+  min-height:140px;
+  gap:0;
+  align-items:center;
+  overflow:visible;
+}
+body[data-case="eks"] .case-architecture .case-node{
+  width:100%;
+  min-width:0;
+  padding:10px 6px;
+  font-size:11px;
+  text-align:center;
+  white-space:nowrap;
+}
+body[data-case="eks"] .case-architecture .case-flow{
+  width:100%;
+  margin:0;
+}
+body[data-case="eks"] .case-architecture .compact-intro{
+  margin-top:24px;
+}
+
+/* Challenges and outcome are intentionally compact and balanced. */
+body[data-case="eks"] .case-results-section{
+  padding:66px 0 70px;
+}
+body[data-case="eks"] .case-results-grid{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:58px;
+  align-items:start;
+}
+body[data-case="eks"] .case-results-grid h2{
+  margin-bottom:22px;
+}
+body[data-case="eks"] .case-results-grid .case-list{
+  margin:0;
+  padding-left:22px;
+}
+body[data-case="eks"] .case-results-grid .case-list li{
+  margin-bottom:18px;
+}
+body[data-case="eks"] .case-results-grid .case-list li:last-child{
+  margin-bottom:0;
+}
+body[data-case="eks"] .case-outcome-copy p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.78;
+}
+
+@media(max-width:820px){
+  body[data-case="eks"] .case-results-grid{
+    grid-template-columns:1fr;
+    gap:38px;
+  }
+}
+
+@media(max-width:650px){
+  body[data-case="eks"] .case-architecture .case-flow-row{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    min-height:0;
+    gap:8px;
+  }
+  body[data-case="eks"] .case-architecture .case-node{
+    white-space:normal;
+  }
+  body[data-case="eks"] .case-architecture .case-flow{
+    width:2px;
+    height:24px;
+    margin:0 auto;
+  }
+  body[data-case="eks"] .case-results-section{
+    padding:56px 0;
+  }
+}
