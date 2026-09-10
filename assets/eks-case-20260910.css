@@ -84,15 +84,35 @@ body[data-case="eks"] .case-resolution-card .kicker{
   margin-bottom:8px;
 }
 body[data-case="eks"] .case-resolution-card h3{
-  margin:0 0 12px;
+  margin:0 0 18px;
   font-size:22px;
   line-height:1.15;
 }
-body[data-case="eks"] .case-resolution-card p{
+body[data-case="eks"] .case-resolution-detail{
+  display:grid;
+  gap:14px;
+}
+body[data-case="eks"] .case-resolution-detail p{
   margin:0;
   color:var(--muted);
   font-size:14px;
-  line-height:1.68;
+  line-height:1.64;
+}
+body[data-case="eks"] .case-resolution-detail strong{
+  display:block;
+  margin-bottom:5px;
+  color:var(--orange);
+  font-size:10px;
+  font-weight:850;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+body[data-case="eks"] .case-resolution-card code{
+  padding:0;
+  border:0;
+  background:none;
+  color:inherit;
+  font:inherit;
 }
 body[data-case="eks"] .case-outcome-panel{
   margin-top:20px;
