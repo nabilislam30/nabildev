@@ -63,6 +63,7 @@
     renderInfo(selected, initial);
 
     const buttons = [...flowHost.querySelectorAll('[data-arch-node]')];
+    const restoreSelected = () => renderInfo(nodes.find(item => item.id === selectedId));
     const select = (button, temporary = false) => {
       const node = nodes.find(item => item.id === button.dataset.archNode);
       if (!node) return;
@@ -83,10 +84,10 @@
       button.addEventListener('click', () => select(button, false));
     });
 
-    flowHost.addEventListener('mouseleave', () => {
-      const selectedNode = nodes.find(item => item.id === selectedId);
-      renderInfo(selectedNode);
-    }, { once:true });
+    flowHost.onmouseleave = restoreSelected;
+    flowHost.onfocusout = event => {
+      if (!flowHost.contains(event.relatedTarget)) restoreSelected();
+    };
   };
 
   const activateEntrance = () => {
