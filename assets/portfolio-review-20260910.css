@@ -1,0 +1,98 @@
+/* Portfolio review branch refinements — 10 Sep 2026 */
+
+:root{
+  --section-space:clamp(72px,8vw,104px);
+  --section-gap:clamp(28px,3vw,38px);
+  --card-gap:clamp(16px,2vw,22px);
+}
+
+main > section:not(.hero):not(.page-hero):not(.case-hero){padding-block:var(--section-space)}
+.section-head,.about-section-head,.case-resolution-head{margin-bottom:var(--section-gap)}
+
+/* CTA language: filled primary, bordered secondary, text tertiary. */
+.btn{min-height:44px;border-radius:12px}
+.card-link,.project-case-link,.project-card > p > a,.project-featured-links a{
+  display:inline-flex;align-items:center;gap:6px;font-weight:800;text-decoration:none;
+}
+.card-link span,.project-case-link span,.project-featured-links a span{transition:transform 180ms ease}
+.card-link:hover span,.project-case-link:hover span,.project-featured-links a:hover span{transform:translate(2px,-2px)}
+
+/* Experience: separate employment from training. */
+.experience-group + .experience-group{margin-top:72px}
+.experience-group-head{margin-bottom:24px}
+.experience-group-head h2{margin:.35rem 0 0;font-size:clamp(30px,4vw,44px)}
+.experience-role-list{display:grid;gap:18px}
+.experience-card{position:relative}
+.experience-type{display:inline-flex;align-items:center;gap:8px;margin-bottom:8px;color:var(--muted-2);font:800 11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase}
+.experience-type::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
+
+/* About: less dashboard-like; one current-work feature plus three development areas. */
+.about-current-focus{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:var(--card-gap)}
+.about-current-main,.about-current-side{padding:32px}
+.about-current-main h3{font-size:clamp(28px,3vw,38px);margin:.45rem 0 .75rem}
+.about-current-side{display:grid;align-content:start;gap:18px}
+.about-focus-link{margin-top:20px}
+
+/* Articles */
+.article-grid-review{display:grid;grid-template-columns:minmax(0,1.25fr) repeat(2,minmax(0,.75fr));gap:var(--card-gap)}
+.article-card-featured{grid-row:span 2;min-height:430px;display:flex;flex-direction:column;padding:34px}
+.article-card-featured h2{font-size:clamp(30px,4vw,46px);margin:.5rem 0 1rem}
+.article-card-featured .article-summary{font-size:16px;line-height:1.7;color:var(--muted)}
+.article-meta{display:flex;flex-wrap:wrap;gap:10px 18px;color:var(--muted-2);font-size:12px;margin-top:14px}
+.article-card-featured .card-link{margin-top:auto;padding-top:28px}
+.article-card-planned{min-height:205px;padding:26px;display:flex;flex-direction:column}
+.article-card-planned .article-status{margin-top:auto}
+
+/* Long-form article */
+.article-shell{max-width:1120px;margin:0 auto}
+.article-layout{display:grid;grid-template-columns:minmax(0,220px) minmax(0,760px);gap:56px;align-items:start}
+.article-toc{position:sticky;top:110px;padding:22px}
+.article-toc strong{display:block;margin-bottom:12px}
+.article-toc a{display:block;padding:7px 0;color:var(--muted);font-size:13px}
+.article-toc a:hover{color:var(--text)}
+.article-content{min-width:0}
+.article-content > * + *{margin-top:20px}
+.article-content h2{margin-top:54px;font-size:clamp(28px,4vw,38px)}
+.article-content h3{margin-top:36px;font-size:22px}
+.article-content p,.article-content li{font-size:16px;line-height:1.8;color:var(--muted)}
+.article-content pre{overflow:auto;padding:22px;border:1px solid var(--line);border-radius:16px;background:#031b1d}
+.article-callout{padding:22px 24px;border-left:3px solid var(--orange);background:color-mix(in srgb,var(--panel) 65%,transparent);border-radius:0 14px 14px 0}
+.article-related{margin-top:52px;padding:26px}
+
+/* Project listing: consistent footer links. */
+.project-card{display:flex;flex-direction:column}
+.project-card-actions{display:flex;flex-wrap:wrap;gap:18px;margin-top:auto;padding-top:20px}
+.project-card-actions a{font-weight:800}
+
+/* Lab evidence links turn topic cards into proof rather than topic lists. */
+.lab-topic-card{display:flex;flex-direction:column}
+.lab-topic-evidence{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:12px;font-weight:850;color:var(--text)}
+.lab-topic-evidence span{transition:transform 180ms ease}
+.lab-topic-evidence:hover span{transform:translate(2px,-2px)}
+.lab-topic-card .tags{margin-top:auto;padding-top:18px}
+
+/* Contact */
+.contact-intro-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.7fr);gap:var(--card-gap);align-items:stretch}
+.contact-primary{padding:34px}
+.contact-primary h2{font-size:clamp(32px,4vw,46px);margin:.4rem 0 1rem}
+.contact-routes{display:grid;gap:var(--card-gap)}
+.contact-note{padding:24px;color:var(--muted)}
+
+/* Consistent command palette accessibility focus. */
+.command-search input:focus-visible,.filter:focus-visible,.arch-node:focus-visible,.btn:focus-visible,.card-link:focus-visible,a:focus-visible{outline:2px solid color-mix(in srgb,var(--green) 70%,white);outline-offset:3px}
+
+@media(max-width:900px){
+  .article-grid-review{grid-template-columns:1fr 1fr}
+  .article-card-featured{grid-column:1/-1;grid-row:auto;min-height:360px}
+  .about-current-focus,.contact-intro-grid{grid-template-columns:1fr}
+  .article-layout{grid-template-columns:1fr;gap:24px}
+  .article-toc{position:static}
+}
+@media(max-width:650px){
+  .article-grid-review{grid-template-columns:1fr}
+  .article-card-featured{min-height:0;padding:26px}
+  .experience-group + .experience-group{margin-top:52px}
+}
+@media(prefers-reduced-motion:reduce){
+  .card-link span,.project-case-link span,.project-featured-links a span,.lab-topic-evidence span{transition:none!important;transform:none!important}
+}
