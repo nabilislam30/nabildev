@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Immutable Terraform delivery insight</title>
+  <desc id="desc">A visual showing Terraform planning infrastructure, a Golden AMI, an Auto Scaling Group and replaceable EC2 instances.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08292b"/><stop offset="1" stop-color="#0d3336"/></linearGradient>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M34 0H0V34" fill="none" stroke="#d9efea" stroke-opacity=".035"/></pattern>
+  </defs>
+  <rect width="1200" height="620" rx="30" fill="url(#bg)"/>
+  <rect width="1200" height="620" rx="30" fill="url(#grid)"/>
+  <rect x="44" y="42" width="1112" height="536" rx="22" fill="#061f21" stroke="#b9d9d3" stroke-opacity=".16"/>
+  <circle cx="76" cy="74" r="6" fill="#ef6a5b"/><circle cx="96" cy="74" r="6" fill="#e9a648"/><circle cx="116" cy="74" r="6" fill="#75d6c0"/>
+  <text x="142" y="80" fill="#8faeaa" font-family="system-ui,sans-serif" font-size="15" font-weight="700" letter-spacing="1.8">IMMUTABLE DELIVERY / TERRAFORM</text>
+  <text x="76" y="142" fill="#fbf6ed" font-family="system-ui,sans-serif" font-size="25" font-weight="800">Replace, don’t patch</text>
+  <text x="76" y="171" fill="#8faeaa" font-family="system-ui,sans-serif" font-size="14">Infrastructure changes are reviewed in code and new instances come from a versioned image.</text>
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <g><rect x="74" y="216" width="176" height="92" rx="16" fill="#0e3f41" stroke="#b9d9d3" stroke-opacity=".28"/><text x="162" y="251" fill="#fbf6ed" font-size="16" font-weight="800">Terraform plan</text><text x="162" y="278" fill="#8faeaa" font-size="12">reviewed change</text></g>
+    <path d="M264 262H338" stroke="#ea9239" stroke-width="2"/><circle cx="301" cy="262" r="5" fill="#ea9239"/><path d="m331 255 9 7-9 7" fill="none" stroke="#ea9239" stroke-width="2"/>
+    <g><rect x="352" y="206" width="184" height="112" rx="18" fill="#0e3f41" stroke="#76d6c0" stroke-opacity=".42"/><text x="444" y="244" fill="#fbf6ed" font-size="16" font-weight="800">Golden AMI</text><text x="444" y="270" fill="#8faeaa" font-size="12">versioned image</text><rect x="399" y="288" width="90" height="18" rx="9" fill="#072b2d"/><text x="444" y="301" fill="#76d6c0" font-size="9">IMMUTABLE</text></g>
+    <path d="M550 262H624" stroke="#ea9239" stroke-width="2"/><circle cx="587" cy="262" r="5" fill="#ea9239"/><path d="m617 255 9 7-9 7" fill="none" stroke="#ea9239" stroke-width="2"/>
+    <g><rect x="638" y="196" width="214" height="132" rx="18" fill="#123f42" stroke="#76d6c0" stroke-opacity=".5"/><text x="745" y="235" fill="#fbf6ed" font-size="17" font-weight="800">Auto Scaling Group</text><rect x="668" y="260" width="64" height="42" rx="9" fill="#072b2d" stroke="#76d6c0" stroke-opacity=".28"/><rect x="758" y="260" width="64" height="42" rx="9" fill="#072b2d" stroke="#76d6c0" stroke-opacity=".28"/><text x="700" y="286" fill="#c7d6d3" font-size="10">EC2</text><text x="790" y="286" fill="#c7d6d3" font-size="10">EC2</text></g>
+    <path d="M866 262H940" stroke="#ea9239" stroke-width="2"/><circle cx="903" cy="262" r="5" fill="#ea9239"/><path d="m933 255 9 7-9 7" fill="none" stroke="#ea9239" stroke-width="2"/>
+    <g><rect x="954" y="216" width="172" height="92" rx="16" fill="#0e3f41" stroke="#b9d9d3" stroke-opacity=".28"/><text x="1040" y="251" fill="#fbf6ed" font-size="16" font-weight="800">Load balancer</text><text x="1040" y="278" fill="#8faeaa" font-size="12">health checks</text></g>
+  </g>
+  <g font-family="system-ui,sans-serif">
+    <rect x="74" y="390" width="1052" height="120" rx="18" fill="#092d2f" stroke="#b9d9d3" stroke-opacity=".12"/>
+    <text x="100" y="424" fill="#ea9239" font-size="12" font-weight="800" letter-spacing="1.6">DELIVERY PRINCIPLE</text>
+    <rect x="100" y="451" width="282" height="34" rx="10" fill="#0e3f41" stroke="#b9d9d3" stroke-opacity=".16"/><text x="119" y="473" fill="#c7d6d3" font-size="12">01  Build a new machine image</text>
+    <rect x="397" y="451" width="282" height="34" rx="10" fill="#0e3f41" stroke="#b9d9d3" stroke-opacity=".16"/><text x="416" y="473" fill="#c7d6d3" font-size="12">02  Update launch template</text>
+    <rect x="694" y="451" width="402" height="34" rx="10" fill="#0e3f41" stroke="#b9d9d3" stroke-opacity=".16"/><text x="713" y="473" fill="#c7d6d3" font-size="12">03  Replace instances instead of changing them in place</text>
+  </g>
+</svg>
