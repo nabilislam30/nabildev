@@ -53,6 +53,14 @@ body[data-case-style="enhanced"] .case-visual-architecture.is-expanded .case-arc
 body[data-case-style="enhanced"] .case-visual-architecture.is-expanded .case-arch-canvas,
 body[data-case-style="enhanced"] .case-visual-architecture.is-expanded .case-arch-info{min-height:360px}
 body[data-case-style="enhanced"] .case-visual-architecture.is-expanded .case-arch-node{min-height:150px}
+
+/* Match the EKS final-section composition: troubleshooting + outcome in one section. */
+body[data-case-style="enhanced"] .case-results-section{padding:72px 0 78px}
+body[data-case-style="enhanced"] .case-results-section .case-troubleshooting-grid{margin-top:28px}
+body[data-case-style="enhanced"] .case-results-section .case-outcome-panel{margin-top:20px;padding:30px 32px 32px;border-color:color-mix(in srgb,var(--orange) 30%,var(--line))}
+body[data-case-style="enhanced"] .case-results-section .case-outcome-panel h2{margin:0 0 12px;font-size:clamp(35px,4.3vw,54px);line-height:1.02}
+body[data-case-style="enhanced"] .case-results-section .case-outcome-panel p{max-width:980px}
+
 @media(max-width:900px){body[data-case-style="enhanced"] .case-arch-stage{grid-template-columns:1fr}body[data-case-style="enhanced"] .case-arch-info{min-height:0}body[data-case-style="enhanced"] .case-arch-node{min-width:78px}body[data-case-style="enhanced"] .case-arch-link{min-width:14px;margin-inline:3px}}
 @media(max-width:700px){body[data-case-style="enhanced"] .case-arch-toolbar{align-items:flex-start;flex-direction:column}body[data-case-style="enhanced"] .case-arch-controls{width:100%;justify-content:space-between}body[data-case-style="enhanced"] .case-arch-tabs{flex:1}body[data-case-style="enhanced"] .case-arch-tab{flex:1}body[data-case-style="enhanced"] .case-arch-canvas{padding:17px 14px;overflow:auto}body[data-case-style="enhanced"] .case-arch-flow{min-width:620px;justify-content:flex-start}body[data-case-style="enhanced"] .case-arch-node{flex-basis:100px;min-width:100px}body[data-case-style="enhanced"] .case-visual-architecture.is-expanded{inset:8px;padding:16px}}
 @media(prefers-reduced-motion:reduce){body[data-case-style="enhanced"] .case-arch-node{opacity:1;transform:none}body[data-case-style="enhanced"] .case-arch-link{transform:scaleX(1);animation:none!important}body[data-case-style="enhanced"] .case-arch-link::after{animation:none!important;display:none}}
