@@ -1,4 +1,13 @@
-/* EKS architecture parity for enhanced non-EKS case studies. */
+/* EKS architecture + hero parity for enhanced non-EKS case studies. */
+body[data-case-style="enhanced"] .case-hero .back-link{
+  display:flex;
+  width:max-content;
+  margin-bottom:28px;
+}
+body[data-case-style="enhanced"] .case-hero .kicker{
+  display:block;
+}
+
 body[data-case-style="enhanced"] .case-visual-architecture{margin-top:24px;padding:0;border:0;background:transparent;box-shadow:none}
 body[data-case-style="enhanced"] .case-visual-architecture:hover{border-color:transparent;box-shadow:none}
 body[data-case-style="enhanced"] .case-arch-toolbar{align-items:flex-end;margin-bottom:12px}
