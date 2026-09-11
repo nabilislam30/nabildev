@@ -44,8 +44,6 @@ for (const relativePath of pages) {
   let outcomeInner = innerContainer(outcome.full);
   if (!outcomeInner) continue;
 
-  // Match the EKS reference: the outcome card is part of the same final section,
-  // uses a single "Outcome." heading, and the sticky nav derives 05 automatically.
   outcomeInner = outcomeInner
     .replace('<span class="kicker">05 — Outcome</span>', '')
     .replace('<h2>What worked.</h2>', '<h2>Outcome.</h2>');
@@ -58,6 +56,13 @@ for (const relativePath of pages) {
   html = html.replace(troubleshooting.full, merged);
   html = html.replace(outcome.full, '');
   if (production) html = html.replace(production.full, '');
+
+  // Force the latest EKS-parity CSS so the merged final section cannot reuse
+  // the previously cached architecture/hero stylesheet response.
+  html = html.replaceAll(
+    'case-architecture-parity-20260911.css?v=20260911-1426',
+    'case-architecture-parity-20260911.css?v=20260911-1505'
+  );
 
   fs.writeFileSync(filePath, html);
   console.log(`Aligned final case-study section: ${relativePath}`);
