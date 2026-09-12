@@ -35,93 +35,49 @@
 <div class="scroll-progress" aria-hidden="true"><span></span></div><div class="pointer-light" aria-hidden="true"></div>
 <header class="nav-wrap" data-nav><div class="container"><nav class="nav" aria-label="Primary navigation"><a class="brand" href="../index.html" aria-label="Nabil Islam home"><span class="brand-terminal" aria-hidden="true">&gt;_</span><span>Nabil Islam</span></a><div class="nav-actions"><button class="theme-toggle" type="button" aria-label="Switch to light mode" title="Switch theme"><span class="theme-icon" aria-hidden="true">☾</span></button><button class="command-trigger" type="button" aria-label="Open quick navigation" title="Quick navigation"><span data-command-mod>Ctrl</span><span class="command-key">K</span></button><button class="menu" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button></div><div class="nav-links"><a href="../index.html">Home</a><a href="../projects.html">Projects</a><a href="../lab.html">Lab</a><a href="../experience.html">Experience</a><a href="../articles.html" class="active">Articles</a><a href="../about.html">About</a><a class="nav-cta" href="../contact.html">Contact</a></div></nav></div></header>
 <main>
-<section class="article-hero-wrap"><div class="container"><a class="back-link" href="../articles.html">← Articles</a><div class="article-hero-card reveal"><div class="article-hero-copy"><span class="kicker">Amazon EKS · Platform foundations</span><h1>Inside Amazon EKS: How the Cluster Actually Works</h1><p>Amazon EKS removes the burden of operating the Kubernetes control plane, but the rest of the cluster still depends on networking, compute, identity, storage and several Kubernetes components working together. This article breaks those layers apart and follows what actually happens inside an EC2-backed EKS cluster.</p><div class="article-meta-row"><span>12 Sep 2026</span><span>24 min read</span></div><div class="article-tags" aria-label="Article topics"><span>Amazon EKS</span><span>Kubernetes</span><span>AWS</span><span>Networking</span><span>IAM</span></div></div></div></div></section>
-<div class="container article-layout"><aside class="article-toc" aria-label="On this page"><div class="article-toc-sticky"><strong>On this page</strong><div class="article-toc-track"><span data-article-toc-progress></span></div><nav><a href="#control-plane" data-article-toc-link><span>01</span>Control Plane</a><a href="#networking" data-article-toc-link><span>02</span>Networking</a><a href="#worker-nodes" data-article-toc-link><span>03</span>Worker Nodes</a><a href="#iam-rbac" data-article-toc-link><span>04</span>IAM &amp; RBAC</a><a href="#cluster-addons" data-article-toc-link><span>05</span>Cluster Add-ons</a><a href="#kubectl-to-pod" data-article-toc-link><span>06</span>From kubectl to Pod</a><a href="#pitfalls" data-article-toc-link><span>07</span>Pitfalls</a><a href="#conclusion" data-article-toc-link><span>08</span>Conclusion</a></nav></div></aside><article class="article-body"><div class="article-intro"><p>Amazon Elastic Kubernetes Service, or <strong>Amazon EKS</strong>, is AWS's managed Kubernetes service. The word <em>managed</em> can sometimes make EKS sound more automated than it really is. AWS operates the Kubernetes control plane for you, keeps it highly available and exposes the Kubernetes API, but that is only one part of a working Kubernetes environment. Your workloads still need compute capacity, nodes need to communicate with the control plane, Pods need IP addresses, identities need permissions, and applications often depend on DNS, load balancing and persistent storage before they can serve any traffic.</p>
-<p>That distinction matters because an EKS cluster can show as <code>ACTIVE</code> in the AWS console while still being unable to run an application. <code>ACTIVE</code> means the managed control plane has been created successfully. It does not tell you whether worker nodes have joined the cluster, whether CoreDNS is healthy, whether Pods can obtain IP addresses, whether storage can be attached or whether the identity running <code>kubectl</code> has permission to do anything useful.</p>
-<p>This article looks at EKS as a collection of interacting systems rather than one large AWS service. The focus is a traditional <strong>EC2-backed EKS architecture using managed node groups</strong>, rather than EKS Auto Mode or Fargate. The aim is to understand where each component lives, what responsibility it has and where to look when something fails.</p>
+<section class="article-hero-wrap"><div class="container"><a class="back-link" href="../articles.html">← Articles</a><div class="article-hero-card reveal"><div class="article-hero-copy"><span class="kicker">Amazon EKS · Platform foundations</span><h1>Inside Amazon EKS: How the Cluster Actually Works</h1><p>Amazon EKS removes the burden of operating the Kubernetes control plane, but the rest of the cluster still depends on networking, compute, identity, storage and several Kubernetes components working together. This article breaks those layers apart and follows what actually happens inside an EC2-backed EKS cluster.</p><div class="article-meta-row"><span>12 Sep 2026</span><span>18 min read</span></div><div class="article-tags" aria-label="Article topics"><span>Amazon EKS</span><span>Kubernetes</span><span>AWS</span><span>Networking</span><span>IAM</span></div></div></div></div></section>
+<div class="container article-layout"><aside class="article-toc" aria-label="On this page"><div class="article-toc-sticky"><strong>On this page</strong><div class="article-toc-track"><span data-article-toc-progress></span></div><nav><a href="#control-plane" data-article-toc-link><span>01</span>Control Plane</a><a href="#networking" data-article-toc-link><span>02</span>Networking</a><a href="#worker-nodes" data-article-toc-link><span>03</span>Worker Nodes</a><a href="#iam-rbac" data-article-toc-link><span>04</span>IAM &amp; RBAC</a><a href="#cluster-addons" data-article-toc-link><span>05</span>Cluster Add-ons</a><a href="#kubectl-to-pod" data-article-toc-link><span>06</span>From kubectl to Pod</a><a href="#pitfalls" data-article-toc-link><span>07</span>Pitfalls</a><a href="#conclusion" data-article-toc-link><span>08</span>Conclusion</a></nav></div></aside><article class="article-body"><div class="article-intro"><p>Amazon Elastic Kubernetes Service, or <strong>Amazon EKS</strong>, runs the Kubernetes control plane for you, keeps it highly available and exposes the cluster API. The rest of the platform still depends on compute, networking, identity, DNS and storage working together.</p>
+<p>An EKS cluster showing <code>ACTIVE</code> only confirms that the control plane exists. It does not prove that nodes have joined, Pods can obtain addresses, add-ons are healthy or your <code>kubectl</code> identity is authorised. This article separates those systems in a traditional <strong>EC2-backed EKS cluster using managed node groups</strong>, rather than EKS Auto Mode or Fargate.</p>
 <hr />
 </div><section class="article-section" id="control-plane" data-article-section><span class="article-section-kicker">01 — CONTROL PLANE</span><h2>Control Plane</h2>
-<p>A Kubernetes cluster is divided broadly into two areas: the <strong>control plane</strong> and the <strong>data plane</strong>. The control plane decides what should happen in the cluster, while the data plane is where application workloads actually run. In a self-managed Kubernetes environment you would operate both sides yourself, including the API servers, etcd database, schedulers and controller managers. In EKS, AWS operates the control plane on your behalf.</p>
-<p>The EKS control plane runs in infrastructure owned and managed by AWS. You do not receive EC2 instances for it in your account, and you are not responsible for patching the control-plane operating systems, maintaining etcd or replacing failed control-plane hosts. AWS distributes the control plane across multiple Availability Zones and operates multiple instances of its critical components so that the failure of a single host or Availability Zone does not normally take the cluster API offline.</p>
-<p>That managed control plane contains the same fundamental components found in other Kubernetes distributions.</p>
+<p>A Kubernetes cluster has a <strong>control plane</strong>, which records and reconciles desired state, and a <strong>data plane</strong>, where application workloads run. In EKS, AWS operates the API servers, etcd, scheduler and controllers across multiple Availability Zones; you do not receive or patch their underlying hosts.</p>
+<p>These are the standard Kubernetes control-plane components, but AWS manages their availability and infrastructure.</p>
+<p>The managed boundary stops there. AWS does not automatically provide healthy worker capacity, working Pod networking or application permissions merely because the API is available.</p>
 <figure class="article-figure reveal"><div class="article-figure-frame light"><img data-article-diagram="eks-control-plane-vs-data-plane" src="../assets/articles/eks-control-plane-vs-data-plane.webp?v=20260912-full-1" alt="Control Plane vs Data Plane diagram for Amazon EKS" width="1448" height="1086" loading="lazy"></div><figcaption><strong>Figure 1.</strong> AWS manages the EKS control plane; you manage nodes and workloads in your AWS account.</figcaption></figure>
 <h3>The API server</h3>
-<p>The <strong>Kubernetes API server</strong> is the main interface into the cluster. Almost every operation eventually goes through it. When you run:</p>
+<p>The <strong>Kubernetes API server</strong> is the cluster's main interface. Commands such as these send requests to it:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get pods
 
 kubectl apply -f deployment.yaml
 </code></pre></div>
-<p><code>kubectl</code> is communicating with the Kubernetes API server.</p>
-<p>The API server does far more than simply accept YAML. It authenticates the caller, checks whether that identity is authorised, validates the requested resource and processes admission controls before allowing the desired state into the cluster.</p>
+<p>The API server authenticates and authorises the caller, validates the resource and runs admission controls before recording the desired state.</p>
+<p>Schedulers, controllers and kubelets also communicate through this API rather than modifying cluster state directly. That makes the API server the consistent control point for both users and internal Kubernetes components.</p>
 <p>You can retrieve the API endpoint for an EKS cluster using the AWS CLI:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws eks describe-cluster \
   --name my-cluster \
   --query 'cluster.endpoint' \
   --output text
 </code></pre></div>
-<p>The result resembles:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>https://ABCD123456.gr7.eu-west-2.eks.amazonaws.com
-</code></pre></div>
-<p>This address is not your application endpoint. It is the management endpoint for Kubernetes itself.</p>
+<p>The returned address is Kubernetes' management endpoint, not an application endpoint.</p>
 <h3>etcd</h3>
-<p>Kubernetes stores its cluster state in <strong>etcd</strong>, a distributed key-value database. It contains information such as Deployments, Pods, Services, Secrets, ConfigMaps and node registrations.</p>
-<p>Suppose you submit:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>yaml</span><button type="button" data-copy-code>Copy</button></div><pre><code>spec:
-  replicas: 3
-</code></pre></div>
-<p>Kubernetes is not storing the instruction as &quot;start three containers immediately.&quot; It stores the desired state: <em>this workload should have three replicas</em>. Other Kubernetes components continuously compare that desired state with reality and attempt to reconcile the difference.</p>
-<p>That distinction is central to Kubernetes. Instead of issuing a sequence of imperative instructions, you normally declare what you want the final state to look like.</p>
-<p>AWS operates and protects the etcd layer in EKS. You do not SSH into it, configure its disks or build its replication topology.</p>
+<p><strong>etcd</strong> is the distributed key-value database holding Deployments, Pods, Services, Secrets, ConfigMaps and node registrations. Kubernetes stores declarations such as <code>replicas: 3</code> as desired state; controllers then compare that state with reality.</p>
+<p>AWS operates and protects etcd in EKS, including its underlying hosts, storage and replication.</p>
 <h3>Scheduler</h3>
-<p>The <strong>scheduler</strong> decides which worker node should run each Pod. It considers factors including available CPU and memory, node selectors, affinity rules, anti-affinity, topology constraints, taints and tolerations.</p>
-<p>A common misconception is that the scheduler starts containers. It does not. The scheduler's responsibility is placement.</p>
-<p>Conceptually:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>flow</span><button type="button" data-copy-code>Copy</button></div><pre><code>Pod: web-7f6d9
-        |
-        v
-Scheduler evaluates nodes
-        |
-        v
-Node A: enough CPU, correct labels
-Node B: insufficient memory
-Node C: blocked by taint
-        |
-        v
-Pod bound to Node A
-</code></pre></div>
-<p>After that decision is recorded, the <strong>kubelet</strong> running on Node A is responsible for making the Pod actually run.</p>
+<p>The <strong>scheduler</strong> chooses a worker node for each Pod using available CPU and memory, selectors, affinity, topology constraints, taints and tolerations. It records placement; the node's <strong>kubelet</strong> starts the workload.</p>
+<p>This distinction matters during troubleshooting: a <code>Pending</code> Pod may have failed placement even though every existing container runtime is healthy.</p>
 <h3>Controller manager</h3>
-<p>Kubernetes also runs a collection of <strong>controllers</strong>. A controller continuously observes a resource and attempts to make reality match the desired state.</p>
-<p>For example:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>Desired replicas: 3
-Running replicas: 2
-</code></pre></div>
-<p>The Deployment and ReplicaSet controllers detect the difference and create another Pod.</p>
-<p>Eventually:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>Desired replicas: 3
-Running replicas: 3
-</code></pre></div>
-<p>This continuous process is called <strong>reconciliation</strong>.</p>
-<p>It is why Kubernetes can recover from many failures automatically. If a Pod disappears, the system does not necessarily treat that Pod as something that must be repaired. Instead, a controller recognises that the desired replica count is no longer satisfied and creates a replacement.</p>
-<p>The most important distinction at this stage is therefore:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>Control plane
-    Decides and records what should happen
-
-Data plane
-    Executes workloads
-</code></pre></div>
-<p>AWS manages the first. You remain responsible for designing and operating much of the second.</p>
+<p><strong>Controllers</strong> continuously reconcile desired and actual state. If a Deployment requests three replicas but only two exist, its controllers create a replacement Pod. This reconciliation is why Kubernetes recovers automatically from many workload failures.</p>
+<p>Controllers do not normally repair a particular failed container. They restore the declared state, often by creating a new Pod and allowing the scheduler to place it again.</p>
+<p>AWS manages these control-plane decisions; your data plane executes them.</p>
 <hr />
-</section><section class="article-section" id="networking" data-article-section><span class="article-section-kicker">02 — NETWORKING</span><h2>Networking</h2><p>Networking is one of the areas where EKS becomes more complicated than it initially appears because the control plane and the worker nodes belong to the same Kubernetes cluster but do not live in exactly the same network environment.</p>
-<p>Your EC2 worker nodes normally live inside <strong>your VPC</strong>, within subnets that you selected when building the platform. The EKS control plane itself is AWS-managed infrastructure. AWS therefore needs a secure way for the managed control plane to communicate with resources in your VPC.</p>
+</section><section class="article-section" id="networking" data-article-section><span class="article-section-kicker">02 — NETWORKING</span><h2>Networking</h2><p>Worker nodes live inside <strong>your VPC</strong>, while the control plane runs in AWS-managed infrastructure. EKS therefore needs secure network paths between both sides of the cluster.</p>
 <figure class="article-figure reveal"><div class="article-figure-frame light"><img data-article-diagram="eks-network-paths" src="../assets/articles/eks-network-paths.webp?v=20260912-full-1" alt="Amazon EKS network paths between a user's machine, the EKS API endpoint, the AWS-managed control plane and worker nodes in private subnets" width="1448" height="1086" loading="lazy"></div><figcaption><strong>Figure 2.</strong> EKS networking requires API access, node-to-control-plane connectivity and a return path from the control plane to the kubelet API.</figcaption></figure>
-<p>When an EKS cluster is created, you provide subnet IDs. That does <strong>not</strong> mean the control-plane servers are launched inside those subnets. Instead, EKS creates <strong>Elastic Network Interfaces</strong>, commonly called ENIs, in selected subnets.</p>
-<p>An ENI is effectively a virtual network card inside a VPC. It has private IP addressing and security-group associations and provides connectivity between AWS-managed EKS components and resources inside your network.</p>
-<p>For a standard cluster, Amazon EKS creates two to four requester-managed network interfaces across the control-plane subnets. Those subnets must span at least two Availability Zones and each needs at least six available IP addresses; AWS recommends at least sixteen.</p>
-<p>This is also one reason subnet sizing matters. Subnets are not simply containers for EC2 instances; they provide the finite pool of addresses used by nodes, Pods, load balancers and EKS networking components.</p>
+<p>The subnet IDs supplied during cluster creation do not host the control-plane servers. EKS instead creates two to four requester-managed <strong>Elastic Network Interfaces (ENIs)</strong> in those subnets, giving the managed control plane private VPC connectivity and security-group associations.</p>
+<p>The subnets must span at least two Availability Zones and each needs at least six available IP addresses; AWS recommends sixteen. Their finite address space is also consumed by nodes, Pods, load balancers and other networking components.</p>
 <h3>API endpoint access</h3>
 <p>The Kubernetes API endpoint can be configured for:</p>
 <ul><li>Public access</li><li>Private access</li><li>Public and private access</li></ul>
+<p>Public access lets approved external networks reach the API, while private access keeps node and in-VPC traffic on the VPC path. A private-only endpoint requires administrators and automation to have network connectivity into the VPC.</p>
 <p>You can inspect the current configuration using:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws eks describe-cluster \
   --name my-cluster \
@@ -131,43 +87,18 @@ Data plane
     PublicCIDRs:publicAccessCidrs
   }'
 </code></pre></div>
-<p>A typical development environment might enable both private and public access while restricting the public endpoint to known source addresses.</p>
-<p>For example:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>Public: true
-Private: true
-PublicCIDRs:
-  - 81.100.20.30/32
-</code></pre></div>
-<p>The dangerous alternative would be <code>0.0.0.0/0</code>.</p>
-<p>That makes the API endpoint reachable from anywhere on the internet. Authentication is still required, so it does not make the cluster unauthenticated, but it unnecessarily increases the exposed attack surface.</p>
+<p>A development cluster might enable both modes while limiting public access to known CIDRs. Authentication is still required, but allowing <code>0.0.0.0/0</code> unnecessarily exposes the API endpoint to the entire internet.</p>
 <h3>Node-to-control-plane communication</h3>
-<p>Every worker node runs a kubelet. For the node to participate in Kubernetes, the kubelet must be able to communicate with the EKS API server over HTTPS.</p>
-<p>Conceptually:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>flow</span><button type="button" data-copy-code>Copy</button></div><pre><code>Worker node
-     |
-     | HTTPS 443
-     |
-Kubernetes API endpoint
-     |
-     |
-EKS control plane
-</code></pre></div>
-<p>During bootstrap, the node retrieves cluster information and authenticates to EKS. If that communication path fails, the EC2 instance may be perfectly healthy from an AWS perspective but never appear as a Kubernetes node.</p>
+<p>Each node's kubelet must reach the API endpoint over HTTPS during bootstrap and normal operation. If that path or authentication fails, a healthy EC2 instance may never register as a Kubernetes node.</p>
 <p>That is why these two commands answer very different questions:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws ec2 describe-instances
 
 kubectl get nodes
 </code></pre></div>
 <p>The first tells you whether EC2 exists and is running. The second tells you whether Kubernetes has successfully registered and accepted the node.</p>
+<p>This path depends on subnet routes, DNS resolution, security groups, endpoint configuration and the node IAM role. Testing only EC2 health therefore misses several requirements for cluster membership.</p>
 <h3>Control-plane-to-node communication</h3>
-<p>Traffic is not only node-to-control-plane. Some Kubernetes operations require the control plane to communicate back to services running on worker nodes.</p>
-<p>For example:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl exec -it my-pod -- /bin/sh
-
-kubectl logs my-pod
-</code></pre></div>
-<p>can involve the kubelet API, which commonly uses TCP port <code>10250</code>.</p>
-<p>This is why EKS security-group rules are important. A security group that appears restrictive from a normal web-application perspective may accidentally break required Kubernetes control-plane traffic.</p>
+<p>Traffic also flows back from the control plane to nodes. Operations such as <code>kubectl exec</code> and <code>kubectl logs</code> can involve the kubelet API on TCP <code>10250</code>, so overly restrictive security-group rules can break Kubernetes even when ordinary application traffic works.</p>
 <p>Useful investigation commands include:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get nodes -o wide
 
@@ -178,69 +109,33 @@ kubectl describe node &lt;node-name&gt;
   --name my-cluster \
   --query 'cluster.resourcesVpcConfig.clusterSecurityGroupId'
 </code></pre></div>
-<p>Networking problems in EKS often appear as Kubernetes problems because Kubernetes is the first layer that reports the symptom. The actual cause may be a route table, security group, subnet, DNS setting or endpoint configuration several layers below Kubernetes itself.</p>
+<p>Kubernetes often reports the symptom first, while the cause is a route table, security group, subnet, DNS setting or endpoint configuration underneath it.</p>
 <hr />
-</section><section class="article-section" id="worker-nodes" data-article-section><span class="article-section-kicker">03 — WORKER NODES</span><h2>Worker Nodes</h2><p>The control plane cannot run your normal application workloads. Those workloads require compute capacity in the <strong>data plane</strong>.</p>
-<p>In an EC2-backed EKS cluster, that compute comes from EC2 worker nodes. A worker node is an EC2 instance configured to join the Kubernetes cluster and run Pods.</p>
-<p>A typical node contains several important components:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>EC2 instance
-│
-├── Operating system
-├── Container runtime
-├── kubelet
-├── Kubernetes networking components
-└── Application Pods
-</code></pre></div>
-<p>The <strong>container runtime</strong> is the software responsible for actually running containers. Modern EKS-optimised images use <code>containerd</code>.</p>
-<p>The <strong>kubelet</strong> is the Kubernetes agent running on each node. It registers the machine with the cluster, watches for Pods assigned to that node, communicates with the container runtime and reports Pod and node health back to the API server.</p>
+</section><section class="article-section" id="worker-nodes" data-article-section><span class="article-section-kicker">03 — WORKER NODES</span><h2>Worker Nodes</h2><p>Application workloads need compute in the <strong>data plane</strong>. In an EC2-backed cluster, each worker node is an EC2 instance containing an operating system, Kubernetes networking, a <strong>kubelet</strong> and a container runtime such as <code>containerd</code>.</p>
+<p>The kubelet registers the node, watches for assigned Pods, instructs the runtime to start containers and reports health to the API server.</p>
+<p>During bootstrap, the instance needs the correct cluster name, API endpoint and certificate authority data, plus an IAM identity EKS accepts as a node. A mistake in user data, DNS, routing or permissions can leave the instance running but absent from Kubernetes.</p>
 <p>You can see registered nodes using:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get nodes
 </code></pre></div>
-<p>For example:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>NAME                         STATUS   ROLES    AGE   VERSION
-ip-10-0-11-25.eu-west-2     Ready    &lt;none&gt;   4h    v1.x
-ip-10-0-31-48.eu-west-2     Ready    &lt;none&gt;   4h    v1.x
-</code></pre></div>
-<p>The important value here is <code>STATUS: Ready</code>.</p>
-<p>An EC2 instance being <code>running</code> and a Kubernetes node being <code>Ready</code> are not equivalent.</p>
-<p><code>Running</code> means the virtual machine exists.</p>
-<p><code>Ready</code> means Kubernetes can communicate with it and considers it capable of accepting workloads.</p>
+<p>Look for <code>STATUS: Ready</code>. EC2 <code>running</code> only means the virtual machine exists; Kubernetes <code>Ready</code> means the cluster can communicate with it and considers it able to accept workloads.</p>
 <p>For more detail:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl describe node ip-10-0-11-25.eu-west-2
 </code></pre></div>
-<p>This shows information such as:</p>
-<ul><li>Capacity and allocatable resources</li><li>Node conditions and taints</li><li>Pod CIDR and IP information</li><li>Running Pods and allocated CPU or memory</li><li>Recent events</li></ul>
+<p>This exposes capacity, conditions, taints, Pod addressing, resource allocation and recent events.</p>
 <h3>Managed node groups</h3>
 <p>EKS <strong>managed node groups</strong> provide an AWS-managed lifecycle around EC2 worker nodes. The instances still run in your AWS account and normally belong to an Auto Scaling Group, but EKS assists with operations such as provisioning, updates and draining nodes during replacement.</p>
-<p>You can list node groups with:</p>
+<p>You still choose instance types, subnets, scaling limits and much of the operating-system configuration. Managed does not mean AWS decides the workload architecture for you.</p>
+<p>List and inspect node groups with:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws eks list-nodegroups \
   --cluster-name my-cluster
-</code></pre></div>
-<p>Then inspect one:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws eks describe-nodegroup \
+
+aws eks describe-nodegroup \
   --cluster-name my-cluster \
   --nodegroup-name system-nodes
 </code></pre></div>
-<p>You may see scaling configuration such as:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>minSize:     1
-desiredSize: 2
-maxSize:     3
-</code></pre></div>
-<p>These values describe EC2 capacity, but Kubernetes scheduling still happens independently. Increasing an Auto Scaling Group gives Kubernetes more machines; it does not decide which Pods go where.</p>
+<p>The minimum, desired and maximum values control EC2 capacity. Kubernetes scheduling remains separate: adding instances supplies machines but does not decide Pod placement.</p>
 <h3>Why bootstrap nodes matter</h3>
-<p>More advanced architectures commonly use <strong>Karpenter</strong> to provision nodes dynamically. Karpenter watches for unschedulable workloads and creates EC2 capacity that matches their requirements.</p>
-<p>There is a bootstrap problem, however.</p>
-<p>Karpenter itself runs as a Kubernetes Pod.</p>
-<p>If the cluster has zero nodes:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>flow</span><button type="button" data-copy-code>Copy</button></div><pre><code>No nodes
-   |
-   v
-Karpenter has nowhere to run
-   |
-   v
-Karpenter cannot create nodes
-</code></pre></div>
-<p>The same issue affects other system workloads such as CoreDNS and storage controllers.</p>
+<p><strong>Karpenter</strong> can provision EC2 capacity for unschedulable workloads, but Karpenter itself runs as a Pod. With zero nodes, it—and system workloads such as CoreDNS or storage controllers—has nowhere to start.</p>
 <p>A common design is therefore:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>flow</span><button type="button" data-copy-code>Copy</button></div><pre><code>Small managed node group
         |
@@ -256,50 +151,33 @@ Application workloads appear
         v
 Karpenter provisions additional capacity
 </code></pre></div>
-<p>The managed node group becomes the bootstrap layer rather than the main source of application capacity.</p>
-<p>This is an important infrastructure-design lesson: even an autoscaling system may need some fixed capacity so that the autoscaling system itself can exist.</p>
+<p>A small managed node group therefore acts as the fixed bootstrap layer while Karpenter supplies most application capacity.</p>
 <hr />
 </section><section class="article-section" id="iam-rbac" data-article-section><span class="article-section-kicker">04 — IAM & RBAC</span><h2>IAM &amp; RBAC</h2>
-<p>Identity is one of the most confusing parts of EKS because two different security systems are involved:</p>
-<ul><li>AWS IAM</li><li>Kubernetes authorisation</li></ul>
-<p>They solve related but different problems.</p>
+<p>EKS joins two security systems: <strong>AWS IAM</strong> establishes the AWS identity, while <strong>Kubernetes RBAC</strong> determines what that identity can do inside the cluster.</p>
 <figure class="article-figure reveal"><div class="article-figure-frame light"><img data-article-diagram="eks-identity-flow" src="../assets/articles/eks-identity-flow.webp?v=20260912-full-1" alt="Amazon EKS identity flow diagram showing IAM, access entries and Kubernetes RBAC" width="1448" height="1086" loading="lazy"></div><figcaption><strong>Figure 3.</strong> AWS IAM establishes identity; EKS maps it into cluster access; Kubernetes RBAC controls what the identity can do.</figcaption></figure>
-<p><strong>AWS IAM</strong> establishes who or what is making an AWS-authenticated request.</p>
-<p><strong>Kubernetes RBAC</strong>, or Role-Based Access Control, determines what that identity can do inside Kubernetes.</p>
-<p>A useful mental model is:</p>
-<blockquote>
-<p>IAM establishes the AWS identity. EKS maps that identity into cluster access. Kubernetes authorisation determines what the identity can actually do.</p>
-</blockquote>
+<p>EKS maps the IAM principal into cluster access before Kubernetes authorisation evaluates the requested action.</p>
+<p>These stages are separate: IAM authentication can succeed while Kubernetes returns <code>Forbidden</code>, because the authenticated principal lacks the required RBAC permission.</p>
 <h3>Checking your AWS identity</h3>
 <p>Before troubleshooting Kubernetes access, check which AWS identity your terminal is actually using:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws sts get-caller-identity
 </code></pre></div>
-<p>Example:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>{
-  &quot;UserId&quot;: &quot;AROAXXXXXXXXXXXXX&quot;,
-  &quot;Account&quot;: &quot;123456789012&quot;,
-  &quot;Arn&quot;: &quot;arn:aws:iam::123456789012:role/platform-engineer&quot;
-}
-</code></pre></div>
-<p>This becomes especially important when working with multiple AWS profiles.</p>
-<p>For example:</p>
+<p>With multiple AWS profiles, verify the intended profile explicitly:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>AWS_PROFILE=nabil aws sts get-caller-identity
 </code></pre></div>
-<p>If the wrong AWS identity is being used, Kubernetes authentication will fail even if your kubeconfig looks correct.</p>
+<p>The wrong AWS identity causes Kubernetes authentication to fail even when kubeconfig is correct.</p>
 <h3>kubeconfig</h3>
 <p>To configure <code>kubectl</code> for an EKS cluster:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws eks update-kubeconfig \
   --region eu-west-2 \
   --name my-cluster
 </code></pre></div>
-<p>This adds cluster connection information to your kubeconfig, normally located at <code>~/.kube/config</code>.</p>
-<p>You can inspect the active context:</p>
+<p>This writes the API and certificate configuration to <code>~/.kube/config</code>. Inspect the active and available contexts with:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl config current-context
+kubectl config get-contexts
 </code></pre></div>
-<p>and list available contexts:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl config get-contexts
-</code></pre></div>
-<p>The kubeconfig contains information such as the API endpoint and certificate information. For EKS authentication, the AWS CLI is normally used to generate a short-lived token based on your current AWS credentials.</p>
+<p>For EKS authentication, the AWS CLI normally generates a short-lived token from your current AWS credentials.</p>
+<p>Consequently, switching AWS profiles can change the identity presented to the same kubeconfig context without changing the cluster endpoint itself.</p>
 <h3>EKS access entries</h3>
 <p>Modern EKS clusters can use <strong>access entries</strong> to map IAM principals into cluster permissions.</p>
 <p>List them with:</p>
@@ -307,70 +185,35 @@ Karpenter provisions additional capacity
   --cluster-name my-cluster
 </code></pre></div>
 <p>You might see an identity such as <code>arn:aws:iam::123456789012:role/platform-engineer</code>.</p>
-<p>That access entry can be associated with EKS access policies or mapped to Kubernetes groups that are then controlled using normal Kubernetes RBAC.</p>
-<p>This model is preferable to relying entirely on the older <code>aws-auth</code> ConfigMap for supported cluster configurations.</p>
+<p>An entry can use EKS access policies or map the principal to Kubernetes groups. For supported configurations, this is preferable to relying entirely on the older <code>aws-auth</code> ConfigMap.</p>
+<p>The access entry answers who may enter the cluster; EKS access policies or RBAC answer which Kubernetes actions that principal may perform.</p>
 <h3>Kubernetes RBAC</h3>
-<p>Once an identity has entered the Kubernetes authentication system, Kubernetes still determines what it is allowed to do.</p>
-<p>You can test permissions directly:</p>
+<p>Test Kubernetes permissions directly:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl auth can-i get pods
+kubectl auth can-i delete deployments -n production
 </code></pre></div>
-<p>A possible result is <code>yes</code>.</p>
-<p>Then:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl auth can-i delete deployments -n production
-</code></pre></div>
-<p>might return <code>no</code>.</p>
-<p>That distinction is important. A user could have significant AWS IAM permissions and still be denied access to Kubernetes resources.</p>
-<p>Conversely, cluster administration privileges do not automatically mean that identity has broad AWS permissions outside the cluster.</p>
+<p>The first may return <code>yes</code> and the second <code>no</code>. Broad AWS permissions do not automatically grant Kubernetes access, and cluster administration does not grant wider AWS permissions.</p>
 <h3>Cluster role, node role and workload identity</h3>
-<p>Several IAM roles often exist around an EKS cluster, and they should not be confused.</p>
-<p>The <strong>EKS cluster IAM role</strong> allows EKS to make required AWS API calls associated with the cluster.</p>
-<p>The <strong>node IAM role</strong> is attached to EC2 worker nodes and allows node-level AWS operations such as accessing ECR for container images.</p>
-<p>Application Pods should generally not inherit broad node-level AWS permissions. Workloads that need AWS services should instead use mechanisms such as <strong>EKS Pod Identity</strong> or IAM Roles for Service Accounts so that permissions are scoped to the workload.</p>
-<p>Keeping these identities separate limits the impact of a compromised application.</p>
+<p>The <strong>cluster IAM role</strong> lets EKS perform required AWS operations, while the <strong>node IAM role</strong> supports node-level actions such as pulling from ECR. Applications should use <strong>EKS Pod Identity</strong> or IAM Roles for Service Accounts instead of inheriting broad node permissions. Keeping these identities separate limits the impact of a compromised workload.</p>
 <hr />
 </section><section class="article-section" id="cluster-addons" data-article-section><span class="article-section-kicker">05 — CLUSTER ADD-ONS</span><h2>Cluster Add-ons</h2>
-<p>A healthy API server and several <code>Ready</code> worker nodes still do not guarantee that workloads are usable. Kubernetes depends on supporting components that provide Pod networking, DNS, Service routing and storage integration.</p>
-<p>In EKS, several of these can be managed as <strong>EKS add-ons</strong>.</p>
+<p>A healthy API server and <code>Ready</code> nodes are not enough. Workloads also depend on components that provide Pod networking, DNS, Service routing and storage integration; EKS can manage several of them as <strong>add-ons</strong>.</p>
 <figure class="article-figure reveal"><div class="article-figure-frame light"><img data-article-diagram="eks-workload-dependencies" src="../assets/articles/eks-workload-dependencies.webp?v=20260912-full-1" alt="Amazon EKS workload dependencies diagram showing VPC CNI, CoreDNS, kube-proxy and EBS CSI Driver" width="1448" height="1086" loading="lazy"></div><figcaption><strong>Figure 4.</strong> Core add-ons provide Pod networking, DNS, Service networking and persistent storage integration.</figcaption></figure>
-<p>List installed add-ons with:</p>
+<p>List add-ons and inspect their Kubernetes workloads with:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws eks list-addons \
   --cluster-name my-cluster
+
+kubectl get pods -n kube-system
 </code></pre></div>
-<p>You may see:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>vpc-cni
-coredns
-kube-proxy
-aws-ebs-csi-driver
-</code></pre></div>
-<p>You can also inspect the Kubernetes system namespace:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get pods -n kube-system
-</code></pre></div>
-<p>A healthy cluster might show resources such as:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws-node-xxxxx
-coredns-xxxxx
-kube-proxy-xxxxx
-ebs-csi-controller-xxxxx
-ebs-csi-node-xxxxx
-</code></pre></div>
-<p>Each exists for a different reason.</p>
+<p>Common results include <code>vpc-cni</code>, <code>coredns</code>, <code>kube-proxy</code> and <code>aws-ebs-csi-driver</code>.</p>
 <hr />
 <h3>Amazon VPC CNI</h3>
-<p>The <strong>Amazon VPC CNI</strong> integrates Kubernetes Pod networking with the AWS VPC.</p>
-<p>CNI stands for <strong>Container Network Interface</strong>. It is the mechanism Kubernetes uses to configure networking for containers.</p>
-<p>In standard EKS VPC CNI configurations, Pods receive addresses from your VPC networking environment rather than living behind a completely separate overlay network.</p>
+<p>The <strong>Amazon VPC CNI</strong> configures container networking and normally assigns Pods addresses from the VPC rather than a separate overlay.</p>
+<p>This allows Pods to participate directly in VPC routing and security designs, but it also ties Pod density to available subnet addresses and the networking limits of each EC2 instance type.</p>
 <p>You can see Pod IP addresses using:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get pods -o wide
 </code></pre></div>
-<p>Example:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>NAME           READY   STATUS    IP
-web-abc123     1/1     Running   10.0.22.47
-api-def456     1/1     Running   10.0.22.51
-</code></pre></div>
-<p>Those addresses consume real VPC IP capacity.</p>
-<p>That introduces an EKS-specific scaling concern: <strong>subnet IP exhaustion</strong>.</p>
-<p>You may have:</p>
-<ul><li>Plenty of CPU</li><li>Plenty of RAM</li><li>Healthy EC2 instances</li></ul>
-<p>while new Pods still fail because no addresses remain available.</p>
+<p>Because those addresses consume real VPC capacity, <strong>subnet IP exhaustion</strong> can stop new Pods even when nodes still have CPU and memory available.</p>
 <p>Useful commands include:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get daemonset aws-node -n kube-system
 
@@ -378,78 +221,41 @@ kubectl logs -n kube-system \
   -l k8s-app=aws-node \
   --tail=100
 </code></pre></div>
-<p>You should therefore design subnet CIDR ranges with Pod density in mind, not only the number of EC2 instances.</p>
+<p>Design subnet CIDR ranges for expected Pod density, not only EC2 instance count.</p>
 <hr />
 <h3>CoreDNS</h3>
-<p>Kubernetes applications rarely communicate using raw Pod IP addresses because Pods are ephemeral. A restarted Pod may receive a different address.</p>
-<p>Kubernetes therefore provides <strong>Services</strong>, which expose stable names and virtual addresses.</p>
-<p>For example:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>postgres.default.svc.cluster.local
-</code></pre></div>
-<p>CoreDNS provides DNS resolution for those names.</p>
-<p>Inside a Pod:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>nslookup kubernetes.default.svc.cluster.local
-</code></pre></div>
-<p>can be used to verify cluster DNS.</p>
-<p>If CoreDNS fails, applications may appear healthy but fail when trying to communicate with databases, APIs or other internal services by name.</p>
-<p>You can inspect CoreDNS using:</p>
+<p>Pods are ephemeral, so applications use stable Kubernetes Service names such as <code>postgres.default.svc.cluster.local</code>. <strong>CoreDNS</strong> resolves those names; if it fails, otherwise healthy applications cannot find databases, APIs or other internal services.</p>
+<p>CoreDNS itself runs as Pods, so it needs schedulable worker capacity and working CNI networking before cluster DNS can become healthy.</p>
+<p>Test DNS from a Pod and inspect CoreDNS with:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get deployment coredns -n kube-system
 
 kubectl logs \
   -n kube-system \
   -l k8s-app=kube-dns
+
+nslookup kubernetes.default.svc.cluster.local
 </code></pre></div>
 <hr />
 <h3>kube-proxy</h3>
-<p><strong>kube-proxy</strong> helps implement Kubernetes Service networking on each node.</p>
-<p>Suppose you have:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>Service: api
-ClusterIP: 172.x.x.x
-</code></pre></div>
-<p>and three backend Pods:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>10.0.1.21
-10.0.1.34
-10.0.2.18
-</code></pre></div>
-<p>Clients talk to the stable Service abstraction rather than tracking each Pod individually. kube-proxy programs networking rules on the node so traffic can reach appropriate backends.</p>
-<p>Inspect Services with:</p>
+<p><strong>kube-proxy</strong> implements Service networking on each node. Clients use a stable Service address while kube-proxy programs rules that direct traffic to the selected Pods.</p>
+<p>A Service with the correct ClusterIP can still fail if its selector matches no ready Pods, because Kubernetes then has no backend endpoints to program.</p>
+<p>Inspect Services and their backends with:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get services
-</code></pre></div>
-<p>and their selected endpoints with:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get endpoints
-</code></pre></div>
-<p>or newer EndpointSlice resources:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get endpointslices
+kubectl get endpoints
+kubectl get endpointslices
 </code></pre></div>
 <p>If a Service exists but has no healthy backend endpoints, requests have nowhere to go.</p>
 <hr />
 <h3>EBS CSI Driver</h3>
-<p>Stateful workloads often need storage that survives container recreation. On AWS, one common option is Amazon EBS.</p>
-<p>CSI means <strong>Container Storage Interface</strong>. Kubernetes uses CSI drivers to communicate with storage systems.</p>
-<p>A typical path looks like:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>flow</span><button type="button" data-copy-code>Copy</button></div><pre><code>PersistentVolumeClaim
-        |
-StorageClass
-        |
-EBS CSI Driver
-        |
-Amazon EBS volume
-        |
-Worker node
-        |
-Pod
-</code></pre></div>
-<p>Check storage resources using:</p>
+<p>Stateful workloads often need storage that survives container recreation. The <strong>EBS CSI Driver</strong> implements the Container Storage Interface between Kubernetes claims and Amazon EBS volumes.</p>
+<p>Inspect storage resources and a failing claim with:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get pvc
 
 kubectl get pv
+kubectl describe pvc &lt;pvc-name&gt;
 </code></pre></div>
-<p>A PVC stuck in <code>Pending</code> may indicate issues involving the StorageClass, CSI driver, IAM permissions, Availability Zone placement or available storage capacity.</p>
-<p>You can inspect the claim:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl describe pvc &lt;pvc-name&gt;
-</code></pre></div>
-<p>EBS also introduces an Availability Zone consideration because an EBS volume is associated with an AZ. Kubernetes therefore needs to schedule the consuming workload where that storage can be attached.</p>
-<p>This is another example of AWS infrastructure influencing Kubernetes scheduling decisions.</p>
+<p>A claim stuck in <code>Pending</code> can indicate a StorageClass, CSI, IAM, capacity or Availability Zone problem. Because an EBS volume belongs to one AZ, Kubernetes must schedule its Pod where the volume can attach.</p>
+<p>The controller component makes AWS API calls to provision or attach storage, while a node component performs the mount. Both the relevant IAM permissions and the Kubernetes components must be healthy.</p>
 <hr />
 </section><section class="article-section" id="kubectl-to-pod" data-article-section><span class="article-section-kicker">06 — FROM KUBECTL TO POD</span><h2>From kubectl to Pod</h2>
 <p>The easiest way to understand how all of these systems interact is to follow a deployment from the developer's terminal to a running application.</p>
@@ -478,97 +284,51 @@ spec:
 <p>You submit it using:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl apply -f deployment.yaml
 </code></pre></div>
-<p>The important point is that <code>kubectl</code> does <strong>not</strong> SSH into a worker node and start an NGINX container.</p>
-<p>Instead, several independent components participate.</p>
+<p><code>kubectl</code> does not SSH into a node and start NGINX. It declares the desired state and several components act on it.</p>
 <h3>Step 1: kubectl reads the cluster configuration</h3>
-<p><code>kubectl</code> reads your kubeconfig and determines which Kubernetes API endpoint it should contact.</p>
-<p>Check the active cluster using:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl config current-context
-</code></pre></div>
-<p>For EKS, your AWS identity is then used to obtain authentication for the cluster.</p>
+<p><code>kubectl</code> reads kubeconfig to find the API endpoint, then uses your AWS identity to obtain EKS authentication.</p>
 <hr />
 <h3>Step 2: The API server receives the manifest</h3>
-<p>The request reaches the Kubernetes API server.</p>
-<p>The API server performs authentication, authorisation and validation. Assuming the request is accepted, the Deployment becomes part of the cluster's stored desired state.</p>
-<p>You can immediately inspect it:</p>
+<p>The API server authenticates and authorises the request, validates the manifest and stores the Deployment as desired state. Inspect the accepted resource with:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get deployment web
 </code></pre></div>
-<p>At this point the application may still not be running.</p>
+<p>Acceptance does not mean the application is running yet.</p>
+<p>The remaining work is asynchronous: controllers and nodes watch for the new state and react independently.</p>
 <hr />
 <h3>Step 3: Controllers create lower-level resources</h3>
-<p>The Deployment controller recognises the new Deployment and creates a ReplicaSet.</p>
-<p>Inspect it with:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get replicasets
-</code></pre></div>
-<p>The ReplicaSet then ensures the requested number of Pods exists.</p>
-<p>The resource hierarchy is roughly:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>flow</span><button type="button" data-copy-code>Copy</button></div><pre><code>Deployment
-    |
-ReplicaSet
-    |
-Pods
-</code></pre></div>
-<p>This is why deleting an individual Pod from a Deployment does not normally remove the application permanently.</p>
-<p>Try:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl delete pod &lt;pod-name&gt;
-
-kubectl get pods -w
-</code></pre></div>
-<p>The ReplicaSet creates a replacement because the desired replica count has not changed.</p>
+<p>The Deployment controller creates a ReplicaSet, which maintains the requested Pods: <code>Deployment → ReplicaSet → Pods</code>. Deleting one managed Pod does not remove the application because the ReplicaSet creates a replacement.</p>
+<p>This separation lets a Deployment manage rollout strategy while the ReplicaSet concentrates on maintaining the required replica count.</p>
 <hr />
 <h3>Step 4: The scheduler chooses nodes</h3>
-<p>New Pods initially have no node assignment.</p>
-<p>The scheduler evaluates cluster capacity and scheduling constraints and selects an appropriate node.</p>
+<p>The scheduler evaluates capacity and constraints before assigning each new Pod to a node.</p>
 <p>Common reasons a Pod cannot be scheduled include:</p>
 <ul><li>Insufficient CPU or memory</li><li>Node taints or affinity rules</li><li>Topology constraints</li><li>No suitable persistent-volume location</li></ul>
-<p>A Pod may remain <code>Pending</code>.</p>
-<p>Inspect it with:</p>
+<p>If no node qualifies, the Pod remains <code>Pending</code>. Inspect the Pod and recent events with:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl describe pod &lt;pod-name&gt;
-</code></pre></div>
-<p>The events section often contains the most useful information.</p>
-<p>You can also view recent events cluster-wide:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get events \
+
+kubectl get events \
   --sort-by=.lastTimestamp
 </code></pre></div>
+<p>The events usually identify whether the blocker is capacity, a taint, an affinity rule or storage topology.</p>
 <hr />
 <h3>Step 5: kubelet receives the assignment</h3>
-<p>Once a Pod has been bound to a node, the kubelet on that node observes the change through the Kubernetes API.</p>
-<p>The kubelet then asks the container runtime to create the containers described in the Pod specification.</p>
-<p>If the image is stored in Amazon ECR, the node must be able to authenticate and pull it.</p>
-<p>A problem here might produce <code>ErrImagePull</code>, followed by <code>ImagePullBackOff</code>.</p>
-<p>Inspect the Pod:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl describe pod &lt;pod-name&gt;
-</code></pre></div>
-<p>Typical causes include:</p>
-<ul><li>A wrong image name or tag</li><li>ECR permissions or registry authentication</li><li>Network connectivity</li><li>An image that does not exist</li></ul>
+<p>The selected node's kubelet asks the container runtime to create the containers. Images in ECR require working permissions and connectivity; wrong names, tags or credentials commonly produce <code>ErrImagePull</code> followed by <code>ImagePullBackOff</code>.</p>
+<p>After pulling the image, the runtime creates the Pod sandbox and containers according to the specification. The kubelet continually reports their status back through the API.</p>
 <hr />
 <h3>Step 6: Pod networking is configured</h3>
-<p>Before the Pod can communicate normally, the CNI plugin configures networking.</p>
-<p>With the Amazon VPC CNI, the Pod is normally assigned an address associated with the VPC networking environment.</p>
+<p>The Amazon VPC CNI assigns the Pod an address and configures its network path.</p>
+<p>The Pod cannot communicate normally until that setup succeeds, even if the image has already been downloaded to the node.</p>
 <p>Watch this process using:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get pods -o wide -w
 </code></pre></div>
-<p>You may initially see:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>NAME        READY   STATUS              IP
-web-abc     0/1     ContainerCreating   &lt;none&gt;
-</code></pre></div>
-<p>and then:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>NAME        READY   STATUS    IP
-web-abc     1/1     Running   10.0.22.47
-</code></pre></div>
-<p>The appearance of a Pod IP is one indication that networking setup has progressed successfully.</p>
+<p>A Pod can move from <code>ContainerCreating</code> with no address to <code>Running</code> with a VPC IP once networking succeeds.</p>
 <hr />
 <h3>Step 7: Storage is attached if required</h3>
-<p>If the Pod references a PersistentVolumeClaim backed by EBS, Kubernetes and the CSI driver must ensure the correct volume exists, attach it to the correct EC2 instance and mount it into the container.</p>
-<p>A failure at this stage can leave the Pod stuck in <code>ContainerCreating</code>.</p>
-<p>even though the container image itself is perfectly valid.</p>
+<p>If the Pod uses an EBS-backed PersistentVolumeClaim, Kubernetes and the CSI driver create or locate the volume, attach it to the selected node and mount it. Failure can leave a valid image stuck in <code>ContainerCreating</code>.</p>
+<p>Volume topology can also influence scheduling because the selected node must be in an Availability Zone compatible with the EBS volume.</p>
 <hr />
 <h3>Step 8: Health checks determine readiness</h3>
-<p>A running container is not automatically ready to receive traffic.</p>
-<p>Kubernetes supports:</p>
-<p><strong>Liveness probes</strong> — determines whether a container should be restarted.</p>
-<p><strong>Readiness probes</strong> — determines whether the workload is ready to receive traffic.</p>
-<p><strong>Startup probes</strong> — useful for applications that take a long time to initialise.</p>
+<p>A running container is not automatically ready for traffic. <strong>Liveness</strong> probes decide when to restart it, <strong>readiness</strong> probes control whether it receives traffic, and <strong>startup</strong> probes protect slow initialisation.</p>
 <p>Example:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>yaml</span><button type="button" data-copy-code>Copy</button></div><pre><code>readinessProbe:
   httpGet:
@@ -578,7 +338,8 @@ web-abc     1/1     Running   10.0.22.47
   periodSeconds: 10
 </code></pre></div>
 <p>If the readiness probe fails, the Pod may be <code>Running</code> while still showing <code>READY 0/1</code>.</p>
-<p>That means the process exists but Kubernetes does not yet consider it a healthy backend.</p>
+<p>The process exists, but Kubernetes does not yet consider it a healthy backend.</p>
+<p>Services normally remove unready Pods from their usable endpoints, preventing traffic from reaching an application before it can respond safely.</p>
 <hr />
 <h3>Step 9: Services expose the workload</h3>
 <p>If you create a Service:</p>
@@ -593,69 +354,31 @@ spec:
     - port: 80
       targetPort: 80
 </code></pre></div>
-<p>Kubernetes selects Pods matching <code>app=web</code>.</p>
-<p>You can inspect them:</p>
+<p>The Service selects Pods matching <code>app=web</code>. Inspect both sides with:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get pods -l app=web
+kubectl get service web
 </code></pre></div>
-<p>and the Service:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get service web
-</code></pre></div>
-<p>Application traffic can then move through a chain such as:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>example</span><button type="button" data-copy-code>Copy</button></div><pre><code>End user
-Application Load Balancer
-Kubernetes Service
-Pod
-Container
-</code></pre></div>
-<p>That complete path depends on AWS networking and Kubernetes networking cooperating correctly.</p>
+<p>Traffic can then travel from a load balancer to the Service, selected Pod and container—a path requiring AWS and Kubernetes networking to cooperate.</p>
+<p>For internet-facing applications, an Ingress controller or AWS Load Balancer Controller can create the AWS load balancer and connect it to the Kubernetes routing model.</p>
 <hr />
-</section><section class="article-section" id="pitfalls" data-article-section><span class="article-section-kicker">07 — PITFALLS</span><h2>Pitfalls</h2><p>A useful way to troubleshoot EKS is to stop treating every failure as an &quot;EKS problem&quot;. EKS sits at the intersection of AWS infrastructure and Kubernetes, so symptoms can appear several layers away from the actual cause.</p>
+</section><section class="article-section" id="pitfalls" data-article-section><span class="article-section-kicker">07 — PITFALLS</span><h2>Pitfalls</h2><p>EKS sits between AWS infrastructure and Kubernetes, so the visible symptom may be several layers away from its cause.</p>
 <h3><code>ACTIVE</code> does not mean the cluster is ready</h3>
-<p>After cluster creation:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws eks describe-cluster \
-  --name my-cluster \
-  --query 'cluster.status'
-</code></pre></div>
-<p>may return <code>ACTIVE</code>.</p>
-<p>That only confirms the control plane.</p>
-<p>You should still check:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get nodes
-
-kubectl get pods -n kube-system
-</code></pre></div>
-<p>A useful readiness sequence is:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>flow</span><button type="button" data-copy-code>Copy</button></div><pre><code>Control plane ACTIVE
-        |
-Nodes Ready
-        |
-System add-ons healthy
-        |
-Workloads scheduled
-        |
-Application ready
-</code></pre></div>
+<p><code>ACTIVE</code> confirms only the control plane. Operational readiness still requires <code>Ready</code> nodes, healthy system add-ons, scheduled workloads and successful application health checks.</p>
 <hr />
 <h3>EC2 running does not mean Kubernetes node ready</h3>
-<p>An EC2 instance can be <code>running</code></p>
-<p>while:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl get nodes
-</code></pre></div>
-<p>shows nothing.</p>
-<p>That immediately narrows the problem toward the bootstrap path between the node and the cluster.</p>
-<p>Check:</p>
+<p>An EC2 instance can be <code>running</code> while <code>kubectl get nodes</code> shows nothing. That points toward the bootstrap path, identity or connectivity rather than EC2 availability.</p>
+<p>Check identity and the managed node group:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws sts get-caller-identity
 
 aws eks describe-nodegroup \
   --cluster-name my-cluster \
   --nodegroup-name &lt;nodegroup-name&gt;
 </code></pre></div>
-<p>and inspect node-group or Auto Scaling events.</p>
-<p>Potential causes include:</p>
+<p>Then inspect node-group or Auto Scaling events. Common causes include:</p>
 <ul><li>The node IAM role</li><li>Security groups or route tables</li><li>DNS or API endpoint access</li><li>Bootstrap configuration, including an incorrect cluster name or broken user data</li></ul>
 <hr />
 <h3>IAM access does not equal Kubernetes access</h3>
-<p>An AWS administrator may still receive <code>Error from server (Forbidden)</code> from Kubernetes.</p>
-<p>Start with:</p>
+<p>An AWS administrator may still receive <code>Error from server (Forbidden)</code>. Test the AWS identity, its EKS mapping and Kubernetes authorisation separately:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws sts get-caller-identity
 
 aws eks list-access-entries \
@@ -663,11 +386,9 @@ aws eks list-access-entries \
 
 kubectl auth can-i get pods
 </code></pre></div>
-<p>These commands test three different parts of the access path.</p>
 <hr />
 <h3>Subnet exhaustion can look like a scheduling problem</h3>
-<p>Because the VPC CNI uses VPC networking resources, IP addresses are part of cluster capacity.</p>
-<p>A node can have spare compute while Kubernetes is still unable to create networking for additional Pods.</p>
+<p>VPC addresses are cluster capacity. A node can have spare compute while new Pods fail because the subnet has no usable addresses.</p>
 <p>Check Pod events and CNI health:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl describe pod &lt;pod-name&gt;
 
@@ -675,47 +396,22 @@ kubectl get pods \
   -n kube-system \
   -l k8s-app=aws-node
 </code></pre></div>
-<p>Subnet planning should therefore consider:</p>
-<ul><li>Nodes and Pods per node</li><li>Load balancers and EKS ENIs</li><li>Future scaling</li><li>Other resources using the subnet</li></ul>
-<p>not merely the current EC2 instance count.</p>
+<p>Plan for nodes, Pods per node, load balancers, EKS ENIs, other resources and future growth—not only current EC2 instances.</p>
 <hr />
 <h3>Deployment order matters</h3>
-<p>Infrastructure dependencies are often invisible until Terraform attempts to create everything concurrently.</p>
-<p>For example:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>flow</span><button type="button" data-copy-code>Copy</button></div><pre><code>EKS control plane
-        |
-Worker nodes
-        |
-CoreDNS / CNI
-        |
-Karpenter
-        |
-Application nodes
-        |
-Applications
-</code></pre></div>
-<p>Creating Karpenter before any compute capacity exists creates the bootstrap problem described earlier.</p>
-<p>Terraform dependency relationships should reflect those architectural dependencies rather than assuming every resource can be provisioned independently.</p>
+<p>Terraform dependencies should follow the real order: control plane, bootstrap nodes, core add-ons, Karpenter capacity and then applications. Creating everything concurrently can expose the bootstrap problem described earlier.</p>
 <hr />
 <h3><code>Pending</code> means something different from <code>CrashLoopBackOff</code></h3>
-<p>Pod status can quickly narrow the investigation.</p>
-<p><code>Pending</code> commonly points toward:</p>
-<ul><li>Scheduling or capacity</li><li>Volumes</li><li>Node selectors or taints</li><li>Networking setup</li></ul>
-<p><code>ImagePullBackOff</code> normally points toward:</p>
-<ul><li>The image name or registry</li><li>ECR permissions</li><li>Network access</li></ul>
-<p><code>CrashLoopBackOff</code> usually means the container starts and then repeatedly exits.</p>
+<p>Pod status quickly narrows the investigation:</p>
+<ul><li><code>Pending</code>: scheduling, capacity, volumes, selectors, taints or networking setup.</li><li><code>ImagePullBackOff</code>: image name, registry, ECR permissions or network access.</li><li><code>CrashLoopBackOff</code>: the container starts and repeatedly exits.</li><li><code>ContainerCreating</code>: Kubernetes is still preparing networking, volumes, runtime or configuration.</li></ul>
 <p>Check the current logs and, for a repeatedly restarting container, the previous instance:</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>kubectl logs &lt;pod-name&gt;
 
 kubectl logs &lt;pod-name&gt; --previous
 </code></pre></div>
-<p><code>ContainerCreating</code> often means Kubernetes is still preparing:</p>
-<ul><li>Networking</li><li>Volumes</li><li>The container runtime</li><li>Secrets or configuration</li></ul>
-<p>Understanding those states prevents you from debugging an application crash when the real issue is storage, or debugging the VPC when the real issue is a broken container command.</p>
 <hr />
 <h3>A practical troubleshooting sequence</h3>
-<p>When something fails, it helps to investigate from the infrastructure layer upward rather than jumping randomly between AWS and Kubernetes.</p>
-<p>Start with the control plane, then work upward through nodes, system components and the affected workload:</p>
+<p>Investigate from infrastructure upward: control plane, nodes, system components, workload and application output.</p>
 <div class="article-code reveal"><div class="article-code-bar"><span>terminal</span><button type="button" data-copy-code>Copy</button></div><pre><code>aws eks describe-cluster \
   --name my-cluster \
   --query 'cluster.status'
@@ -732,29 +428,11 @@ kubectl logs &lt;pod-name&gt;
 kubectl auth can-i get pods
 aws sts get-caller-identity
 </code></pre></div>
-<p>This sequence works because each layer depends on the one beneath it.</p>
-<p>A useful mental model is:</p>
-<div class="article-code reveal"><div class="article-code-bar"><span>flow</span><button type="button" data-copy-code>Copy</button></div><pre><code>Control plane
-     |
-Networking
-     |
-Worker nodes
-     |
-Identity
-     |
-Cluster add-ons
-     |
-Workload
-     |
-Application traffic
-</code></pre></div>
-<p>If a lower layer is broken, everything above it can produce misleading symptoms.</p>
+<p>Each layer depends on the one beneath it, so a lower-level failure can create misleading symptoms above it.</p>
 <hr />
-</section><section class="article-section article-conclusion" id="conclusion" data-article-section><span class="article-section-kicker">08 — CONCLUSION</span><h2>Conclusion</h2><p>Amazon EKS solves one of the most operationally difficult parts of Kubernetes by running the control plane for you. AWS provides the API-server infrastructure, control-plane availability and managed Kubernetes control components, but that does not remove the need to understand how the rest of the cluster works.</p>
-<p>Worker nodes still need to start and register correctly. The Kubernetes API must be reachable. IAM identities need to become valid cluster identities. Pods need addresses from the VPC CNI, Services depend on Kubernetes networking, internal communication relies on CoreDNS and stateful workloads may depend on the EBS CSI driver before they can start successfully.</p>
-<p>Once these responsibilities are separated, EKS becomes much less of a black box. A Pod that refuses to start is no longer simply an &quot;EKS issue&quot;. It might be a scheduling constraint, a node that never joined the cluster, an IAM problem, an exhausted subnet, a failed image pull, a storage attachment issue, broken DNS or an application process that crashes immediately after launch.</p>
-<p>The same understanding also changes how you design an EKS platform. Subnets become part of Pod capacity planning, IAM roles become separate trust boundaries, bootstrap nodes become infrastructure dependencies and cluster add-ons become essential platform services rather than optional Kubernetes extras.</p>
-<p>That is ultimately the difference between being able to deploy an application <strong>onto</strong> EKS and understanding how the EKS platform is actually working underneath it.</p>
+</section><section class="article-section article-conclusion" id="conclusion" data-article-section><span class="article-section-kicker">08 — CONCLUSION</span><h2>Conclusion</h2><p>Amazon EKS removes the work of operating Kubernetes' control plane, but nodes, network paths, IAM mappings, Pod addresses, DNS, Service routing and storage must still function together before an application is usable.</p>
+<p>Once those responsibilities are separated, failures become easier to locate: scheduling, node bootstrap, identity, subnet capacity, image pulls, DNS, storage or the application itself. That understanding turns EKS from a black box into a platform you can design and troubleshoot deliberately.</p>
+<p>The practical habit is to work upward from the control plane and network, through nodes and add-ons, to the workload and its traffic path. Each check removes an entire class of possible causes.</p>
 </section></article></div>
 </main>
 <footer class="footer"><div class="container footer-grid"><div class="footer-brand"><a class="brand" href="../index.html"><span class="brand-terminal" aria-hidden="true">&gt;_</span><span>Nabil Islam</span></a><p class="footer-description">Cloud infrastructure, automation and delivery — focused on building reliable systems and documenting the learning behind the work.</p><span class="availability"><i></i> Open to relevant DevOps conversations</span></div><div class="footer-links"><div><strong>Explore</strong><a href="../projects.html">Projects</a><a href="../lab.html">DevOps Lab</a><a href="../experience.html">Experience</a><a href="../articles.html">Articles</a></div><div><strong>About</strong><a href="../about.html">About me</a><a href="../contact.html">Contact</a></div></div><div class="footer-social" aria-label="Social links"><a class="footer-social-link linkedin" href="https://uk.linkedin.com/in/nabilbislam" target="_blank" rel="noopener noreferrer"><span class="footer-social-icon"><img src="../assets/icons/linkedin.svg" alt="" aria-hidden="true"></span><span>LinkedIn</span><b aria-hidden="true">↗</b></a><a class="footer-social-link github" href="https://github.com/nabilislam30" target="_blank" rel="noopener noreferrer"><span class="footer-social-icon"><img src="../assets/icons/github.svg" alt="" aria-hidden="true"></span><span>GitHub</span><b aria-hidden="true">↗</b></a><a class="footer-social-link instagram" href="https://www.instagram.com/devwithnabil/" target="_blank" rel="noopener noreferrer"><span class="footer-social-icon"><img src="../assets/icons/instagram.svg" alt="" aria-hidden="true"></span><span>Instagram</span><b aria-hidden="true">↗</b></a></div></div><div class="container footer-bottom"><span>© <span data-year></span> Nabil Islam</span><span>nabildev.com</span></div></footer>
