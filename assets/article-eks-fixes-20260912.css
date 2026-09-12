@@ -1,0 +1,72 @@
+/* Scoped fixes for the first EKS article. No global layout changes. */
+body[data-article="eks-foundations"] .article-hero-card{
+  grid-template-columns:minmax(0,1fr);
+}
+
+/* The sticky TOC is the single article outline; avoid duplicating it in the hero. */
+body[data-article="eks-foundations"] .article-hero-summary,
+body[data-article="eks-foundations"] .article-facts,
+body[data-article="eks-foundations"] .article-meta-row span:nth-child(3){
+  display:none!important;
+}
+
+/* All topic pills use the same subtle animated glow language. */
+body[data-article="eks-foundations"] .article-tags span{
+  color:var(--text);
+  border-color:color-mix(in srgb,var(--green) 28%,var(--line));
+  background:color-mix(in srgb,var(--green) 3%,transparent);
+  animation:articlePillGlow 3.8s ease-in-out infinite;
+}
+body[data-article="eks-foundations"] .article-tags span:nth-child(2){animation-delay:.3s}
+body[data-article="eks-foundations"] .article-tags span:nth-child(3){animation-delay:.6s}
+body[data-article="eks-foundations"] .article-tags span:nth-child(4){animation-delay:.9s}
+body[data-article="eks-foundations"] .article-tags span:nth-child(5){animation-delay:1.2s}
+body[data-article="eks-foundations"] .article-tags span:hover{
+  border-color:var(--green);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 16%,transparent),0 0 20px color-mix(in srgb,var(--green) 16%,transparent);
+}
+@keyframes articlePillGlow{
+  0%,100%{border-color:color-mix(in srgb,var(--green) 26%,var(--line));box-shadow:0 0 0 transparent}
+  50%{border-color:color-mix(in srgb,var(--green) 58%,var(--line));box-shadow:0 0 18px color-mix(in srgb,var(--green) 12%,transparent)}
+}
+
+/* Keep the article outline visible throughout the long-form page. */
+@media(min-width:901px){
+  body[data-article="eks-foundations"] .article-toc{
+    position:sticky;
+    top:96px;
+    align-self:start;
+    max-height:calc(100vh - 116px);
+  }
+  body[data-article="eks-foundations"] .article-toc-sticky{
+    position:static;
+    padding-top:18px;
+  }
+}
+
+/* Preserve the existing mobile horizontal sticky navigation. */
+@media(max-width:900px){
+  body[data-article="eks-foundations"] .article-toc{
+    position:sticky;
+    top:73px;
+  }
+}
+
+/* Diagrams should occupy their frame clearly rather than collapsing into an empty panel. */
+body[data-article="eks-foundations"] .article-figure-frame.light{
+  min-height:180px;
+  display:grid;
+  place-items:center;
+  background:#f7f9fc;
+}
+body[data-article="eks-foundations"] .article-figure-frame.light img{
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  opacity:1;
+  visibility:visible;
+}
+
+@media(prefers-reduced-motion:reduce){
+  body[data-article="eks-foundations"] .article-tags span{animation:none}
+}
