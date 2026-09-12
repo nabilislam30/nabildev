@@ -1,0 +1,1 @@
+Temporary marker: exact article diagrams are being replaced with the original supplied WebP assets.
