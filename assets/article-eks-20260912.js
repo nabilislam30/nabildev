@@ -2,6 +2,28 @@
   const sections = [...document.querySelectorAll('[data-article-section]')];
   const links = [...document.querySelectorAll('[data-article-toc-link]')];
   const progress = document.querySelector('[data-article-toc-progress]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const scrollToSection = (target) => {
+    const startY = window.scrollY;
+    const offset = window.innerWidth <= 900 ? 132 : 104;
+    const targetY = Math.max(0, startY + target.getBoundingClientRect().top - offset);
+    if (reducedMotion.matches) {
+      window.scrollTo(0, targetY);
+      return;
+    }
+
+    const distance = targetY - startY;
+    const startedAt = performance.now();
+    const duration = 560;
+    const easeOutCubic = (progress) => 1 - Math.pow(1 - progress, 3);
+    const step = (now) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      window.scrollTo(0, startY + distance * easeOutCubic(progress));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
 
   const setActive = (id) => {
     const index = sections.findIndex((section) => section.id === id);
@@ -47,7 +69,7 @@
         const target = id ? document.getElementById(id) : null;
         if (!target) return;
         event.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        scrollToSection(target);
         history.replaceState(null, '', `#${id}`);
         setActive(id);
       });

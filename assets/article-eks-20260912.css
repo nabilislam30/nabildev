@@ -1,9 +1,11 @@
-body[data-article="eks-foundations"] .article-hero-summary,body[data-article="eks-foundations"] .article-facts,body[data-article="eks-foundations"] .article-meta-row{display:none!important}
+body[data-article="eks-foundations"] .article-hero-summary,body[data-article="eks-foundations"] .article-facts{display:none!important}
 body[data-article="eks-foundations"] .article-hero-wrap{padding:136px 0 38px}
 body[data-article="eks-foundations"] .article-hero-wrap .back-link{display:inline-flex;margin-bottom:24px;color:var(--muted);font-weight:800}
 body[data-article="eks-foundations"] .article-hero-card{display:block;padding:34px;border:1px solid var(--line-strong);border-radius:24px;background:linear-gradient(135deg,color-mix(in srgb,var(--panel) 96%,transparent),color-mix(in srgb,var(--panel-2) 80%,transparent));box-shadow:var(--shadow)}
 body[data-article="eks-foundations"] .article-hero-copy h1{margin:10px 0 16px;max-width:980px;font-size:clamp(46px,6vw,78px);line-height:.98}
 body[data-article="eks-foundations"] .article-hero-copy>p{max-width:900px;margin:0;color:var(--muted);font-size:18px;line-height:1.72}
+body[data-article="eks-foundations"] .article-meta-row{display:flex;align-items:center;gap:10px;margin-top:18px;color:var(--muted);font-size:12px;font-weight:750;letter-spacing:.02em}
+body[data-article="eks-foundations"] .article-meta-row span+span::before{content:"·";margin-right:10px;color:var(--orange)}
 body[data-article="eks-foundations"] .article-tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
 body[data-article="eks-foundations"] .article-tags span{position:relative;padding:8px 12px;border:1px solid color-mix(in srgb,var(--green) 30%,var(--line));border-radius:999px;background:color-mix(in srgb,var(--green) 3%,transparent);color:var(--muted);font-size:11px;transition:transform .2s ease,color .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease;outline:none}
 body[data-article="eks-foundations"] .article-tags span:hover,body[data-article="eks-foundations"] .article-tags span:focus-visible{transform:translateY(-2px);color:var(--text);border-color:var(--green);background:color-mix(in srgb,var(--green) 8%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--green) 24%,transparent),0 0 24px color-mix(in srgb,var(--green) 32%,transparent),inset 0 0 18px color-mix(in srgb,var(--green) 6%,transparent)}
@@ -44,7 +46,7 @@ body[data-article="eks-foundations"] .article-figure{margin:32px 0 38px}
 body[data-article="eks-foundations"] .article-figure-frame{overflow:hidden;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 14px 38px rgba(0,0,0,.14)}
 body[data-article="eks-foundations"] .article-figure-frame.light{padding:0;background:#fff;min-height:0}
 body[data-article="eks-foundations"] .article-figure img{display:block;width:100%;height:auto;border-radius:0;opacity:1;visibility:visible}
-body[data-article="eks-foundations"] .article-figure figcaption{margin-top:10px;color:var(--muted);font-size:11px;line-height:1.55}
+body[data-article="eks-foundations"] .article-figure figcaption{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.55}
 body[data-article="eks-foundations"] .article-figure figcaption strong{color:var(--text)}
 body[data-article="eks-foundations"] .article-conclusion{margin-top:64px;padding:30px;border:1px solid color-mix(in srgb,var(--green) 38%,var(--line));border-radius:20px;background:linear-gradient(180deg,color-mix(in srgb,var(--green) 5%,var(--panel)),var(--panel))}
 body[data-article="eks-foundations"] .article-conclusion h2{font-size:40px}
@@ -53,5 +55,5 @@ body[data-article="eks-foundations"] .article-related h3{margin:8px 0 10px;font-
 body[data-article="eks-foundations"] .article-related p{max-width:650px;color:var(--muted);line-height:1.65}
 @media(max-width:1100px){body[data-article="eks-foundations"] .article-layout{grid-template-columns:180px minmax(0,1fr);gap:28px}}
 @media(max-width:900px){body[data-article="eks-foundations"] .article-layout{display:block}.article-toc{position:sticky!important;top:73px!important;z-index:35;margin:0 -18px 26px;padding:10px 18px;max-height:none!important;border-block:1px solid var(--line);background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(14px)}body[data-article="eks-foundations"] .article-toc-sticky{position:static;padding:0}.article-toc-sticky>strong{display:none}.article-toc-track{display:none}.article-toc nav{display:flex;overflow:auto;gap:6px;scrollbar-width:none}.article-toc a{display:inline-flex;grid-template-columns:none;white-space:nowrap;flex:0 0 auto}.article-section{scroll-margin-top:132px}}
-@media(max-width:620px){body[data-article="eks-foundations"] .article-hero-wrap{padding-top:118px}.article-hero-card{padding:22px}.article-hero-copy h1{font-size:43px}.article-section{padding-top:48px}.article-section+.article-section{margin-top:46px}.article-section h2{font-size:38px}.article-section h3{font-size:25px}.article-section p{font-size:15px}.article-code code{font-size:12px}}
+@media(max-width:620px){body[data-article="eks-foundations"] .article-hero-wrap{padding-top:118px}.article-hero-card{padding:22px}.article-hero-copy h1{font-size:clamp(36px,10.5vw,38px)}.article-section{padding-top:48px}.article-section+.article-section{margin-top:46px}.article-section h2{font-size:38px}.article-section h3{font-size:25px}.article-section p{font-size:15px}.article-code code{font-size:12px}.article-figure figcaption{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.article-toc-track span,.article-toc a,.article-code,.article-code-bar button{transition:none}}
