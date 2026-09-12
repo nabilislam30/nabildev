@@ -18,25 +18,9 @@ const readParts = async (prefix, suffix) => {
 
 const articleEncoded = await readParts('article', '.gz.b64');
 const articleHtml = gunzipSync(Buffer.from(articleEncoded, 'base64')).toString('utf8');
+
 const articleTarget = path.join(dist, 'articles', 'inside-amazon-eks.html');
 await fs.mkdir(path.dirname(articleTarget), { recursive: true });
 await fs.writeFile(articleTarget, articleHtml);
 
-const diagrams = {
-  control: 'eks-control-plane-vs-data-plane.webp',
-  identity: 'eks-identity-flow.webp',
-  workload: 'eks-workload-dependencies.webp',
-  deploy: 'eks-deployment-lifecycle.webp'
-};
-
-const diagramDir = path.join(dist, 'assets', 'articles');
-await fs.mkdir(diagramDir, { recursive: true });
-
-for (const [prefix, filename] of Object.entries(diagrams)) {
-  const encoded = await readParts(prefix, '.b64');
-  const bytes = Buffer.from(encoded, 'base64');
-  if (!bytes.length) throw new Error(`Decoded diagram ${filename} is empty`);
-  await fs.writeFile(path.join(diagramDir, filename), bytes);
-}
-
-console.log('Built final EKS article and exact supplied diagram assets.');
+console.log('Built final EKS article with the supplied AWS-style diagrams embedded directly in the page.');
