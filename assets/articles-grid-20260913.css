@@ -1,10 +1,11 @@
 /* Articles — series filters and continuous card grid, 13 Sep 2026 */
-body[data-page="articles"] .container.article-grid{
-  display:block;
+body[data-page="articles"] main>section+section{
+  padding:64px 0 88px;
 }
 body[data-page="articles"] .container.article-grid{
-  padding-top:72px;
-  padding-bottom:96px;
+  display:block;
+  padding-top:0;
+  padding-bottom:0;
 }
 body[data-page="articles"] .articles-overview{
   margin-bottom:34px;
@@ -58,7 +59,7 @@ body[data-page="articles"] .article-series-grid{
 }
 body[data-page="articles"] .article-card{
   position:relative;
-  min-height:330px;
+  min-height:295px;
   padding:28px 30px 26px;
   align-items:flex-start;
 }
@@ -132,9 +133,8 @@ body[data-page="articles"] .article-card .article-status{
   }
 }
 @media(max-width:650px){
-  body[data-page="articles"] .container.article-grid{
-    padding-top:54px;
-    padding-bottom:72px;
+  body[data-page="articles"] main>section+section{
+    padding:48px 0 72px;
   }
   body[data-page="articles"] .filter-bar{
     margin-bottom:24px;
