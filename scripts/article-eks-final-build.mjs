@@ -19,7 +19,7 @@ const readParts = async (prefix, suffix) => {
 const articleEncoded = await readParts('article', '.gz.b64');
 const articleHtml = gunzipSync(Buffer.from(articleEncoded, 'base64')).toString('utf8');
 
-const articleTarget = path.join(dist, 'articles', 'inside-amazon-eks.html');
+const articleTarget = path.join(dist, 'articles', 'eks-series', 'inside-amazon-eks.html');
 await fs.mkdir(path.dirname(articleTarget), { recursive: true });
 await fs.writeFile(articleTarget, articleHtml);
 

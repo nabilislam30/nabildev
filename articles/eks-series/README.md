@@ -4,5 +4,4 @@ Articles about how Amazon EKS works, including cluster architecture, networking,
 
 ## Published
 
-- [Inside Amazon EKS: How the Cluster Actually Works](../inside-amazon-eks.html)
-
+- [Inside Amazon EKS: How the Cluster Actually Works](inside-amazon-eks.html)

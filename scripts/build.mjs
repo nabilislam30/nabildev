@@ -19,6 +19,7 @@ const copyEntries = [
   'assets',
   'projects',
   '_headers',
+  '_redirects',
   'robots.txt',
   'sitemap.xml'
 ];
@@ -99,7 +100,7 @@ const wrapTitle = (title, target = 31) => {
 
 const extractOgConfig = (rel, html) => {
   const isProject = /^projects\/[^/]+\.html$/.test(rel);
-  const isArticle = /^articles\/[^/]+\.html$/.test(rel);
+  const isArticle = /^articles\/(?:[^/]+\/)*[^/]+\.html$/.test(rel);
   const isArticlesIndex = rel === 'articles.html';
   if (!isProject && !isArticle && !isArticlesIndex) return null;
 
