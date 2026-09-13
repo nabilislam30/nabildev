@@ -130,7 +130,9 @@
         if (!entry.isIntersecting) return;
         typeTerminal(entry.target).finally(() => {
           const code = entry.target.querySelector('code');
+          const pre = entry.target.querySelector('pre');
           if (code) code.removeAttribute('aria-hidden');
+          if (pre) pre.removeAttribute('aria-label');
         });
         terminalObserver.unobserve(entry.target);
       });
