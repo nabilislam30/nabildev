@@ -6,17 +6,17 @@ Topic ideas are based on the learning path in the [ECS Accelerator Series](https
 
 ## Planned topics
 
-1. How containers are built from Linux primitives
-2. Preparing Docker workloads for production
-3. Persisting container data with volumes
-4. How Docker Compose connects multiple services
-5. Using hardened container images
-6. Promoting the same image between environments
-7. Terraform foundations for container infrastructure
-8. Turning Terraform concepts into working infrastructure
-9. Structuring larger Terraform configurations
-10. Understanding ECS through a console-first deployment
-11. Building a CI pipeline for container images
-12. Automating container builds and deployments
-13. Self-hosted runners, secrets and multiple environments
-14. Choosing a deployment strategy for Amazon ECS
+1. [How Containers Are Built from Linux Primitives](01-containers-from-linux-primitives.md)
+2. [Preparing Docker Workloads for Production](02-docker-workloads-in-production.md)
+3. [Persisting Container Data with Volumes](03-persisting-container-data.md)
+4. [How Docker Compose Connects Multiple Services](04-how-docker-compose-connects-services.md)
+5. [Using Hardened Container Images](05-hardened-container-images.md)
+6. [Promoting the Same Image Between Environments](06-promoting-images-between-environments.md)
+7. [Terraform Foundations for Container Infrastructure](07-terraform-for-container-infrastructure.md)
+8. [Turning Terraform Concepts into Working Infrastructure](08-turning-terraform-into-infrastructure.md)
+9. [Structuring Larger Terraform Configurations](09-structuring-larger-terraform-configurations.md)
+10. [Understanding ECS Through a Console-First Deployment](10-understanding-ecs-through-clickops.md)
+11. [Building a CI Pipeline for Container Images](11-container-image-ci-pipeline.md)
+12. [Automating Container Builds and ECS Deployments](12-automating-ecs-deployments.md)
+13. [Self-Hosted Runners, Secrets and Multiple Environments](13-runners-secrets-and-environments.md)
+14. [Choosing a Deployment Strategy for Amazon ECS](14-ecs-deployment-strategies.md)
