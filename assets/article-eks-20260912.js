@@ -3,6 +3,7 @@
   const links = [...document.querySelectorAll('[data-article-toc-link]')];
   const progress = document.querySelector('[data-article-toc-progress]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const terminalSources = new WeakMap();
 
   const scrollToSection = (target) => {
     const startY = window.scrollY;
@@ -76,9 +77,73 @@
     });
   }
 
+  const terminals = [...document.querySelectorAll('.article-code')];
+
+  const typeTerminal = async (terminal) => {
+    if (terminal.dataset.typed === 'true') return;
+    terminal.dataset.typed = 'true';
+
+    const code = terminal.querySelector('code');
+    const pre = terminal.querySelector('pre');
+    const source = code ? terminalSources.get(code) : '';
+    if (!code || !pre || source === undefined) return;
+
+    if (reducedMotion.matches) {
+      code.textContent = source;
+      pre.style.minHeight = '';
+      return;
+    }
+
+    terminal.classList.add('is-typing');
+    const characterDelay = Math.max(5, Math.min(25, 2200 / Math.max(source.length, 1)));
+    const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+    for (let index = 0; index < source.length; index += 1) {
+      code.textContent = source.slice(0, index + 1);
+      const character = source[index];
+      await sleep(character === '\n' ? 115 : characterDelay);
+    }
+
+    terminal.classList.remove('is-typing');
+    terminal.classList.add('terminal-complete');
+    pre.style.minHeight = '';
+  };
+
+  terminals.forEach((terminal) => {
+    const code = terminal.querySelector('code');
+    const pre = terminal.querySelector('pre');
+    if (!code || !pre) return;
+
+    const source = code.textContent || '';
+    terminalSources.set(code, source);
+    if (reducedMotion.matches) return;
+
+    pre.style.minHeight = `${Math.ceil(pre.getBoundingClientRect().height)}px`;
+    pre.setAttribute('aria-label', source);
+    code.setAttribute('aria-hidden', 'true');
+    code.textContent = '';
+  });
+
+  if (terminals.length && !reducedMotion.matches && 'IntersectionObserver' in window) {
+    const terminalObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        typeTerminal(entry.target).finally(() => {
+          const code = entry.target.querySelector('code');
+          if (code) code.removeAttribute('aria-hidden');
+        });
+        terminalObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.3 });
+    terminals.forEach((terminal) => terminalObserver.observe(terminal));
+  } else {
+    terminals.forEach((terminal) => typeTerminal(terminal));
+  }
+
   document.querySelectorAll('[data-copy-code]').forEach((button) => {
     button.addEventListener('click', async () => {
-      const code = button.closest('.article-code')?.querySelector('code')?.textContent || '';
+      const codeElement = button.closest('.article-code')?.querySelector('code');
+      const code = codeElement ? (terminalSources.get(codeElement) || codeElement.textContent || '') : '';
       try {
         await navigator.clipboard.writeText(code);
         const old = button.textContent;
