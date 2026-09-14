@@ -201,6 +201,20 @@ body[data-page="contact"] .contact-mini-icon img{
   width:20px;
   height:20px;
 }
+body[data-page="contact"] .contact-mini-route.linkedin .contact-mini-icon{
+  border-color:#0a66c2;
+  background:#0a66c2;
+}
+body[data-page="contact"] .contact-mini-route.linkedin .contact-mini-icon img{
+  filter:brightness(0) invert(1);
+}
+body[data-page="contact"] .contact-mini-route.github .contact-mini-icon{
+  border-color:#30363d;
+  background:#0d1117;
+}
+body[data-page="contact"] .contact-mini-route.github .contact-mini-icon img{
+  filter:none;
+}
 body[data-page="contact"] .contact-mini-route>span:nth-child(2){display:grid;gap:3px}
 body[data-page="contact"] .contact-mini-route small{
   color:var(--muted-2);
