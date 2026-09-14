@@ -3,24 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Behind the scenes with Nabil Islam — DevOps engineering, current cloud and Kubernetes projects, and the areas I’m developing further.">
+<meta name="description" content="How Nabil Islam moved from second-line support into DevOps engineering, and the approach he brings to cloud infrastructure and automation.">
 <title>About — Nabil Islam</title>
 <script>(function(){try{var t=localStorage.getItem('nabil-theme');var light=t==='light'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches);if(light)document.documentElement.dataset.theme='light';}catch(e){}})();</script>
 <link rel="canonical" href="https://nabildev.com/about.html">
 <link rel="stylesheet" href="assets/styles.css">
-<link rel="stylesheet" href="assets/about-page-20260826.css?v=20260829-1515">
+<link rel="stylesheet" href="assets/about-page-20260826.css?v=20260914-1">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#052426">
 <meta property="og:type" content="website">
 <meta property="og:title" content="About — Nabil Islam">
-<meta property="og:description" content="Behind the scenes with Nabil Islam — DevOps engineering, current cloud and Kubernetes projects, and the areas I’m developing further.">
+<meta property="og:description" content="How Nabil Islam moved from second-line support into DevOps engineering, and the approach he brings to cloud infrastructure and automation.">
 <meta property="og:url" content="https://nabildev.com/about.html">
 <meta property="og:image" content="https://nabildev.com/assets/social-preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="About — Nabil Islam">
-<meta name="twitter:description" content="Behind the scenes with Nabil Islam — DevOps engineering, current cloud and Kubernetes projects, and the areas I’m developing further.">
+<meta name="twitter:description" content="How Nabil Islam moved from second-line support into DevOps engineering, and the approach he brings to cloud infrastructure and automation.">
 <meta name="twitter:image" content="https://nabildev.com/assets/social-preview.png">
 </head>
 <body data-page="about">
@@ -43,8 +43,8 @@
 <section class="page-hero page-hero-enhanced" page-hero-stable>
   <div class="container">
     <span class="kicker">About me</span>
-    <h1>Behind the scenes</h1>
-    <p>I’m a DevOps Engineer with three years of experience in IT support and a strong interest in cloud infrastructure, automation and understanding how systems work in practice.</p>
+    <h1>How I got into DevOps</h1>
+    <p>I’m a DevOps Engineer with three years of experience in second-line support. That background still shapes how I troubleshoot problems, understand systems and approach infrastructure work.</p>
     <div class="page-command" aria-hidden="true"><span>&gt;_</span> route --open</div>
   </div>
 </section>
@@ -55,45 +55,36 @@
       <div class="about-story-copy">
         <span class="kicker">Background</span>
         <h2>My background</h2>
-        <p>I didn’t start out as a DevOps Engineer. For three years, I worked in second-line support, helping end users across technologies such as Active Directory, Microsoft 365, Windows Server, SQL and VPNs. Over time, I decided that I wanted to move into a role where I could build and work more closely with infrastructure rather than primarily support it.</p>
-        <p>I joined CoderCo to help me move into DevOps, gaining hands-on experience through projects and live labs across cloud, infrastructure, containers and CI/CD. It helped prepare me for my first DevOps role, and I’ve continued building on those skills through professional work and personal projects.</p>
+        <p>I spent three years in second-line support, working across Active Directory, Microsoft 365, Windows Server, SQL and VPNs. I enjoyed the troubleshooting side of the role, but I wanted to move closer to the infrastructure itself—building systems rather than only supporting them.</p>
+        <p>That led me to CoderCo, hands-on DevOps projects and eventually my first DevOps role. I now contribute to infrastructure changes, deployments and automation while continuing to develop my AWS, Kubernetes and system design knowledge through personal projects.</p>
       </div>
     </article>
   </div>
 </section>
 
-<section class="about-work-section">
+<section class="about-approach-section">
   <div class="container">
     <div class="about-section-head reveal">
-      <span class="kicker">Project focus</span>
-      <h2>Recent and current work</h2>
+      <span class="kicker">My approach</span>
+      <h2>How I approach the work</h2>
     </div>
-    <div class="about-work-grid">
-      <article class="card about-work-card reveal">
-        <span class="about-status">Completed</span>
-        <span class="kicker">EKS platform</span>
-        <h3>2048 app on Amazon EKS</h3>
-        <span class="about-work-name">Terraform · GitOps · Kubernetes</span>
-        <p>Built a multi-AZ Amazon EKS platform with Terraform, GitHub Actions and ArgoCD, with HTTPS, automated DNS, monitoring and security scanning.</p>
-        <div class="tags"><span class="tag">Terraform</span><span class="tag">Amazon EKS</span><span class="tag">ArgoCD</span><span class="tag">GitHub Actions</span><span class="tag">Prometheus</span></div>
+    <div class="about-approach-grid">
+      <article class="card about-approach-card reveal">
+        <span class="about-card-number">01</span>
+        <h3>Start with the problem</h3>
+        <p>I start by working out what is failing and why. My support background taught me to investigate before changing things.</p>
       </article>
 
-      <article class="card about-work-card reveal">
-        <span class="about-status">Next project</span>
-        <span class="kicker">Application platform</span>
-        <h3>URL Shortener</h3>
-        <span class="about-work-name">ECS Fargate application platform</span>
-        <p>Planning a production-style URL shortening platform on ECS Fargate with supporting data services and safer deployment patterns.</p>
-        <div class="tags"><span class="tag">RDS/PostgreSQL</span><span class="tag">ElastiCache/Redis</span><span class="tag">SQS</span><span class="tag">Multi-stage Docker</span><span class="tag">Zero-downtime</span></div>
+      <article class="card about-approach-card reveal">
+        <span class="about-card-number">02</span>
+        <h3>Automate repeatable work</h3>
+        <p>If a task is repeated or easy to get wrong, I look for a way to make it consistent through code, pipelines or clear documentation.</p>
       </article>
 
-      <article class="card about-work-card reveal">
-        <span class="about-status">Ongoing</span>
-        <span class="kicker">Kubernetes live lab</span>
-        <h3>DevOps Labs Library</h3>
-        <span class="about-work-name">Hands-on Kubernetes practice</span>
-        <p>Working through practical Kubernetes labs covering workloads, networking, storage, security and day-to-day cluster operations.</p>
-        <div class="tags"><span class="tag">Workloads</span><span class="tag">Networking</span><span class="tag">Storage</span><span class="tag">Security</span><span class="tag">Operations</span></div>
+      <article class="card about-approach-card reveal">
+        <span class="about-card-number">03</span>
+        <h3>Understand the whole system</h3>
+        <p>I want to understand how networking, identity, compute and applications interact—not just how to use one tool.</p>
       </article>
     </div>
   </div>
@@ -103,12 +94,28 @@
   <div class="container">
     <div class="about-section-head reveal">
       <span class="kicker">Learning focus</span>
-      <h2>Currently learning</h2>
+      <h2>What I’m learning now</h2>
     </div>
     <div class="about-learning-grid">
-      <article class="card about-learning-card reveal"><span class="kicker">Kubernetes</span><h3>Kubernetes fundamentals</h3><p>Building a stronger understanding of workloads, services, scheduling and how Kubernetes behaves in practice.</p><div class="tags"><span class="tag">Workloads</span><span class="tag">Services</span><span class="tag">Scheduling</span><span class="tag">Cluster Behaviour</span></div></article>
-      <article class="card about-learning-card reveal"><span class="kicker">Observability</span><h3>Monitoring &amp; observability</h3><p>Developing practical knowledge of logs, metrics and alerts, with a focus on visibility, troubleshooting and system reliability.</p><div class="tags"><span class="tag">Logs</span><span class="tag">Metrics</span><span class="tag">Alerts</span><span class="tag">Observability</span></div></article>
-      <article class="card about-learning-card reveal"><span class="kicker">Architecture</span><h3>System design</h3><p>Developing a stronger understanding of infrastructure design, scalability, availability and how different system components work together.</p><div class="tags"><span class="tag">Networking</span><span class="tag">Databases</span><span class="tag">High Availability</span><span class="tag">Architecture</span></div></article>
+      <article class="card about-learning-card reveal"><span class="kicker">Current focus</span><h3>Kubernetes</h3><p>Going beyond deploying workloads to understand scheduling, networking, storage and day-to-day cluster behaviour.</p></article>
+      <article class="card about-learning-card reveal"><span class="kicker">Current focus</span><h3>Observability</h3><p>Getting better at using metrics, logs and alerts to understand what a system is doing and where problems begin.</p></article>
+      <article class="card about-learning-card reveal"><span class="kicker">Current focus</span><h3>System design</h3><p>Learning how infrastructure decisions affect reliability, scalability and the way services communicate.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="about-next-section">
+  <div class="container">
+    <div class="card about-next-card reveal">
+      <div>
+        <span class="kicker">Explore more</span>
+        <h2>See what I’m building</h2>
+        <p>Browse the projects I’ve completed or read the notes I write as I work through AWS, Kubernetes and system design.</p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary magnetic" href="projects.html">View my projects <span>↗</span></a>
+        <a class="btn btn-secondary magnetic" href="articles.html">Read my articles <span>↗</span></a>
+      </div>
     </div>
   </div>
 </section>

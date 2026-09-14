@@ -1,6 +1,6 @@
 @import url("pill-glow-20260828.css?v=20260828-1434");
 
-/* About page — background, current work and current learning. */
+/* About page — background, approach and current learning. */
 body[data-page="about"] .page-hero p{max-width:900px}
 
 .about-story-section{padding:66px 0 26px}
@@ -10,47 +10,40 @@ body[data-page="about"] .page-hero p{max-width:900px}
 .about-story-copy p{margin:0 0 16px;color:var(--muted);font-size:15px;line-height:1.75;max-width:960px}
 .about-story-copy p:last-child{margin-bottom:0}
 
-.about-work-section{padding:38px 0 24px}
+.about-approach-section{padding:38px 0 24px}
 .about-section-head{margin-bottom:24px}
 .about-section-head h2{margin:7px 0 8px;font-size:clamp(32px,4vw,46px);line-height:1.05}
 .about-section-head p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;max-width:720px}
-.about-work-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
-.about-work-card{display:flex;flex-direction:column;min-height:330px;padding:30px}
-.about-work-card h3{margin:9px 0 4px;font-size:26px;line-height:1.12}
-.about-work-card .about-work-name{display:block;min-height:20px;margin-bottom:16px;color:var(--text);font-size:14px;font-weight:800}
-.about-work-card p{margin:0;min-height:72px;color:var(--muted);font-size:14px;line-height:1.7}
-.about-work-card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;padding-top:0;min-height:0;align-content:flex-start;box-sizing:border-box}
+.about-approach-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.about-approach-card{display:flex;flex-direction:column;min-height:230px;padding:30px}
+.about-card-number{display:inline-flex;align-items:center;justify-content:center;width:42px;height:28px;margin-bottom:34px;border:1px solid var(--line);border-radius:999px;color:var(--orange);font-size:10px;font-weight:900;letter-spacing:.08em}
+.about-approach-card h3{margin:0 0 12px;font-size:24px;line-height:1.15}
+.about-approach-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
 
-.about-learning-section{padding:34px 0 76px}
+.about-learning-section{padding:34px 0 24px}
 .about-learning-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
-.about-learning-card{display:flex;flex-direction:column;min-height:250px;padding:30px}
+.about-learning-card{display:flex;flex-direction:column;min-height:210px;padding:30px}
 .about-learning-card h3{margin:9px 0 12px;font-size:24px;line-height:1.15}
-.about-learning-card p{margin:0;min-height:72px;color:var(--muted);font-size:14px;line-height:1.7}
-.about-learning-card .tags{margin-top:18px;padding-top:0;min-height:0;max-width:none;box-sizing:border-box}
+.about-learning-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
 
-/* Keep learning pills on one compact row on desktop. Project pills stay readable
-   and may wrap naturally rather than shrinking to an unreadable size. */
-@media(min-width:981px){
-  .about-work-card .tag{padding:7px 9px;font-size:10.5px;line-height:1;letter-spacing:0;white-space:nowrap}
-
-  .about-learning-card .tags{display:grid;grid-template-columns:repeat(4,max-content);column-gap:6px;row-gap:0;align-items:center;justify-content:start}
-  .about-learning-card .tag{padding:7px 8px;font-size:10.5px;white-space:nowrap}
-}
-
-/* Subtle status treatment using the existing palette only. */
-.about-status{display:inline-flex;align-items:center;gap:8px;margin-bottom:4px;color:var(--muted-2);font-size:10px;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
-.about-status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px color-mix(in srgb,var(--green) 35%,transparent)}
+.about-next-section{padding:34px 0 76px}
+.about-next-card{display:flex;align-items:center;justify-content:space-between;gap:40px;padding:38px}
+.about-next-card>div:first-child{max-width:690px}
+.about-next-card h2{margin:7px 0 10px;font-size:clamp(30px,4vw,44px);line-height:1.06}
+.about-next-card p{margin:0;color:var(--muted);font-size:15px;line-height:1.7}
+.about-next-card .actions{flex:0 0 auto}
 
 @media(max-width:980px){
-  .about-work-grid,.about-learning-grid{grid-template-columns:1fr}
-  .about-work-card,.about-learning-card{min-height:0}
-  .about-work-card .about-work-name,.about-work-card p,.about-learning-card p{min-height:0}
-  .about-work-card .tags,.about-learning-card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;padding-top:0;min-height:0;max-width:none}
+  .about-approach-grid,.about-learning-grid{grid-template-columns:1fr}
+  .about-approach-card,.about-learning-card{min-height:0}
+  .about-next-card{align-items:flex-start;flex-direction:column}
 }
 
 @media(max-width:620px){
   .about-story-section{padding-top:46px}
-  .about-story-card,.about-work-card,.about-learning-card{padding:23px}
-  .about-work-section{padding-top:28px}
+  .about-story-card,.about-approach-card,.about-learning-card,.about-next-card{padding:23px}
+  .about-approach-section{padding-top:28px}
   .about-learning-section{padding-top:28px}
+  .about-card-number{margin-bottom:24px}
+  .about-next-card .actions{width:100%}
 }
