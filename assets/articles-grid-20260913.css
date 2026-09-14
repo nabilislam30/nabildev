@@ -59,7 +59,7 @@ body[data-page="articles"] .article-series-grid{
 }
 body[data-page="articles"] .article-card{
   position:relative;
-  min-height:295px;
+  min-height:270px;
   padding:28px 30px 26px;
   align-items:flex-start;
 }
@@ -82,17 +82,22 @@ body[data-page="articles"] .article-card h3{
   max-width:100%;
   margin:0 44px 12px 0;
   overflow:hidden;
-  font-size:22px;
+  font-size:20px;
   line-height:1.16;
   text-overflow:ellipsis;
   white-space:nowrap;
 }
 body[data-page="articles"] .article-card p{
+  display:-webkit-box;
+  min-height:3.1em;
+  max-height:3.1em;
   margin:0;
+  overflow:hidden;
   color:var(--muted);
   font-size:14px;
-  line-height:1.65;
-  flex:1;
+  line-height:1.55;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
 }
 body[data-page="articles"] .article-card .tags{
   display:flex;
@@ -126,6 +131,21 @@ body[data-page="articles"] .article-card .text-link,
 body[data-page="articles"] .article-card .article-status{
   margin-top:20px;
 }
+body[data-page="articles"] .article-card .article-status{
+  width:max-content;
+  min-height:30px;
+  padding:6px 10px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:color-mix(in srgb,var(--panel) 42%,transparent);
+  transition:transform 180ms ease,border-color 180ms ease,box-shadow 180ms ease,color 180ms ease;
+}
+body[data-page="articles"] .article-card .article-status:hover{
+  transform:translateY(-1px);
+  border-color:color-mix(in srgb,var(--orange) 72%,var(--line));
+  color:var(--text);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--orange) 18%,transparent),0 0 17px color-mix(in srgb,var(--orange) 30%,transparent);
+}
 
 @media(max-width:1000px){
   body[data-page="articles"] .article-series-grid{
@@ -157,5 +177,6 @@ body[data-page="articles"] .article-card .article-status{
 }
 @media(prefers-reduced-motion:reduce){
   body[data-page="articles"] .filter,
-  body[data-page="articles"] .article-card .tag{transition:none}
+  body[data-page="articles"] .article-card .tag,
+  body[data-page="articles"] .article-card .article-status{transition:none}
 }
