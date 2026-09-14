@@ -126,7 +126,7 @@ lab = lab
   .replaceAll('<h2>What I’m working through.</h2>', '<h2>What the lab covers.</h2>')
   .replaceAll(
     'The lab combines Kubernetes concepts with practical exercises across application workloads, cluster networking, security, troubleshooting and day-to-day operations.',
-    'The modules cover Kubernetes workloads, networking, configuration, troubleshooting and cluster operations.'
+    'Kubernetes labs covering workloads, networking, security and cluster operations.'
   )
   .replace(/\s*<div class="lab-note reveal">[\s\S]*?<\/div>\s*/g, '\n');
 
@@ -147,7 +147,7 @@ const requiredLabCopy = [
   '<h1>Hands-on lab</h1>',
   '<span class="kicker">Kubernetes</span>',
   '<h2>What the lab covers.</h2>',
-  'The modules cover Kubernetes workloads, networking, configuration, troubleshooting and cluster operations.'
+  'Kubernetes labs covering workloads, networking, security and cluster operations.'
 ];
 for (const phrase of requiredLabCopy) {
   if (!lab.includes(phrase)) {
