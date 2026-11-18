@@ -9,6 +9,7 @@
 <link rel="canonical" href="https://nabildev.com/">
 <link rel="stylesheet" href="assets/styles.css?v=20260818-1309">
 <link rel="stylesheet" href="assets/eks-project-20260909.css?v=20260909-1540">
+<link rel="stylesheet" href="assets/home-system-workflow-20261118.css?v=20261118-1">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#052426">
 <meta property="og:type" content="website">
@@ -55,16 +56,98 @@
       </div>
     </div>
 
-    <div class="hero-orbit reveal" aria-label="Cloud, Infrastructure as Code, CI/CD and observability illustration">
-      <div class="orbit-ambient"></div>
-      <div class="orbit-line orbit-one"></div>
-      <div class="orbit-line orbit-two"></div>
-      <div class="orbit-core"><span>&gt;_</span><small>DELIVERY</small></div>
-      <div class="orbit-connector connector-a"></div><div class="orbit-connector connector-b"></div>
-      <div class="orbit-chip chip-cloud"><b>01</b><span>CLOUD</span></div>
-      <div class="orbit-chip chip-iac"><b>02</b><span>IaC</span></div>
-      <div class="orbit-chip chip-cicd"><b>03</b><span>CI/CD</span></div>
-      <div class="orbit-chip chip-observe"><b>04</b><span>OBSERVE</span></div>
+    <div class="hero-system-design reveal" aria-label="Animated client-server request cycle">
+      <div class="hs-console-inner">
+        <div class="hs-stage-row">
+          <div class="hs-stage-line"></div>
+          <div class="hs-stage-progress" data-hs-stage-progress></div>
+
+          <button class="hs-stage-button active" data-hs-node-stage="0" type="button" aria-label="Client stage">
+            <span class="hs-stage-card">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3.5" y="4.5" width="17" height="11" rx="2"/>
+                <path d="M8 19.5h8"/><path d="M12 15.5v4"/>
+              </svg>
+            </span>
+            <strong>Client</strong>
+          </button>
+
+          <button class="hs-stage-button" data-hs-node-stage="1" type="button" aria-label="DNS stage">
+            <span class="hs-stage-card">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="8"/>
+                <path d="M4 12h16"/><path d="M12 4a12 12 0 0 1 0 16"/><path d="M12 4a12 12 0 0 0 0 16"/>
+              </svg>
+            </span>
+            <strong>DNS</strong>
+          </button>
+
+          <button class="hs-stage-button" data-hs-node-stage="2" type="button" aria-label="TCP and TLS stage">
+            <span class="hs-stage-card">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 8h14"/><path d="M5 16h14"/>
+                <path d="m8 5-3 3 3 3"/><path d="m16 13 3 3-3 3"/>
+                <rect x="9" y="9.5" width="6" height="5" rx="1"/>
+              </svg>
+            </span>
+            <strong>TCP/TLS</strong>
+          </button>
+
+          <button class="hs-stage-button" data-hs-node-stage="3" type="button" aria-label="Application stage">
+            <span class="hs-stage-card">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="4" y="4" width="16" height="7" rx="2"/>
+                <rect x="4" y="13" width="16" height="7" rx="2"/>
+                <path d="M8 7h.01"/><path d="M8 16h.01"/>
+              </svg>
+            </span>
+            <strong>Application</strong>
+          </button>
+
+          <button class="hs-stage-button" data-hs-node-stage="4" type="button" aria-label="Database stage">
+            <span class="hs-stage-card">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <ellipse cx="12" cy="6" rx="6.5" ry="2.5"/>
+                <path d="M5.5 6v6c0 1.4 2.9 2.5 6.5 2.5s6.5-1.1 6.5-2.5V6"/>
+                <path d="M5.5 12v6c0 1.4 2.9 2.5 6.5 2.5s6.5-1.1 6.5-2.5v-6"/>
+              </svg>
+            </span>
+            <strong>Database</strong>
+          </button>
+        </div>
+
+        <div class="hs-workbench">
+          <div class="hs-pane">
+            <div class="hs-pane-head"><span data-hs-left-title>client context</span><span>context</span></div>
+            <div class="hs-pane-body" data-hs-left-body></div>
+          </div>
+
+          <div class="hs-pane active">
+            <div class="hs-pane-head"><span data-hs-main-title>client / request</span><span>working</span></div>
+            <div class="hs-pane-body" data-hs-main-body></div>
+          </div>
+
+          <div class="hs-pane">
+            <div class="hs-pane-head"><span data-hs-right-title>next hop</span><span>queued</span></div>
+            <div class="hs-pane-body" data-hs-right-body></div>
+          </div>
+        </div>
+
+        <div class="hs-storyline">
+          <span class="hs-story-index" data-hs-index>01 / 06</span>
+          <span class="hs-story-copy" data-hs-story>The client initiates an HTTPS request.</span>
+          <button class="hs-pause" type="button" aria-label="Pause request-cycle animation" data-hs-pause>Ⅱ</button>
+        </div>
+
+        <div class="hs-meter" data-hs-meter>
+          <span class="active"></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="hs-console-foot">
+          <span><b>Client-server request cycle</b> · illustrative sequence</span>
+          <span data-hs-status>request initiated</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -76,6 +159,128 @@
     <div class="tool-set" aria-hidden="true"><div class="tool tool-linux"><img class="official-tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg" data-fallback="assets/icons/linux.svg" alt="" decoding="async"><span>Linux</span></div><div class="tool tool-docker"><img class="official-tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" data-fallback="assets/icons/docker.svg" alt="" decoding="async"><span>Docker</span></div><div class="tool tool-kubernetes"><img class="official-tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-original.svg" data-fallback="assets/icons/kubernetes.svg" alt="" decoding="async"><span>Kubernetes</span></div><div class="tool tool-terraform"><img class="official-tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original.svg" data-fallback="assets/icons/terraform.svg" alt="" decoding="async"><span>Terraform</span></div><div class="tool tool-aws"><img class="official-tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" data-fallback="assets/icons/aws.svg" alt="" decoding="async"><span>AWS</span></div><div class="tool tool-azure"><img class="official-tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azure/azure-original.svg" data-fallback="assets/icons/azure.svg" alt="" decoding="async"><span>Azure</span></div><div class="tool tool-github"><img class="official-tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" data-fallback="assets/icons/github.svg" alt="" decoding="async"><span>GitHub</span></div><div class="tool tool-git"><img class="official-tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" data-fallback="assets/icons/git.svg" alt="" decoding="async"><span>Git</span></div><div class="tool tool-prometheus"><img class="official-tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prometheus/prometheus-original.svg" data-fallback="assets/icons/prometheus.svg" alt="" decoding="async"><span>Prometheus</span></div><div class="tool tool-grafana"><img class="official-tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/grafana/grafana-original.svg" data-fallback="assets/icons/grafana.svg" alt="" decoding="async"><span>Grafana</span></div><div class="tool tool-bash"><img class="official-tool-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bash/bash-original.svg" data-fallback="assets/icons/bash.svg" alt="" decoding="async"><span>Bash</span></div></div>
   </div>
 </div>
+
+<section class="home-workflow-section" aria-labelledby="home-workflow-title">
+  <div class="container">
+    <div class="home-workflow-heading reveal">
+      <h2 id="home-workflow-title">Inside the Modern DevOps Engineering Workflow</h2>
+    </div>
+
+    <div class="home-workflow-shell">
+      <aside class="home-workflow-sticky">
+        <div class="home-workflow-map card">
+          <div class="home-workflow-map-head">
+            <strong>DevOps engineering workflow</strong>
+            <span data-home-workflow-stage-name>PLAN</span>
+          </div>
+
+          <div class="home-workflow-map-stage">
+            <svg class="home-flow-svg" viewBox="0 0 520 620" role="img" aria-label="Plan, code, build, test, release, operate and feedback workflow">
+              <defs>
+                <linearGradient id="homeWorkflowGradient" x1="0" y1="0" x2="1" y2="1">
+                  <stop stop-color="#76d6c0"/>
+                  <stop offset=".68" stop-color="#76d6c0"/>
+                  <stop offset="1" stop-color="#ea9239"/>
+                </linearGradient>
+              </defs>
+              <path class="home-flow-base" data-home-flow-base d="M95 52 C275 52 405 92 405 145 S250 208 118 225 72 320 198 336 410 350 410 407 270 456 125 474 100 555 260 570"/>
+              <path class="home-flow-progress" data-home-flow-progress pathLength="1000" d="M95 52 C275 52 405 92 405 145 S250 208 118 225 72 320 198 336 410 350 410 407 270 456 125 474 100 555 260 570"/>
+              <path class="home-flow-return" d="M260 570 C445 594 490 470 488 306 C486 150 430 45 175 26"/>
+              <path class="home-flow-return-arrow" d="M176 26 l14 -7 l-5 16 z"/>
+              <circle class="home-flow-packet" data-home-flow-packet cx="95" cy="52" r="6"/>
+            </svg>
+
+            <div class="home-flow-node home-fn1 active" data-home-flow-node="0"><span class="dot"></span><span class="label">01 / PLAN</span></div>
+            <div class="home-flow-node home-fn2" data-home-flow-node="1"><span class="dot"></span><span class="label">02 / CODE &amp; VERSION CONTROL</span></div>
+            <div class="home-flow-node home-fn3" data-home-flow-node="2"><span class="dot"></span><span class="label">03 / BUILD &amp; CI</span></div>
+            <div class="home-flow-node home-fn4" data-home-flow-node="3"><span class="dot"></span><span class="label">04 / TEST</span></div>
+            <div class="home-flow-node home-fn5" data-home-flow-node="4"><span class="dot"></span><span class="label">05 / RELEASE &amp; DEPLOY</span></div>
+            <div class="home-flow-node home-fn6" data-home-flow-node="5"><span class="dot"></span><span class="label">06 / OPERATE &amp; MONITOR</span></div>
+            <div class="home-flow-node home-fn7" data-home-flow-node="6"><span class="dot"></span><span class="label">07 / FEEDBACK</span></div>
+          </div>
+
+          <div class="home-workflow-map-foot">
+            <span><b data-home-workflow-count>01 / 07</b> active stage</span>
+            <span class="loop">Feedback ↺ Plan</span>
+          </div>
+        </div>
+      </aside>
+
+      <div class="home-workflow-steps">
+        <article class="home-workflow-step active" data-home-workflow-stage="0">
+          <div class="home-workflow-card card">
+            <span class="home-step-index">01 / PLAN</span>
+            <h3>Plan</h3>
+            <p>Teams define features, bugs and priorities before implementation begins.</p>
+            <div class="home-evidence-line"><span>Requirements</span><span>Architecture</span><span>Priorities</span></div>
+            <div class="home-stage-note"><i></i>idea → defined engineering change</div>
+          </div>
+        </article>
+
+        <article class="home-workflow-step" data-home-workflow-stage="1">
+          <div class="home-workflow-card card">
+            <span class="home-step-index">02 / CODE &amp; VERSION CONTROL</span>
+            <h3>Code &amp; Version Control</h3>
+            <p>Developers write code, review pull requests and commit changes to shared repositories.</p>
+            <div class="home-evidence-line"><span>Git</span><span>GitHub</span><span>Pull requests</span><span>Terraform code</span></div>
+            <div class="home-stage-note"><i></i>change → commit → review</div>
+          </div>
+        </article>
+
+        <article class="home-workflow-step" data-home-workflow-stage="2">
+          <div class="home-workflow-card card">
+            <span class="home-step-index">03 / BUILD &amp; CI</span>
+            <h3>Build &amp; Continuous Integration</h3>
+            <p>Code changes trigger automated pipelines, builds and integration checks.</p>
+            <div class="home-evidence-line"><span>GitHub Actions</span><span>Docker</span><span>ECR</span><span>CI pipelines</span></div>
+            <div class="home-stage-note"><i></i>commit → automated pipeline</div>
+          </div>
+        </article>
+
+        <article class="home-workflow-step" data-home-workflow-stage="3">
+          <div class="home-workflow-card card">
+            <span class="home-step-index">04 / TEST</span>
+            <h3>Test</h3>
+            <p>Automated validation, security checks and health checks verify the change before release.</p>
+            <div class="home-evidence-line"><span>Terraform validation</span><span>Trivy</span><span>Checkov</span><span>Health checks</span></div>
+            <div class="home-stage-note"><i></i>quality + security gates</div>
+          </div>
+        </article>
+
+        <article class="home-workflow-step" data-home-workflow-stage="4">
+          <div class="home-workflow-card card">
+            <span class="home-step-index">05 / RELEASE &amp; DEPLOY / CD</span>
+            <h3>Release &amp; Deploy</h3>
+            <p>Approved builds are packaged and rolled into environments using automated delivery. Infrastructure as Code is applied when the change requires infrastructure.</p>
+            <div class="home-evidence-line"><span>Terraform</span><span>Amazon EKS</span><span>ECS Fargate</span><span>ArgoCD</span><span>GitOps</span></div>
+            <div class="home-stage-note"><i></i>approved change → environment</div>
+          </div>
+        </article>
+
+        <article class="home-workflow-step" data-home-workflow-stage="5">
+          <div class="home-workflow-card card">
+            <span class="home-step-index">06 / OPERATE &amp; MONITOR</span>
+            <h3>Operate &amp; Monitor</h3>
+            <p>Live systems are maintained and observed through metrics, logs, health signals and operational troubleshooting.</p>
+            <div class="home-evidence-line"><span>Prometheus</span><span>Grafana</span><span>Kubernetes</span><span>Troubleshooting</span></div>
+            <div class="home-stage-note"><i></i>metrics + logs + health</div>
+          </div>
+        </article>
+
+        <article class="home-workflow-step" data-home-workflow-stage="6">
+          <div class="home-workflow-card card">
+            <span class="home-step-index">07 / FEEDBACK</span>
+            <h3>Feedback</h3>
+            <p>Telemetry, errors, incidents, lessons and user feedback feed into the next planning cycle.</p>
+            <div class="home-evidence-line"><span>Metrics</span><span>Incidents</span><span>Lessons learned</span><span>User feedback</span></div>
+            <div class="home-stage-note"><i></i>feedback ↺ plan</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
 </div>
 
 <section class="evidence-section">
@@ -232,6 +437,7 @@
 </main>
 <footer class="footer"><div class="container footer-grid"><div class="footer-brand"><a class="brand" href="index.html"><span class="brand-terminal" aria-hidden="true">&gt;_</span><span>Nabil Islam</span></a><p class="footer-description">Cloud infrastructure, automation and delivery — focused on building reliable systems and documenting the learning behind the work.</p><span class="availability"><i></i> Open to relevant DevOps conversations</span></div><div class="footer-links"><div><strong>Explore</strong><a href="projects.html">Projects</a><a href="lab.html">DevOps Lab</a><a href="experience.html">Experience</a><a href="articles.html">Articles</a></div><div><strong>About</strong><a href="about.html">About me</a><a href="contact.html">Contact</a></div></div><div class="footer-social" aria-label="Social links"><a class="footer-social-link linkedin" href="https://uk.linkedin.com/in/nabilbislam" target="_blank" rel="noopener noreferrer"><span class="footer-social-icon"><img src="assets/icons/linkedin.svg" alt="" aria-hidden="true"></span><span>LinkedIn</span><b aria-hidden="true">↗</b></a><a class="footer-social-link github" href="https://github.com/nabilislam30" target="_blank" rel="noopener noreferrer"><span class="footer-social-icon"><img src="assets/icons/github.svg" alt="" aria-hidden="true"></span><span>GitHub</span><b aria-hidden="true">↗</b></a><a class="footer-social-link instagram" href="https://www.instagram.com/devwithnabil/" target="_blank" rel="noopener noreferrer"><span class="footer-social-icon"><img src="assets/icons/instagram.svg" alt="" aria-hidden="true"></span><span>Instagram</span><b aria-hidden="true">↗</b></a></div></div><div class="container footer-bottom"><span>© <span data-year></span> Nabil Islam</span><span>nabildev.com</span></div></footer>
 <div class="command-backdrop" data-command-backdrop hidden><div class="command-palette" role="dialog" aria-modal="true" aria-label="Quick navigation"><div class="command-search"><span>&gt;_</span><input type="search" placeholder="Type a page or action…" autocomplete="off" data-command-input><kbd>Esc</kbd></div><div class="command-results"><a href="index.html" data-command-item><span>⌂</span><div><strong>Home</strong><small>Return to the homepage</small></div></a><a href="projects.html" data-command-item><span>◇</span><div><strong>Projects</strong><small>Engineering case studies</small></div></a><a href="lab.html" data-command-item><span>●</span><div><strong>Lab</strong><small>Current experiments and learning</small></div></a><a href="experience.html" data-command-item><span>↗</span><div><strong>Experience</strong><small>Professional and technical journey</small></div></a><a href="articles.html" data-command-item><span>≡</span><div><strong>Articles</strong><small>Technical notes and explainers</small></div></a><a href="about.html" data-command-item><span>○</span><div><strong>About</strong><small>Background and approach</small></div></a><a href="contact.html" data-command-item><span>✉</span><div><strong>Contact</strong><small>Start a conversation</small></div></a><a href="https://github.com/nabilislam30" target="_blank" rel="noopener noreferrer" data-command-item><span>⌘</span><div><strong>GitHub</strong><small>Open public repositories</small></div></a><a href="https://uk.linkedin.com/in/nabilbislam" target="_blank" rel="noopener noreferrer" data-command-item><span>in</span><div><strong>LinkedIn</strong><small>Open professional profile</small></div></a></div></div></div>
+<script src="assets/home-system-workflow-20261118.js?v=20261118-1"></script>
 <script src="assets/script.js"></script>
 </body>
 </html>
