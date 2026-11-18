@@ -67,7 +67,7 @@ body[data-page="home"] #lab.lab-section::after{
 
 /* Reduce stacked section padding without changing spacing inside the cards. */
 body[data-page="home"] .evidence-section{
-  padding-bottom:54px;
+  padding-bottom:36px;
 }
 
 body[data-page="home"] #lab.lab-section{

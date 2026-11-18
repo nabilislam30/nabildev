@@ -79,34 +79,7 @@ const homepageProjects = `<section class="evidence-section">
         </div></div>
       </article>
 
-      <article class="evidence-card evidence-card-stable card reveal">
-        <div class="evidence-index">03</div>
-        <div class="evidence-header">
-          <span class="kicker">Immutable AWS Infrastructure</span>
-          <h3 class="featured-project-title">Immutable AWS infrastructure with Terraform</h3>
-          <p>Production-inspired AWS platform built with Terraform, immutable infrastructure and GitHub Actions.</p>
-          <div class="integrated-stack-pills" aria-label="Technologies applied in the immutable AWS infrastructure project">
-            <span><b>Terraform</b><small>IaC</small></span><i>→</i>
-            <span><b>AWS</b><small>Platform</small></span><i>→</i>
-            <span><b>Golden AMI</b><small>Immutable</small></span><i>→</i>
-            <span><b>OIDC</b><small>Identity</small></span><i>→</i>
-            <span><b>GitHub Actions</b><small>CI/CD</small></span>
-          </div>
-        </div>
-        <div class="evidence-build">
-          <div class="project-terminal reveal" data-terminal-once data-terminal-lines='["$ terraform fmt -check","$ trivy config .","$ terraform plan -out=tfplan","✓ reviewed plan saved"]'>
-            <div class="terminal-bar"><i></i><i></i><i></i><span>terraform / aws / security</span></div>
-            <pre><code data-terminal-output></code><span class="terminal-cursor">▋</span></pre>
-          </div>
-        </div>
-        <div class="architecture-column"><div class="architecture-cta"><a href="projects/immutable-aws-infrastructure.html" class="card-link">View case study <span>↗</span></a></div><div class="architecture-lab architecture-stable architecture-featured architecture-immutable animated-architecture" data-architecture-flow>
-          <button class="arch-node" data-arch-info="Public traffic enters the development workload through the load balancer.">Internet</button><i class="flow-line horizontal"><span></span></i>
-          <button class="arch-node" data-arch-info="Routes traffic to healthy application instances and performs health checks.">ALB</button><i class="flow-line horizontal"><span></span></i>
-          <button class="arch-node accent" data-arch-info="Replaceable Auto Scaling instances are launched from a Golden AMI built with AWS Image Builder.">ASG / EC2</button><i class="flow-line horizontal"><span></span></i>
-          <button class="arch-node" data-arch-info="Private PostgreSQL database protected through security-group access, KMS encryption and Secrets Manager credentials.">RDS</button>
-          <div class="arch-tooltip" data-arch-tooltip>Hover an architecture node</div>
-        </div></div>
-      </article>
+
     </div>
   </div>
 </section>`;
