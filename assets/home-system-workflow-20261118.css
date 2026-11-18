@@ -387,3 +387,186 @@ html[data-theme="light"] .hs-pane.active .hs-pane-body{color:#123d3f}
   .hs-cursor,.hs-meter span.active:after{animation:none!important}
   .home-workflow-step{opacity:1;transform:none}
 }
+
+
+/* Workflow system explorer v2 — balanced 3x2 + incident recovery */
+.workflow-section{padding:82px 0 20px}
+.workflow-section .section-head{margin-bottom:34px}
+.workflow-section .section-head h2{
+  max-width:1120px;margin:0;font-size:clamp(40px,4.2vw,58px);
+  line-height:1.02;letter-spacing:-.048em
+}
+.workflow-story{position:relative;min-height:475vh}
+.workflow-sticky{
+  position:sticky;top:72px;height:calc(100vh - 84px);
+  min-height:650px;display:flex;align-items:center
+}
+.workflow-explorer{
+  width:100%;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(285px,.58fr);
+  gap:58px;align-items:center
+}
+.workflow-map{
+  position:relative;min-height:540px;
+  border-top:1px solid rgba(251,246,237,.11);
+  border-bottom:1px solid rgba(251,246,237,.11);
+  overflow:hidden
+}
+.workflow-map:before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 48%,rgba(118,214,192,.045),transparent 38%),
+    linear-gradient(145deg,rgba(169,202,199,.018),transparent 34% 72%,rgba(234,146,57,.015))
+}
+.workflow-route{
+  position:absolute;inset:42px 38px 58px;
+  width:calc(100% - 76px);height:calc(100% - 100px);overflow:visible
+}
+.route-base,.route-live,.route-loop{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.route-base{stroke:rgba(169,202,199,.16);stroke-width:2.2}
+.route-live{
+  stroke:url(#workflowRouteGradient);stroke-width:3;
+  stroke-dasharray:1000;stroke-dashoffset:1000;
+  transition:stroke-dashoffset .28s ease
+}
+.route-loop{stroke:rgba(234,146,57,.24);stroke-width:1.6;stroke-dasharray:6 8}
+.route-arrow{fill:rgba(234,146,57,.62)}
+.route-packet{
+  fill:#ea9239;filter:drop-shadow(0 0 7px rgba(234,146,57,.72));
+  transition:.28s ease
+}
+.workflow-node{
+  position:absolute;z-index:2;width:148px;min-height:64px;
+  border:1px solid rgba(169,202,199,.22);border-radius:11px;
+  background:rgba(5,31,32,.76);color:var(--muted);
+  display:grid;grid-template-columns:30px 1fr;gap:8px;align-items:center;
+  padding:10px 11px;text-align:left;cursor:pointer;
+  transition:border-color .2s ease,background .2s ease,color .2s ease,opacity .2s ease,transform .2s ease,box-shadow .2s ease
+}
+.workflow-node svg{
+  width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.65;
+  stroke-linecap:round;stroke-linejoin:round
+}
+.workflow-node small{
+  display:block;margin-bottom:3px;color:var(--muted-2);
+  font:800 7.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em
+}
+.workflow-node strong{display:block;font-size:11px;line-height:1.16;color:inherit}
+.workflow-node:hover,.workflow-node:focus-visible{
+  border-color:#8fd6ff;color:var(--text);background:rgba(7,38,39,.96);
+  box-shadow:0 0 0 1px rgba(143,214,255,.07),0 0 22px rgba(143,214,255,.08);
+  outline:none;transform:translateY(-2px)
+}
+.workflow-node.active{
+  border-color:#8fd6ff;color:var(--text);background:rgba(7,38,39,.98);
+  box-shadow:0 0 0 1px rgba(143,214,255,.08),0 0 24px rgba(143,214,255,.09)
+}
+.workflow-node.active:after{
+  content:"";position:absolute;right:9px;top:9px;width:6px;height:6px;border-radius:50%;
+  background:#8fd6ff;box-shadow:0 0 9px #8fd6ff
+}
+.workflow-node.passed{border-color:rgba(118,214,192,.38);color:var(--green)}
+.wn1{left:3%;top:11%}
+.wn2{left:37%;top:11%}
+.wn3{left:71%;top:11%}
+.wn4{left:71%;bottom:12%}
+.wn5{left:37%;bottom:12%}
+.wn6{left:3%;bottom:12%}
+.workflow-recovery{
+  position:absolute;z-index:4;left:3%;top:43%;
+  width:148px;min-height:64px;
+  border:1px solid rgba(239,92,92,.72);border-radius:11px;
+  background:rgba(44,13,15,.88);color:#ffd4d4;
+  display:grid;grid-template-columns:30px 1fr;gap:8px;align-items:center;
+  padding:10px 11px;text-align:left;
+  opacity:0;transform:translateY(8px) scale(.98);
+  pointer-events:none;
+  transition:opacity .28s ease,transform .28s ease,box-shadow .28s ease
+}
+.workflow-recovery.show{opacity:1;transform:none;box-shadow:0 0 0 1px rgba(239,92,92,.08),0 0 24px rgba(239,92,92,.12)}
+.workflow-recovery svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+.workflow-recovery small{
+  display:block;margin-bottom:3px;color:#e79a9a;
+  font:800 7.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em
+}
+.workflow-recovery strong{display:block;font-size:11px;line-height:1.16;color:inherit}
+.workflow-node.incident{
+  border-color:rgba(239,92,92,.82)!important;color:#ffd5d5!important;
+  background:rgba(44,13,15,.88)!important;
+  box-shadow:0 0 0 1px rgba(239,92,92,.08),0 0 24px rgba(239,92,92,.12)!important
+}
+.workflow-node.incident:after{background:#ef5c5c!important;box-shadow:0 0 10px #ef5c5c!important}
+.incident-route{fill:none;stroke:#ef5c5c;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:6 7;opacity:0;transition:opacity .25s ease}
+.incident-route.show{opacity:.85}
+.recovery-route{fill:none;stroke:rgba(234,146,57,.7);stroke-width:2;stroke-linecap:round;stroke-dasharray:6 7;opacity:0;transition:opacity .25s ease}
+.recovery-route.show{opacity:.85}
+.workflow-detail{min-height:380px;padding:22px 0 18px;align-self:center}
+.workflow-detail-index{
+  display:block;margin-bottom:18px;color:#8fd6ff;
+  font:850 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em
+}
+.workflow-detail h3{margin:0 0 13px;font-size:clamp(30px,3vw,42px);line-height:1.02;letter-spacing:-.04em}
+.workflow-detail>p{margin:0 0 20px;color:var(--muted);font-size:16px;line-height:1.65}
+.workflow-overview-note{
+  max-width:360px;margin-top:26px;padding-top:18px;border-top:1px solid rgba(251,246,237,.1);
+  color:var(--muted-2);font-size:12px;line-height:1.55
+}
+.workflow-detail ul{margin:0;padding:0;list-style:none;border-top:1px solid rgba(251,246,237,.1)}
+.workflow-detail li{
+  position:relative;padding:12px 0 12px 18px;border-bottom:1px solid rgba(251,246,237,.08);
+  color:var(--muted);font-size:13px;line-height:1.45
+}
+.workflow-detail li:before{content:"";position:absolute;left:0;top:19px;width:5px;height:5px;border-radius:50%;background:var(--green)}
+.workflow-connects{
+  margin-top:19px;color:var(--muted-2);
+  font:750 10px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.03em
+}
+.workflow-connects b{color:var(--text);font-weight:800}
+.workflow-incident-note{
+  margin-top:18px;padding-top:16px;border-top:1px solid rgba(239,92,92,.25);
+  color:#ef8e8e;font:750 10px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;display:none
+}
+.workflow-incident-note.show{display:block}
+.workflow-instruction{position:absolute;left:16px;bottom:16px;color:var(--muted-2);font-size:11px;letter-spacing:.02em}
+.workflow-progress-label{position:absolute;right:16px;bottom:16px;color:var(--muted-2);font:750 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace}
+.workflow-sentinels{position:absolute;inset:0;pointer-events:none}
+.workflow-sentinel{position:absolute;left:0;width:1px;height:1px}
+.workflow-sentinel:nth-child(1){top:4%}
+.workflow-sentinel:nth-child(2){top:21%}
+.workflow-sentinel:nth-child(3){top:38%}
+.workflow-sentinel:nth-child(4){top:55%}
+.workflow-sentinel:nth-child(5){top:72%}
+.workflow-sentinel:nth-child(6){top:90%}
+html[data-theme="light"] .workflow-map{border-color:rgba(10,60,62,.14)}
+html[data-theme="light"] .workflow-node{background:rgba(255,255,255,.78);color:#496462}
+html[data-theme="light"] .workflow-node.active,
+html[data-theme="light"] .workflow-node:hover,
+html[data-theme="light"] .workflow-node:focus-visible{background:#fff;color:#123d3f}
+@media(max-width:980px){
+  .workflow-story{min-height:auto}
+  .workflow-sticky{position:relative;top:auto;height:auto;min-height:0}
+  .workflow-explorer{grid-template-columns:1fr;gap:26px}
+  .workflow-map{min-height:590px}
+  .workflow-detail{min-height:0;padding:2px 0 10px}
+  .workflow-sentinels{display:none}
+}
+@media(max-width:680px){
+  .workflow-section{padding:64px 0 14px}
+  .workflow-map{min-height:620px}
+  .workflow-route{inset:38px 12px 50px;width:calc(100% - 24px);height:calc(100% - 88px)}
+  .workflow-node{width:136px;min-height:60px;padding:9px 10px;grid-template-columns:26px 1fr;gap:7px}
+  .workflow-node svg{width:20px;height:20px}
+  .workflow-node strong{font-size:10px}
+  .workflow-node small{font-size:8px}
+  .wn1{left:0;top:7%}.wn2{right:0;left:auto;top:7%}.wn3{left:0;top:29%}
+  .wn4{right:0;top:29%}.wn5{right:0;bottom:10%}.wn6{left:0;bottom:10%}
+  .workflow-recovery{
+    left:50%;top:auto;bottom:37%;width:136px;min-height:60px;padding:9px 10px;
+    grid-template-columns:26px 1fr;gap:7px;transform:translate(-50%,8px) scale(.98)
+  }
+  .workflow-recovery.show{transform:translate(-50%,0)}
+  .workflow-instruction{left:4px;bottom:18px;font-size:10px}
+  .workflow-progress-label{right:4px;bottom:18px}
+}
+@media(prefers-reduced-motion:reduce){
+  .route-live,.route-packet,.workflow-node,.workflow-recovery,.incident-route,.recovery-route{transition:none!important}
+}

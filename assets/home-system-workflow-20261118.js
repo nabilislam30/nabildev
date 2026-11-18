@@ -214,3 +214,168 @@
     update();
   }
 })();
+
+
+(() => {
+  const workflowStory = document.querySelector('[data-workflow-story]');
+  if (!workflowStory) return;
+
+  const workflowData = [
+    {label:"01 · PLAN",title:"Plan",copy:"Define what needs to change and agree the engineering direction before implementation begins.",points:["Clarify requirements and priorities","Shape the technical approach","Turn the idea into a defined change"],next:"Code & Version Control"},
+    {label:"02 · CODE & VERSION CONTROL",title:"Code & Version Control",copy:"Write the change, review it and keep the work traceable in version control.",points:["Create application or infrastructure changes","Review pull requests and commit history","Keep code and IaC versioned"],next:"Build & Continuous Integration"},
+    {label:"03 · BUILD & CI",title:"Build & Continuous Integration",copy:"Continuous integration validates the change and produces something ready to progress.",points:["Run automated pipeline checks","Build and package artifacts","Validate infrastructure and configuration"],next:"Test"},
+    {label:"04 · TEST",title:"Test",copy:"Automated checks provide evidence that the change is safe enough to release.",points:["Run functional and integration checks","Scan code, images and configuration","Stop failed changes before release"],next:"Release & Deploy"},
+    {label:"05 · RELEASE & DEPLOY",title:"Release & Deploy",copy:"Promote the approved change into an environment through automated delivery.",points:["Promote a reviewed build","Apply infrastructure changes when required","Verify rollout and deployment health"],next:"Operate & Monitor"},
+    {label:"06 · OPERATE & MONITOR",title:"Operate & Monitor",copy:"Observe the live system, respond to operational signals and feed what you learn back into the next planning cycle.",points:["Track metrics, logs, health and alerts","Scale and troubleshoot live workloads","Use incidents and operational evidence to shape the next change"],next:"Plan"}
+  ];
+
+  const incidentData = {
+    label:"INCIDENT · RECOVERY",
+    title:"Service health degraded",
+    copy:"Monitoring detects a problem in the live environment. The priority shifts from delivery to restoring service safely.",
+    points:["Alert triggered from live health signals","Investigate the affected service and isolate the fault","Recover the service, verify health and feed the lesson into planning"],
+    next:"Plan"
+  };
+
+  const workflowNodes=[...document.querySelectorAll('[data-workflow-node]')];
+  const workflowLive=document.querySelector('[data-route-live]');
+  const workflowBase=document.querySelector('[data-route-base]');
+  const workflowPacket=document.querySelector('[data-route-packet]');
+  const workflowCount=document.querySelector('[data-workflow-count]');
+  const detailIndex=document.querySelector('[data-detail-index]');
+  const detailTitle=document.querySelector('[data-detail-title]');
+  const detailCopy=document.querySelector('[data-detail-copy]');
+  const detailPoints=document.querySelector('[data-detail-points]');
+  const detailConnects=document.querySelector('[data-detail-connects]');
+  const detailNext=document.querySelector('[data-detail-next]');
+  const overviewNote=document.querySelector('[data-overview-note]');
+  const recoveryNode=document.querySelector('[data-workflow-recovery]');
+  const incidentRoute=document.querySelector('[data-incident-route]');
+  const recoveryRoute=document.querySelector('[data-recovery-route]');
+  const incidentNote=document.querySelector('[data-incident-note]');
+
+  let scrollStage=-1;
+  let hoverStage=null;
+  let workflowTicking=false;
+  let incidentTimer=null;
+
+  function clearIncident(){
+    clearTimeout(incidentTimer);
+    incidentTimer=null;
+    recoveryNode.classList.remove('show');
+    recoveryNode.setAttribute('aria-hidden','true');
+    incidentRoute.classList.remove('show');
+    recoveryRoute.classList.remove('show');
+    incidentNote.classList.remove('show');
+    workflowNodes.forEach(node=>node.classList.remove('incident'));
+  }
+
+  function showOverview(){
+    clearIncident();
+    workflowNodes.forEach(node=>node.classList.remove('active','passed'));
+    detailIndex.textContent="DEVOPS DELIVERY LIFECYCLE";
+    detailTitle.textContent="One change, end to end.";
+    detailCopy.textContent="Follow a change from planning and version control through delivery and live operation.";
+    overviewNote.hidden=false;
+    detailPoints.hidden=true;
+    detailConnects.hidden=true;
+    workflowCount.textContent="01 / 06";
+    workflowLive.style.strokeDashoffset=1000;
+    workflowPacket.setAttribute('cx',82);
+    workflowPacket.setAttribute('cy',90);
+  }
+
+  function setDetail(item){
+    detailIndex.textContent=item.label;
+    detailTitle.textContent=item.title;
+    detailCopy.textContent=item.copy;
+    overviewNote.hidden=true;
+    detailPoints.hidden=false;
+    detailConnects.hidden=false;
+    detailPoints.innerHTML=item.points.map(point=>'<li>'+point+'</li>').join('');
+    detailNext.textContent=item.next;
+  }
+
+  function renderStage(index,source="scroll"){
+    clearIncident();
+    const item=workflowData[index];
+    workflowNodes.forEach((node,i)=>{
+      node.classList.toggle('active',i===index);
+      node.classList.toggle('passed',source==="scroll" && i<index);
+    });
+    setDetail(item);
+    workflowCount.textContent=String(index+1).padStart(2,'0')+" / 06";
+    const pct=index/(workflowData.length-1);
+    workflowLive.style.strokeDashoffset=1000-(1000*pct);
+    try{
+      const len=workflowBase.getTotalLength();
+      const p=workflowBase.getPointAtLength(len*pct);
+      workflowPacket.setAttribute('cx',p.x);
+      workflowPacket.setAttribute('cy',p.y);
+    }catch(e){}
+    if(index===5 && source==="scroll") incidentTimer=setTimeout(triggerIncident,1300);
+  }
+
+  function triggerIncident(){
+    if(scrollStage!==5 || hoverStage!==null)return;
+    const operateNode=workflowNodes[5];
+    operateNode.classList.add('incident');
+    recoveryNode.classList.add('show');
+    recoveryNode.setAttribute('aria-hidden','false');
+    incidentRoute.classList.add('show');
+    incidentNote.classList.add('show');
+    setDetail(incidentData);
+    workflowCount.textContent="INCIDENT";
+
+    incidentTimer=setTimeout(()=>{
+      if(scrollStage!==5 || hoverStage!==null)return;
+      operateNode.classList.remove('incident');
+      incidentRoute.classList.remove('show');
+      recoveryRoute.classList.add('show');
+      detailIndex.textContent="RECOVERY · VERIFIED";
+      detailTitle.textContent="Service restored";
+      detailCopy.textContent="The fault is resolved, service health is verified and the operational lesson feeds back into the next planning cycle.";
+      detailPoints.innerHTML=["Restore the affected service","Verify health, traffic and alerts","Carry the learning into the next planned change"].map(point=>'<li>'+point+'</li>').join('');
+      detailNext.textContent="Plan";
+    },3400);
+  }
+
+  workflowNodes.forEach((node,index)=>{
+    node.addEventListener('mouseenter',()=>{hoverStage=index;clearIncident();renderStage(index,"hover");});
+    node.addEventListener('mouseleave',()=>{hoverStage=null;if(scrollStage<0)showOverview();else renderStage(scrollStage,"scroll");});
+    node.addEventListener('focus',()=>{hoverStage=index;clearIncident();renderStage(index,"hover");});
+    node.addEventListener('blur',()=>{hoverStage=null;if(scrollStage<0)showOverview();else renderStage(scrollStage,"scroll");});
+    node.addEventListener('click',()=>{hoverStage=index;clearIncident();renderStage(index,"hover");});
+  });
+
+  function updateWorkflowScroll(){
+    workflowTicking=false;
+    if(window.innerWidth<=980)return;
+    const r=workflowStory.getBoundingClientRect();
+    const total=Math.max(1,r.height-window.innerHeight);
+    const progressed=Math.min(1,Math.max(0,-r.top/total));
+    if(progressed<0.075){
+      if(scrollStage!==-1){scrollStage=-1;if(hoverStage===null)showOverview();}
+      return;
+    }
+    const normalized=(progressed-0.075)/0.925;
+    const index=Math.min(5,Math.max(0,Math.floor(normalized*6)));
+    if(index!==scrollStage){scrollStage=index;if(hoverStage===null)renderStage(index,"scroll");}
+  }
+
+  function requestWorkflowUpdate(){
+    if(workflowTicking)return;
+    workflowTicking=true;
+    requestAnimationFrame(updateWorkflowScroll);
+  }
+
+  addEventListener('scroll',requestWorkflowUpdate,{passive:true});
+  addEventListener('resize',()=>{
+    clearIncident();
+    if(window.innerWidth<=980){scrollStage=-1;if(hoverStage===null)showOverview();}
+    else requestWorkflowUpdate();
+  },{passive:true});
+
+  showOverview();
+  updateWorkflowScroll();
+})();
