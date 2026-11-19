@@ -396,9 +396,9 @@ html[data-theme="light"] .hs-pane.active .hs-pane-body{color:#123d3f}
   max-width:1120px;margin:0;font-size:clamp(40px,4.2vw,58px);
   line-height:1.02;letter-spacing:-.048em
 }
-.workflow-story{position:relative;min-height:475vh}
+.workflow-story{position:relative;min-height:0}
 .workflow-sticky{
-  position:sticky;top:72px;height:calc(100vh - 84px);
+  position:relative;top:auto;height:auto;
   min-height:650px;display:flex;align-items:center
 }
 .workflow-explorer{
@@ -569,4 +569,12 @@ html[data-theme="light"] .workflow-node:focus-visible{background:#fff;color:#123
 }
 @media(prefers-reduced-motion:reduce){
   .route-live,.route-packet,.workflow-node,.workflow-recovery,.incident-route,.recovery-route{transition:none!important}
+}
+
+/* 2026-11-19 v2 — workflow follows normal page flow rather than scroll-locking. */
+.workflow-live,
+.route-live,
+.route-packet,
+.workflow-node{
+  transition-duration:.28s;
 }

@@ -105,6 +105,8 @@
       typingToken += 1;
       const token = typingToken;
       const stage = stages[index];
+      const stageStartedAt = performance.now();
+      const stageDuration = 1750;
 
       updateRail(stage);
       indexEl.textContent = String(index + 1).padStart(2, '0') + " / 06";
@@ -124,7 +126,10 @@
 
       await typeLines(mainBody, stage.main, token);
       if (token !== typingToken || paused) return;
-      await sleep(110);
+
+      const elapsed = performance.now() - stageStartedAt;
+      await sleep(Math.max(90, stageDuration - elapsed));
+
       if (token !== typingToken || paused) return;
       render((index + 1) % stages.length);
     }
@@ -314,7 +319,7 @@
       workflowPacket.setAttribute('cx',p.x);
       workflowPacket.setAttribute('cy',p.y);
     }catch(e){}
-    if(index===5 && source==="scroll") incidentTimer=setTimeout(triggerIncident,280);
+    if(index===5 && source==="scroll") incidentTimer=setTimeout(triggerIncident,450);
   }
 
   function triggerIncident(){
@@ -339,7 +344,7 @@
       detailCopy.textContent="The fault is resolved, service health is verified and the operational lesson feeds back into the next planning cycle.";
       detailPoints.innerHTML=["Restore the affected service","Verify health, traffic and alerts","Carry the learning into the next planned change"].map(point=>'<li>'+point+'</li>').join('');
       detailNext.textContent="Plan";
-    },1450);
+    },3000);
   }
 
   workflowNodes.forEach((node,index)=>{
@@ -353,16 +358,32 @@
   function updateWorkflowScroll(){
     workflowTicking=false;
     if(window.innerWidth<=980)return;
+
     const r=workflowStory.getBoundingClientRect();
-    const total=Math.max(1,r.height-window.innerHeight);
-    const progressed=Math.min(1,Math.max(0,-r.top/total));
-    if(progressed<0.075){
-      if(scrollStage!==-1){scrollStage=-1;if(hoverStage===null)showOverview();}
+
+    // The diagram now moves with normal page flow. Map its passage through the
+    // viewport directly to the six lifecycle stages instead of holding it sticky
+    // for multiple viewport heights.
+    const startLine=window.innerHeight*.76;
+    const endLine=-(r.height*.28);
+    const travel=Math.max(1,startLine-endLine);
+    const progressed=Math.min(1,Math.max(0,(startLine-r.top)/travel));
+
+    if(progressed<0.04){
+      if(scrollStage!==-1){
+        scrollStage=-1;
+        if(hoverStage===null)showOverview();
+      }
       return;
     }
-    const normalized=(progressed-0.075)/0.925;
+
+    const normalized=(progressed-0.04)/0.96;
     const index=Math.min(5,Math.max(0,Math.floor(normalized*6)));
-    if(index!==scrollStage){scrollStage=index;if(hoverStage===null)renderStage(index,"scroll");}
+
+    if(index!==scrollStage){
+      scrollStage=index;
+      if(hoverStage===null)renderStage(index,"scroll");
+    }
   }
 
   function requestWorkflowUpdate(){
