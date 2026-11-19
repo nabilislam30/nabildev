@@ -137,7 +137,11 @@
 
       const startY = scrollY + headingRect.top + Math.min(headingRect.height * .5, 28);
       const endY = scrollY + ctaRect.top + (ctaRect.height / 2);
-      const x = innerWidth <= 820 ? 8 : Math.max(14, containerRect.left - 28);
+      const x = innerWidth <= 820
+        ? 8
+        : innerWidth <= 1100
+          ? Math.max(10, containerRect.left - 40)
+          : Math.max(14, containerRect.left - 48);
 
       rail.style.left = x + 'px';
       rail.style.top = startY + 'px';
