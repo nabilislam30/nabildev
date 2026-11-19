@@ -8,24 +8,52 @@ const homepage = path.join(root, 'dist', 'index.html');
 
 let html = await fs.readFile(homepage, 'utf8');
 
-const stylesheet = '<link rel="stylesheet" href="/assets/home-writing-stack-20260829.css?v=20260829-1335">';
+const stylesheet = '<link rel="stylesheet" href="/assets/home-writing-stack-20260829.css?v=20261119-1">';
 if (!html.includes('home-writing-stack-20260829.css')) {
   html = html.replace('</head>', `  ${stylesheet}\n</head>`);
 }
 
 const writingSection = `<section class="writing-section">
   <div class="container split-grid writing-split-stack">
-    <article class="article-preview card reveal">
-      <span class="kicker">Articles</span>
-      <h2>What I’m learning, written down.</h2>
-      <p class="intro compact-intro">Notes from things I’ve built, worked through and learned while developing my DevOps skills.</p>
-      <div class="article-list micro-list">
-        <a href="articles.html"><span>01</span><div><strong>Why Terraform creates <code>.terraform.lock.hcl</code></strong><small>Infrastructure as Code</small></div><b>↗</b></a>
-        <a href="articles.html"><span>02</span><div><strong>What happens when you run <code>terraform apply</code>?</strong><small>Terraform</small></div><b>↗</b></a>
-        <a href="articles.html"><span>03</span><div><strong>What I learned building my first Kubernetes cluster</strong><small>Kubernetes</small></div><b>↗</b></a>
-        <a href="articles.html"><span>04</span><div><strong>From IT support to DevOps: what transferred</strong><small>Career engineering</small></div><b>↗</b></a>
+    <article class="engineering-activity-card article-preview card reveal">
+      <span class="kicker">Engineering activity</span>
+      <h2>What I’m building right now.</h2>
+      <p class="intro compact-intro">A live snapshot of the infrastructure, automation and operational work I’m currently developing.</p>
+
+      <div class="engineering-focus">
+        <div class="engineering-focus-head">
+          <span>Current focus</span>
+          <b><i></i> Active</b>
+        </div>
+        <strong>Kubernetes automation</strong>
+        <p>Working through deployment, networking, security and observability while strengthening automation around Kubernetes infrastructure.</p>
+        <div class="engineering-toolchain tags" aria-label="Current engineering toolchain">
+          <span class="tag">Kubernetes</span>
+          <span class="tag">AWS</span>
+          <span class="tag">Terraform</span>
+          <span class="tag">ArgoCD</span>
+        </div>
       </div>
-      <a class="card-link" href="articles.html">View all articles <span>↗</span></a>
+
+      <div class="engineering-activity-list">
+        <div class="engineering-activity-row">
+          <small>Now</small>
+          <div><strong>Kubernetes Lab</strong><span>Networking and policy testing</span></div>
+          <b>Active</b>
+        </div>
+        <div class="engineering-activity-row">
+          <small>Recent</small>
+          <div><strong>EKS GitOps platform</strong><span>Terraform, ArgoCD and monitoring</span></div>
+          <b>Built</b>
+        </div>
+        <div class="engineering-activity-row">
+          <small>Recent</small>
+          <div><strong>ECS Threat Composer</strong><span>Container deployment on Fargate</span></div>
+          <b>Built</b>
+        </div>
+      </div>
+
+      <a class="card-link engineering-activity-link" href="lab.html">Open DevOps Lab <span>↗</span></a>
     </article>
 
     <div class="writing-side-stack">
@@ -63,10 +91,13 @@ html = html.replace(/<section class="writing-section">[\s\S]*?<\/section>/, writ
 const required = [
   'writing-split-stack',
   'writing-side-stack',
+  'Engineering activity',
+  'What I’m building right now.',
+  'engineering-activity-link',
   'Project repositories.',
   'repository-tags tags',
   'View GitHub',
-  'home-writing-stack-20260829.css?v=20260829-1335'
+  'home-writing-stack-20260829.css?v=20261119-1'
 ];
 for (const phrase of required) {
   if (!html.includes(phrase)) {
@@ -75,4 +106,4 @@ for (const phrase of required) {
 }
 
 await fs.writeFile(homepage, html);
-console.log('Applied stacked Projects + GitHub homepage writing section with glowing repository pills.');
+console.log('Applied Engineering Activity + stacked Projects/GitHub homepage section.');

@@ -91,12 +91,11 @@
     }
   });
 
-  /* Continuous journey rail from Workflow heading to the real Articles CTA. */
+  /* Continuous journey rail from Workflow heading to the Engineering Activity CTA. */
   const workflowHeading = document.querySelector('.workflow-section .section-head h2');
-  const articleLinks = [...document.querySelectorAll('.writing-section .article-preview a[href="articles.html"]')];
-  const articleCta = articleLinks.find(link => /view all articles/i.test(link.textContent || '')) || articleLinks.at(-1);
+  const activityCta = document.querySelector('.writing-section .engineering-activity-card .engineering-activity-link');
 
-  if (workflowHeading && articleCta) {
+  if (workflowHeading && activityCta) {
     const rail = document.createElement('div');
     rail.className = 'home-journey-rail';
     rail.setAttribute('aria-hidden','true');
@@ -131,7 +130,7 @@
 
     function measure() {
       const headingRect = workflowHeading.getBoundingClientRect();
-      const ctaRect = articleCta.getBoundingClientRect();
+      const ctaRect = activityCta.getBoundingClientRect();
       const container = workflowHeading.closest('.container') || workflowHeading.parentElement;
       const containerRect = container.getBoundingClientRect();
 
