@@ -66,23 +66,95 @@ body[data-page="home"] .workflow-map.recovery-ok .recovery-route{
 .home-journey-rail{
   position:absolute;z-index:45;width:38px;height:0;pointer-events:none;
 }
+
+/* Dormant infrastructure path: intentionally faint. */
 .home-journey-track{
   position:absolute;left:18px;top:0;width:1px;height:100%;
-  background:linear-gradient(180deg,#8fd6ff 0%,#76d6c0 48%,#ea9239 100%);
-  opacity:.72;
-  box-shadow:0 0 8px rgba(143,214,255,.10);
+  background:rgba(118,214,192,.10);
+  box-shadow:inset 0 0 0 1px rgba(143,214,255,.018);
 }
+
+/* Colour exists only in the travelled portion. */
 .home-journey-fill{
   position:absolute;left:0;top:0;width:1px;height:0;
-  background:linear-gradient(180deg,#8fd6ff 0%,#76d6c0 48%,#ea9239 100%);
-  box-shadow:0 0 10px rgba(143,214,255,.20);
-  opacity:1;
+  background:linear-gradient(
+    180deg,
+    #8fd6ff 0%,
+    #75d1db 27%,
+    #76d6c0 54%,
+    #9fca91 73%,
+    #d6a85c 88%,
+    #ea9239 100%
+  );
+  box-shadow:0 0 5px rgba(143,214,255,.22),0 0 11px rgba(118,214,192,.08);
+  transition:height .07s linear;
 }
+
+/* One upgraded signal ball: white packet core + cyan body + restrained halo. */
 .home-journey-ball{
-  position:absolute;left:-5.5px;top:0;width:12px;height:12px;border-radius:50%;
-  background:#8fd6ff;
-  box-shadow:0 0 0 5px rgba(143,214,255,.08),0 0 18px rgba(143,214,255,.72);
+  position:absolute;left:-7px;top:0;width:15px;height:15px;border-radius:50%;
+  background:radial-gradient(
+    circle at 50% 50%,
+    #fff 0 17%,
+    #c8efff 20%,
+    #8fd6ff 47%,
+    #69c8ef 72%,
+    #51b3de 100%
+  );
+  box-shadow:
+    0 0 0 5px rgba(143,214,255,.07),
+    0 0 13px rgba(143,214,255,.62),
+    0 0 26px rgba(143,214,255,.18);
   transform:translateY(-50%);
+  transition:top .07s linear,transform .18s ease,box-shadow .18s ease;
+}
+
+/* Short luminous trail immediately behind the moving ball. */
+.home-journey-ball:before{
+  content:"";position:absolute;left:6px;bottom:8px;width:3px;height:62px;
+  background:linear-gradient(
+    180deg,
+    rgba(143,214,255,0),
+    rgba(143,214,255,.16) 48%,
+    rgba(143,214,255,.62) 100%
+  );
+  filter:blur(1.8px);opacity:.58;pointer-events:none;
+}
+
+.home-journey-ball.section-pulse{animation:homeJourneySectionPulse .52s ease}
+.home-journey-ball.final-pulse{animation:homeJourneyFinalPulse .78s ease}
+
+@keyframes homeJourneySectionPulse{
+  0%{
+    transform:translateY(-50%) scale(1);
+    box-shadow:0 0 0 5px rgba(143,214,255,.07),0 0 13px rgba(143,214,255,.62);
+  }
+  45%{
+    transform:translateY(-50%) scale(1.14);
+    box-shadow:0 0 0 9px rgba(143,214,255,.08),0 0 21px rgba(143,214,255,.78);
+  }
+  100%{
+    transform:translateY(-50%) scale(1);
+    box-shadow:0 0 0 5px rgba(143,214,255,.07),0 0 13px rgba(143,214,255,.62);
+  }
+}
+
+@keyframes homeJourneyFinalPulse{
+  0%{
+    transform:translateY(-50%) scale(1);
+    box-shadow:0 0 0 5px rgba(143,214,255,.07),0 0 13px rgba(143,214,255,.62);
+  }
+  42%{
+    transform:translateY(-50%) scale(1.19);
+    box-shadow:
+      0 0 0 12px rgba(234,146,57,.08),
+      0 0 22px rgba(234,146,57,.46),
+      0 0 30px rgba(143,214,255,.18);
+  }
+  100%{
+    transform:translateY(-50%) scale(1);
+    box-shadow:0 0 0 5px rgba(143,214,255,.07),0 0 13px rgba(143,214,255,.62);
+  }
 }
 
 /* Four Lab cards: one consistent interaction grammar, domain-specific states. */
@@ -110,10 +182,14 @@ body[data-page="home"] .workflow-map.recovery-ok .recovery-route{
 @media(max-width:820px){
   .home-journey-rail{width:24px}
   .home-journey-track{left:10px}
+  .home-journey-ball{left:-6px;width:13px;height:13px}
+  .home-journey-ball:before{left:5px;height:44px;opacity:.44}
   .home-lab-motion{gap:5px}
 }
 @media(prefers-reduced-motion:reduce){
   .home-system-awake{display:none}
   .home-system-awake-grid,.home-system-awake-terminal,.workflow-node.incident:before{animation:none!important}
+  .home-journey-fill,.home-journey-ball{transition:none!important}
+  .home-journey-ball.section-pulse,.home-journey-ball.final-pulse{animation:none!important}
   .home-lab-motion span{transition:none}
 }

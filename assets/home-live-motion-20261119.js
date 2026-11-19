@@ -105,8 +105,29 @@
 
     const fill = rail.querySelector('.home-journey-fill');
     const ball = rail.querySelector('.home-journey-ball');
+    const majorSections = [
+      document.querySelector('.workflow-section'),
+      document.querySelector('.evidence-section'),
+      document.querySelector('#lab'),
+      document.querySelector('.writing-section')
+    ].filter(Boolean);
+
     let geometry = null;
     let ticking = false;
+    let lastProgress = 0;
+    let lastBoundary = -1;
+    let finalPulsed = false;
+
+    function pulse(type) {
+      if (reduceMotion) return;
+      ball.classList.remove('section-pulse','final-pulse');
+      void ball.offsetWidth;
+      ball.classList.add(type);
+      setTimeout(
+        () => ball.classList.remove(type),
+        type === 'final-pulse' ? 820 : 560
+      );
+    }
 
     function measure() {
       const headingRect = workflowHeading.getBoundingClientRect();
@@ -126,24 +147,55 @@
       const startScroll = Math.max(0, startY - (innerHeight * .46));
       const desiredEnd = endY - (innerHeight * .72);
       const endScroll = Math.min(maxScroll, Math.max(startScroll + 1, desiredEnd));
-      geometry = { startScroll, endScroll };
+
+      const boundaries = majorSections.map(section => {
+        const rect = section.getBoundingClientRect();
+        const sectionY = scrollY + rect.top + (rect.height * .18);
+        return Math.max(0, Math.min(1, (sectionY - startY) / Math.max(1, endY - startY)));
+      });
+
+      geometry = { startScroll, endScroll, boundaries };
       update();
     }
 
     function update() {
       ticking = false;
       if (!geometry) return;
+
       const raw = (scrollY - geometry.startScroll) / Math.max(1, geometry.endScroll - geometry.startScroll);
       const progress = Math.max(0, Math.min(1, raw));
+
       fill.style.height = (progress * 100) + '%';
       ball.style.top = (progress * rail.clientHeight) + 'px';
       ball.style.opacity = scrollY < geometry.startScroll ? '0' : '1';
+
+      let crossed = -1;
+      geometry.boundaries.forEach((threshold,index) => {
+        if (
+          (lastProgress < threshold && progress >= threshold) ||
+          (lastProgress > threshold && progress <= threshold)
+        ) crossed = index;
+      });
+
+      if (crossed !== -1 && crossed !== lastBoundary) {
+        lastBoundary = crossed;
+        pulse('section-pulse');
+      }
 
       if (progress >= .999) {
         fill.style.height = '100%';
         ball.style.top = rail.clientHeight + 'px';
         ball.style.opacity = '1';
+
+        if (!finalPulsed) {
+          finalPulsed = true;
+          pulse('final-pulse');
+        }
+      } else {
+        finalPulsed = false;
       }
+
+      lastProgress = progress;
     }
 
     function requestUpdate() {
