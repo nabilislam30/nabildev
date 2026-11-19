@@ -91,9 +91,44 @@
     }
   });
 
+  /* Engineering Activity: reveal work rows and boot the status console on entry. */
+  const engineeringSection = document.querySelector('.engineering-activity-section');
+  if (engineeringSection) {
+    const activityRows = [...engineeringSection.querySelectorAll('.engineering-activity-row')];
+    const statusLines = [...engineeringSection.querySelectorAll('[data-status-line]')];
+
+    const revealEngineeringActivity = () => {
+      if (reduceMotion) {
+        activityRows.forEach(row => row.classList.add('activity-visible'));
+        statusLines.forEach(line => line.classList.add('status-visible'));
+        return;
+      }
+
+      activityRows.forEach((row,index) => {
+        setTimeout(() => row.classList.add('activity-visible'), 120 + (index * 170));
+      });
+
+      statusLines.forEach((line,index) => {
+        setTimeout(() => line.classList.add('status-visible'), 180 + (index * 230));
+      });
+    };
+
+    if ('IntersectionObserver' in window) {
+      const engineeringObserver = new IntersectionObserver(entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          revealEngineeringActivity();
+          engineeringObserver.disconnect();
+        }
+      }, { threshold:.28 });
+      engineeringObserver.observe(engineeringSection);
+    } else {
+      revealEngineeringActivity();
+    }
+  }
+
   /* Continuous journey rail from Workflow heading to the Engineering Activity CTA. */
   const workflowHeading = document.querySelector('.workflow-section .section-head h2');
-  const activityCta = document.querySelector('.writing-section .engineering-activity-card .engineering-activity-link');
+  const activityCta = document.querySelector('.writing-section .engineering-activity-link');
 
   if (workflowHeading && activityCta) {
     const rail = document.createElement('div');

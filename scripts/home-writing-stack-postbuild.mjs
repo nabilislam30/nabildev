@@ -8,96 +8,96 @@ const homepage = path.join(root, 'dist', 'index.html');
 
 let html = await fs.readFile(homepage, 'utf8');
 
-const stylesheet = '<link rel="stylesheet" href="/assets/home-writing-stack-20260829.css?v=20261119-1">';
+const stylesheet = '<link rel="stylesheet" href="/assets/home-writing-stack-20260829.css?v=20261119-2">';
 if (!html.includes('home-writing-stack-20260829.css')) {
   html = html.replace('</head>', `  ${stylesheet}\n</head>`);
 }
 
-const writingSection = `<section class="writing-section">
-  <div class="container split-grid writing-split-stack">
-    <article class="engineering-activity-card article-preview card reveal">
-      <span class="kicker">Engineering activity</span>
-      <h2>What I’m building right now.</h2>
-      <p class="intro compact-intro">A live snapshot of the infrastructure, automation and operational work I’m currently developing.</p>
+const writingSection = `<section class="writing-section engineering-activity-section">
+  <div class="container">
+    <div class="engineering-activity-heading reveal">
+      <h2>Engineering Activity</h2>
+      <p>A live view of what I’m currently building, the work I’ve recently completed and the systems I’m actively developing.</p>
+    </div>
 
-      <div class="engineering-focus">
+    <div class="engineering-activity-grid">
+      <article class="engineering-current-card card reveal">
         <div class="engineering-focus-head">
           <span>Current focus</span>
           <b><i></i> Active</b>
         </div>
-        <strong>Kubernetes automation</strong>
-        <p>Working through deployment, networking, security and observability while strengthening automation around Kubernetes infrastructure.</p>
+
+        <h3>Kubernetes automation</h3>
+        <p class="engineering-focus-copy">Working through deployment, networking, security and operational patterns while continuing to strengthen automation around Kubernetes infrastructure.</p>
+
         <div class="engineering-toolchain tags" aria-label="Current engineering toolchain">
           <span class="tag">Kubernetes</span>
           <span class="tag">AWS</span>
           <span class="tag">Terraform</span>
           <span class="tag">ArgoCD</span>
         </div>
-      </div>
 
-      <div class="engineering-activity-list">
-        <div class="engineering-activity-row">
-          <small>Now</small>
-          <div><strong>Kubernetes Lab</strong><span>Networking and policy testing</span></div>
-          <b>Active</b>
+        <div class="engineering-activity-list" data-engineering-activity-list>
+          <div class="engineering-activity-row">
+            <small>Now</small>
+            <div><strong>Kubernetes Lab</strong><span>Networking and policy testing</span></div>
+            <b>Active</b>
+          </div>
+          <div class="engineering-activity-row">
+            <small>Recent</small>
+            <div><strong>EKS GitOps platform</strong><span>Terraform, ArgoCD and monitoring</span></div>
+            <b>Built</b>
+          </div>
+          <div class="engineering-activity-row">
+            <small>Recent</small>
+            <div><strong>ECS Threat Composer</strong><span>Container deployment on Fargate</span></div>
+            <b>Built</b>
+          </div>
         </div>
-        <div class="engineering-activity-row">
-          <small>Recent</small>
-          <div><strong>EKS GitOps platform</strong><span>Terraform, ArgoCD and monitoring</span></div>
-          <b>Built</b>
-        </div>
-        <div class="engineering-activity-row">
-          <small>Recent</small>
-          <div><strong>ECS Threat Composer</strong><span>Container deployment on Fargate</span></div>
-          <b>Built</b>
-        </div>
-      </div>
-
-      <a class="card-link engineering-activity-link" href="lab.html">Open DevOps Lab <span>↗</span></a>
-    </article>
-
-    <div class="writing-side-stack">
-      <article class="evidence-principle card reveal">
-        <span class="kicker">Projects</span>
-        <h2>Inside each project.</h2>
-        <p class="intro compact-intro">Each project provides an overview, architectural design, how it was implemented and how challenges were resolved.</p>
-        <div class="principle-grid">
-          <div class="principle-item micro-reveal"><strong>01</strong><span>Overview</span></div>
-          <div class="principle-item micro-reveal"><strong>02</strong><span>Architecture</span></div>
-          <div class="principle-item micro-reveal"><strong>03</strong><span>Implementation</span></div>
-          <div class="principle-item micro-reveal"><strong>04</strong><span>Challenges &amp; solutions</span></div>
-        </div>
-        <a class="card-link" href="projects.html">View projects <span>↗</span></a>
       </article>
 
-      <article class="github-repository-card card reveal">
-        <span class="kicker">GitHub</span>
-        <h2>Project repositories.</h2>
-        <p class="intro compact-intro">The repositories contain the infrastructure, application code and documentation behind the projects shown here.</p>
-        <div class="repository-tags tags" aria-label="Repository technologies">
-          <span class="tag" tabindex="0">Terraform</span>
-          <span class="tag" tabindex="0">Docker</span>
-          <span class="tag" tabindex="0">AWS</span>
-          <span class="tag" tabindex="0">Kubernetes</span>
+      <article class="engineering-status-card card reveal" data-engineering-status>
+        <span class="kicker">Engineering status</span>
+        <h3>Control centre</h3>
+
+        <div class="engineering-terminal">
+          <div class="engineering-terminal-head">
+            <i></i><i></i><i></i>
+            <span>engineering / status</span>
+          </div>
+          <div class="engineering-terminal-body" aria-live="polite">
+            <div class="engineering-terminal-command" data-status-line>&gt; engineering status</div>
+            <div class="engineering-status-lines">
+              <div data-status-line><span>projects</span><b>2 featured</b></div>
+              <div data-status-line><span>lab</span><b>active</b></div>
+              <div data-status-line><span>infrastructure</span><b>healthy</b></div>
+              <div data-status-line><span>learning</span><b>continuous</b></div>
+            </div>
+            <div class="engineering-terminal-ok" data-status-line data-status-ok>✓ systems operational</div>
+          </div>
         </div>
-        <a class="card-link github-link" href="https://github.com/nabilislam30" target="_blank" rel="noopener noreferrer">View GitHub <span>↗</span></a>
       </article>
     </div>
+
+    <div class="engineering-activity-footer">
+      <span class="engineering-journey-end"><i></i> Journey ends here</span>
+      <a class="engineering-activity-link" href="https://github.com/nabilislam30" target="_blank" rel="noopener noreferrer">View GitHub <span>↗</span></a>
+    </div>
   </div>
-</section>`;
+</section>`
 
 html = html.replace(/<section class="writing-section">[\s\S]*?<\/section>/, writingSection);
 
 const required = [
-  'writing-split-stack',
-  'writing-side-stack',
-  'Engineering activity',
-  'What I’m building right now.',
+  'engineering-activity-section',
+  'Engineering Activity',
+  'engineering-current-card',
+  'engineering-status-card',
+  'Control centre',
+  'data-status-line',
   'engineering-activity-link',
-  'Project repositories.',
-  'repository-tags tags',
   'View GitHub',
-  'home-writing-stack-20260829.css?v=20261119-1'
+  'home-writing-stack-20260829.css?v=20261119-2'
 ];
 for (const phrase of required) {
   if (!html.includes(phrase)) {
@@ -106,4 +106,4 @@ for (const phrase of required) {
 }
 
 await fs.writeFile(homepage, html);
-console.log('Applied Engineering Activity + stacked Projects/GitHub homepage section.');
+console.log('Applied full-width Engineering Activity homepage section with animated control centre.');
