@@ -267,6 +267,7 @@
     incidentRoute.classList.remove('show');
     recoveryRoute.classList.remove('show');
     incidentNote.classList.remove('show');
+    document.querySelector('.workflow-map')?.classList.remove('recovery-ok');
     workflowNodes.forEach(node=>node.classList.remove('incident'));
   }
 
@@ -313,7 +314,7 @@
       workflowPacket.setAttribute('cx',p.x);
       workflowPacket.setAttribute('cy',p.y);
     }catch(e){}
-    if(index===5 && source==="scroll") incidentTimer=setTimeout(triggerIncident,1300);
+    if(index===5 && source==="scroll") incidentTimer=setTimeout(triggerIncident,280);
   }
 
   function triggerIncident(){
@@ -332,12 +333,13 @@
       operateNode.classList.remove('incident');
       incidentRoute.classList.remove('show');
       recoveryRoute.classList.add('show');
+      document.querySelector('.workflow-map')?.classList.add('recovery-ok');
       detailIndex.textContent="RECOVERY · VERIFIED";
       detailTitle.textContent="Service restored";
       detailCopy.textContent="The fault is resolved, service health is verified and the operational lesson feeds back into the next planning cycle.";
       detailPoints.innerHTML=["Restore the affected service","Verify health, traffic and alerts","Carry the learning into the next planned change"].map(point=>'<li>'+point+'</li>').join('');
       detailNext.textContent="Plan";
-    },3400);
+    },1450);
   }
 
   workflowNodes.forEach((node,index)=>{

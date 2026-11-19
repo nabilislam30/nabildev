@@ -1,0 +1,124 @@
+/* Homepage-only live motion layer — 2026-11-19.
+   Scope: awake intro, workflow incident/recovery state, journey rail, hero route cap, Lab motion. */
+
+/* System-awake intro */
+.home-system-awake{
+  position:fixed;z-index:1200;inset:0;display:grid;place-items:center;
+  background:#041f21;opacity:1;visibility:visible;
+  transition:opacity .28s ease,visibility .28s ease;
+}
+.home-system-awake.done{opacity:0;visibility:hidden}
+.home-system-awake-grid{
+  position:absolute;inset:0;opacity:0;
+  background-image:
+    linear-gradient(rgba(143,214,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(143,214,255,.035) 1px,transparent 1px);
+  background-size:46px 46px;
+  animation:homeAwakeGrid .35s ease forwards;
+}
+.home-system-awake-core{position:relative;width:min(84vw,410px);text-align:center}
+.home-system-awake-terminal{
+  width:46px;height:46px;margin:0 auto 13px;border:1px solid rgba(143,214,255,.28);
+  border-radius:12px;display:grid;place-items:center;color:#8fd6ff;
+  font:850 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  animation:homeAwakePulse .72s ease-in-out infinite alternate;
+}
+.home-system-awake-core strong{
+  display:block;color:rgba(199,214,211,.72);
+  font:800 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.1em;text-transform:uppercase;
+}
+.home-system-awake-bar{height:2px;margin-top:15px;background:rgba(255,255,255,.06);overflow:hidden}
+.home-system-awake-bar i{
+  display:block;width:0;height:100%;
+  background:linear-gradient(90deg,#76d6c0,#8fd6ff,#ea9239);
+  transition:width .13s cubic-bezier(.22,1,.36,1);
+}
+@keyframes homeAwakeGrid{to{opacity:1}}
+@keyframes homeAwakePulse{to{box-shadow:0 0 24px rgba(143,214,255,.16)}}
+
+/* Hero route is hard-capped at the Database icon. */
+body[data-page="home"] .hs-stage-progress{max-width:82%;}
+
+/* Incident shockwave + visibly mint recovery. */
+body[data-page="home"] .workflow-node.incident{overflow:visible}
+body[data-page="home"] .workflow-node.incident:before{
+  content:"";position:absolute;inset:-7px;border:1px solid rgba(239,92,92,.72);
+  border-radius:14px;pointer-events:none;
+  animation:homeIncidentShockwave 1s ease-out infinite;
+}
+@keyframes homeIncidentShockwave{
+  from{transform:scale(.9);opacity:.82}
+  to{transform:scale(1.55);opacity:0}
+}
+body[data-page="home"] .workflow-map.recovery-ok .workflow-recovery{
+  border-color:#76d6c0;color:#e3fff8;background:rgba(12,69,62,.9);
+  box-shadow:0 0 0 1px rgba(118,214,192,.08),0 0 25px rgba(118,214,192,.14);
+  transition:border-color .55s ease,background-color .55s ease,color .55s ease,box-shadow .55s ease;
+}
+body[data-page="home"] .workflow-map.recovery-ok .workflow-recovery small{color:#76d6c0}
+body[data-page="home"] .workflow-map.recovery-ok .recovery-route{
+  stroke:#76d6c0;opacity:.9;filter:drop-shadow(0 0 6px rgba(118,214,192,.28));
+  transition:stroke .55s ease,opacity .3s ease,filter .55s ease;
+}
+
+/* Continuous journey from Workflow to the real View all articles CTA. */
+.home-journey-rail{
+  position:absolute;z-index:45;width:38px;height:0;pointer-events:none;
+}
+.home-journey-track{
+  position:absolute;left:18px;top:0;width:1px;height:100%;
+  background:rgba(143,214,255,.13);
+}
+.home-journey-fill{
+  position:absolute;left:0;top:0;width:1px;height:0;
+  background:linear-gradient(180deg,#ea9239 0%,#76d6c0 48%,#8fd6ff 100%);
+  box-shadow:0 0 10px rgba(143,214,255,.16);
+}
+.home-journey-ball{
+  position:absolute;left:-5.5px;top:0;width:12px;height:12px;border-radius:50%;
+  background:#8fd6ff;
+  box-shadow:0 0 0 5px rgba(143,214,255,.08),0 0 18px rgba(143,214,255,.72);
+  transform:translateY(-50%);
+}
+.home-journey-start-dot,
+.home-journey-end-dot{
+  position:absolute;left:15px;width:7px;height:7px;border-radius:50%;
+  background:#8fd6ff;box-shadow:0 0 10px rgba(143,214,255,.4);
+}
+.home-journey-start-dot{top:-3px}
+.home-journey-end-dot{bottom:-3px}
+
+/* Four Lab cards: one consistent interaction grammar, domain-specific states. */
+.home-lab-motion{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;
+  margin-top:15px;padding-top:13px;border-top:1px solid var(--line);
+}
+.home-lab-motion span{
+  min-height:40px;padding:7px 4px;border:1px solid var(--line);border-radius:8px;
+  display:grid;place-items:center;gap:4px;background:rgba(5,31,32,.28);
+  color:var(--muted-2);font:750 7.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  text-align:center;transition:border-color .2s ease,color .2s ease,transform .2s ease;
+}
+.home-lab-motion i{
+  width:6px;height:6px;border-radius:50%;background:rgba(199,214,211,.3);
+  transition:background-color .2s ease,box-shadow .2s ease;
+}
+.home-lab-motion span.active{
+  color:#8fd6ff;border-color:rgba(143,214,255,.42);transform:translateY(-1px);
+}
+.home-lab-motion span.active i{background:#8fd6ff;box-shadow:0 0 8px rgba(143,214,255,.55)}
+.home-lab-motion span.complete{color:#76d6c0;border-color:rgba(118,214,192,.28)}
+.home-lab-motion span.complete i{background:#76d6c0;box-shadow:0 0 7px rgba(118,214,192,.4)}
+
+@media(max-width:820px){
+  .home-journey-rail{width:24px}
+  .home-journey-track{left:10px}
+  .home-journey-start-dot,.home-journey-end-dot{left:7px}
+  .home-lab-motion{gap:5px}
+}
+@media(prefers-reduced-motion:reduce){
+  .home-system-awake{display:none}
+  .home-system-awake-grid,.home-system-awake-terminal,.workflow-node.incident:before{animation:none!important}
+  .home-lab-motion span{transition:none}
+}
