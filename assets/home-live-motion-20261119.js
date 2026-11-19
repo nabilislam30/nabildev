@@ -100,7 +100,7 @@
     const rail = document.createElement('div');
     rail.className = 'home-journey-rail';
     rail.setAttribute('aria-hidden','true');
-    rail.innerHTML = '<span class="home-journey-track"><i class="home-journey-fill"><b class="home-journey-ball"></b></i></span><i class="home-journey-start-dot"></i><i class="home-journey-end-dot"></i>';
+    rail.innerHTML = '<span class="home-journey-track"><i class="home-journey-fill"><b class="home-journey-ball"></b></i></span>';
     document.body.appendChild(rail);
 
     const fill = rail.querySelector('.home-journey-fill');
